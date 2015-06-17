@@ -1,11 +1,17 @@
 <%-- 
-    Document   : index
-    Created on : 16/06/2015, 12:44:23 PM
+    Document   : mostrarModulos
+    Created on : 17/06/2015, 04:14:00 PM
     Author     : vvasquez
 --%>
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="java.util.Random"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+
+<% Random x = new Random();
+   int num = 0;
+%>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -97,50 +103,75 @@
                 <div class="hpanel">
                     <div class="panel-body">
                         <h2 class="font-light m-b-xs">
-                            Formularios en uso
+                            Seleccione el elemento deseado
                         </h2>
-                        <small>En esta sección se visualizarán los formularios que estan siendo usados con sus detalles</small>
+                        <small>Estos son los modulos y submenús que tiene el sistema</small>
+                        <br><br><br>
+                        <ol class="hbreadcrumb breadcrumb">
+                            <li><a href="mostrarEntornos.jsp" style="font-weight: bold">Entorno</a></li>
+                            <li><label style="color: green">Módulos</label></li>
+                        </ol>
                     </div>
                 </div>
             </div>
-            <br><br><br>
-            <div class="row">
-                <div class='col-sm-1'></div>
-                <div class="col-sm-3">
-                    <a class="btn btn-success " href="mostrarEntornos.jsp">
-                        <i class="fa fa-upload"></i>
-                        <span class="bold">Descargar formulario</span>
-                    </a>                
-                </div>
-            </div>
-            <br>
-            <div class="col-sm-1"></div>
-            <div class="col-sm-10 animated-panel zoomIn" style="-webkit-animation: 0.1s;">
-                <div class="hpanel">
-                    <div class="panel-body" style="display: block;">
-                        <div class="table-responsive">
-                            <table cellpadding="1" cellspacing="1" class="table">
-                                <thead>
-                                    <tr>
-                                        <th>Formulario</th>
-                                        <th>Usuario</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <c:forEach var="i" begin="1" end="5">
-                                        <tr>
-                                            <td>Formulario<c:out value="${i}"/></td>
-                                            <td>Usuario<c:out value="${i}"/></td>
-                                        </tr>
+            <div class="content animate-panel">    
+                <c:forEach var="i" begin="1" end="5">
+                    <div class="row">
+                        <div class="hpanel col-lg-12">
+                            <div class="panel-heading hbuilt">
+                                <div class="panel-tools">
+                                    <a class="showhide"><i class="fa fa-chevron-up"></i></a>
+                                </div>
+                                <i class="pe-7s-folder" style="font-size: 30px; vertical-align: bottom"></i>&nbsp;&nbsp;Modulo <c:out value="${i}"/>
+                                &nbsp;&nbsp;
+                                <span class="badge badge-primary">
+                                    <% num = x.nextInt(100);%>
+                                    <%= num %>
+                                </span>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button class="btn btn-primary btn-sm" type="button" value="<c:out value="${i}"/>" onclick="verFormularios(this);">
+                                    <i class="fa fa-search"></i>
+                                    Ver Todos
+                                </button>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button class="btn btn-success btn-sm" type="button" value="<c:out value="${i}"/>" onclick="descargar(this);">
+                                    <i class="fa fa-download"></i>
+                                    Descargar formulario padre
+                                </button>
+                            </div>
+                            <div class="panel-body no-padding">
+                                <ul class="list-group">
+                                    <c:forEach var="j" begin="1" end="5">
+                                        <li class="list-group-item">
+                                            <div class="row">
+                                                <div class="col-lg-10">
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <i class="pe-7s-folder"></i>&nbsp;&nbsp;Submenu <c:out value="${j}"/>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <button class="btn btn-outline btn-primary btn-xs" type="button" value="<c:out value="${i}"/>" onclick="verFormularios(this);">
+                                                        <i class="fa fa-search"></i>
+                                                        Ver Todos
+                                                    </button>
+                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                    <button class="btn btn-outline btn-success btn-xs" type="button" value="<c:out value="${i}"/>" onclick="descargar(this);">
+                                                        <i class="fa fa-download"></i>
+                                                        Descargar formulario padre
+                                                    </button>
+                                                </div>
+                                                <div class="col-lg-1">
+                                                    <span class="badge badge-primary">
+                                                        <% num = x.nextInt(100);%>
+                                                        <%= num %>
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        </li>
                                     </c:forEach>
-                                </tbody>
-                            </table>
-                        </div> 
-                    </div>
-                    <div class="panel-footer" style="display: block;">
-                        5 formularios se encuentran en uso
-                    </div>
-                </div>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>    
+                </c:forEach>
             </div>
         </div>
     </body>
@@ -153,10 +184,12 @@
     <script src="vendor/jquery-flot/jquery.flot.resize.js"></script>
     <script src="vendor/jquery-flot/jquery.flot.pie.js"></script>
     <script src="vendor/flot.curvedlines/curvedLines.js"></script>
+    <script src="vendor/sparkline/index.js"></script>
     <script src="vendor/jquery.flot.spline/index.js"></script>
     <script src="vendor/metisMenu/dist/metisMenu.min.js"></script>
     <script src="vendor/iCheck/icheck.min.js"></script>
     <script src="vendor/peity/jquery.peity.min.js"></script>
+    <script src="vendor/bootstrap-star-rating/js/star-rating.min.js"></script>
     <script src="scripts/homer.js"></script>
     <script src="scripts/charts.js"></script>
 
@@ -225,8 +258,6 @@
 
         });
 
-    </script>
-    <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -234,6 +265,14 @@
 
         ga('create', 'UA-4625583-2', 'webapplayers.com');
         ga('send', 'pageview');
-
+        
+        function descargar(formulario)
+        {
+            alert("Se descagará el formulario " + formulario.value);
+        }
+        
+        function verFormularios(menu){
+            window.location = "mostrarFormularios.jsp"
+        }
     </script>
 </html>

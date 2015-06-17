@@ -1,11 +1,11 @@
 <%-- 
-    Document   : seleccionarFormulario
-    Created on : 17/06/2015, 10:15:12 AM
+    Document   : mostrarEntornos
+    Created on : 17/06/2015, 04:24:12 PM
     Author     : vvasquez
 --%>
 
-<%@page import="java.util.Random"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@page import="java.util.Random"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <% Random x = new Random();
@@ -106,55 +106,77 @@
                             Seleccione el elemento deseado
                         </h2>
                         <small>Estos son los modulos y submenús que tiene el sistema</small>
+                        <br><br><br>
+                        <ol class="hbreadcrumb breadcrumb">
+                            <li><label style="color: green">Entornos</label></li>                            
+                        </ol>
                     </div>
                 </div>
             </div>
             <div class="content animate-panel">    
-                <c:forEach var="i" begin="1" end="5">
-                    <div class="row">
-                        <div class="col-lg-2"></div>
-                        <div class="hpanel col-lg-7">
-                            <div class="panel-heading hbuilt">
-                                <div class="panel-tools">
-                                    <a class="showhide"><i class="fa fa-chevron-up"></i></a>
-                                </div>
-                                <i class="pe-7s-folder" style="font-size: 30px; vertical-align: bottom"></i>&nbsp;&nbsp;Modulo <c:out value="${i}"/>
-                                &nbsp;&nbsp;
-                                <span class="badge badge-primary">
-                                    <% num = x.nextInt(100);%>
-                                    <%= num %>
-                                </span>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button class="btn btn-outline btn-primary btn-sm" type="button">
-                                    <i class="fa fa-search"></i>
-                                    Ver Formularios
-                                </button>
-                            </div>
-                            <div class="panel-body no-padding">
-                                <ul class="list-group">
-                                    <c:forEach var="j" begin="1" end="5">
-                                        <li class="list-group-item">
-                                            <div class="row">
-                                                <a>
-                                                    <div class="col-lg-10">
-                                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                        <i class="pe-7s-folder"></i>&nbsp;&nbsp;Submenu <c:out value="${j}"/>
+                
+                <div class="col-lg-12 animated-panel zoomIn" style="-webkit-animation: 0.5s;">
+                    <div class="hpanel">
+                        <div class="tabs-left">
+                            <ul class="nav nav-tabs">
+                                <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">SAAS</a></li>
+                                <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">TDM</a></li>
+                            </ul>
+                            <div class="tab-content ">
+                                <div id="tab-1" class="tab-pane active">
+                                    <div class="panel-body">
+                                        <c:forEach var="i" begin="1" end="3">
+                                            <div class="col-lg-4">
+                                                <div class="col-lg-12 animated-panel zoomIn" style="-webkit-animation: 0.1s;">
+                                                    <div class="panel-body">
+                                                        <div class="text-center">
+                                                            <h2 class="m-b-xs">Ambiente <c:out value="${i}"/></h2>
+                                                            <div class="m">
+                                                                <i class="pe-7s-server" style="font-size: 40px;"></i>
+                                                            </div>
+                                                            <p class="small">
+                                                                Ambiente de desarrolo, pruebas o produccion <c:out value="${i}"/>
+                                                            </p>
+                                                            <button class="btn btn-success btn-sm" value="<c:out value="${i}"/>" onclick="mostrarModulos(this);">
+                                                                Mostrar Modulos &nbsp;&nbsp;&nbsp;
+                                                                <i class="fa fa-arrow-right"></i>
+                                                            </button>
+                                                        </div>
                                                     </div>
-                                                    <div class="col-lg-1">
-                                                        <span class="badge badge-primary">
-                                                            <% num = x.nextInt(100);%>
-                                                            <%= num %>
-                                                        </span>
-                                                    </div>
-                                                </a>
+                                                </div>
                                             </div>
-                                        </li>
-                                    </c:forEach>
-                                </ul>
+                                        </c:forEach>
+                                    </div>
+                                </div>
+                                <div id="tab-2" class="tab-pane">
+                                    <div class="panel-body">
+                                        <c:forEach var="i" begin="1" end="3">
+                                            <div class="col-lg-4">
+                                                <div class="col-lg-12 animated-panel zoomIn" style="-webkit-animation: 0.1s;">
+                                                    <div class="panel-body">
+                                                        <div class="text-center">
+                                                            <h2 class="m-b-xs">Ambiente <c:out value="${i}"/></h2>
+                                                            <div class="m">
+                                                                <i class="pe-7s-server" style="font-size: 40px;"></i>
+                                                            </div>
+                                                            <p class="small">
+                                                                Ambiente de desarrolo, pruebas o produccion <c:out value="${i}"/>
+                                                            </p>
+                                                            <button class="btn btn-info btn-sm" value="<c:out value="${i}"/>" onclick="mostrarModulos(this);">
+                                                                Mostrar Modulos &nbsp;&nbsp;&nbsp;
+                                                                <i class="fa fa-arrow-right"></i>
+                                                            </button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </c:forEach>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>    
-                </c:forEach>
+                    </div>
+                </div>
             </div>
         </div>
     </body>
@@ -248,5 +270,19 @@
 
         ga('create', 'UA-4625583-2', 'webapplayers.com');
         ga('send', 'pageview');
+        
+        function descargar(formulario)
+        {
+            alert("Se descagará el formulario " + formulario.value);
+        }
+        
+        function verFormularios(menu){
+            window.location = "mostrarFormularios.jsp"
+        }
+        
+        function mostrarModulos(entorno){
+            window.location = "mostrarModulos.jsp";
+            
+        }
     </script>
 </html>
