@@ -107,10 +107,10 @@
             <div class="row">
                 <div class='col-sm-1'></div>
                 <div class="col-sm-3">
-                    <button class="btn btn-success " type="button">
+                    <a class="btn btn-success " href="seleccionarFormulario.jsp">
                         <i class="fa fa-upload"></i>
-                        <span class="bold">Pasar formulario a produccion</span>
-                    </button>                
+                        <span class="bold">Pasar formulario a produccion o Descargarlo</span>
+                    </a>                
                 </div>
             </div>
             <br>

@@ -103,28 +103,32 @@
                 <div class="hpanel">
                     <div class="panel-body">
                         <h2 class="font-light m-b-xs">
-                            Seleccione el submenu para visualizar los formularios
+                            Seleccione el elemento deseado
                         </h2>
                         <small>Estos son los modulos y submenús que tiene el sistema</small>
                     </div>
                 </div>
             </div>
-            <div class="content animate-panel" style="-webkit-animation: 1.1s;">    
+            <div class="content animate-panel">    
                 <c:forEach var="i" begin="1" end="5">
-                        <div class="hpanel">
+                    <div class="row">
+                        <div class="col-lg-2"></div>
+                        <div class="hpanel col-lg-7">
                             <div class="panel-heading hbuilt">
                                 <div class="panel-tools">
                                     <a class="showhide"><i class="fa fa-chevron-up"></i></a>
                                 </div>
-                                <i class="pe-7s-folder" style="font-size: 20px"></i>&nbsp;&nbsp;Modulo <c:out value="${i}"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button class="btn btn-outline btn-primary btn-sm" type="button">
-                                    <i class="fa fa-search"></i>
-                                    Ver Formularios
-                                </button>
+                                <i class="pe-7s-folder" style="font-size: 30px; vertical-align: bottom"></i>&nbsp;&nbsp;Modulo <c:out value="${i}"/>
+                                &nbsp;&nbsp;
                                 <span class="badge badge-primary">
                                     <% num = x.nextInt(100);%>
                                     <%= num %>
                                 </span>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                <button class="btn btn-outline btn-primary btn-sm" type="button">
+                                    <i class="fa fa-search"></i>
+                                    Ver Formularios
+                                </button>
                             </div>
                             <div class="panel-body no-padding">
                                 <ul class="list-group">
@@ -132,11 +136,11 @@
                                         <li class="list-group-item">
                                             <div class="row">
                                                 <a>
-                                                    <div class="col-sm-11">
+                                                    <div class="col-lg-10">
                                                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                         <i class="pe-7s-folder"></i>&nbsp;&nbsp;Submenu <c:out value="${j}"/>
                                                     </div>
-                                                    <div class="col-sm-1">
+                                                    <div class="col-lg-1">
                                                         <span class="badge badge-primary">
                                                             <% num = x.nextInt(100);%>
                                                             <%= num %>
@@ -149,6 +153,7 @@
                                 </ul>
                             </div>
                         </div>
+                    </div>    
                 </c:forEach>
             </div>
         </div>
@@ -236,8 +241,6 @@
 
         });
 
-    </script>
-    <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
@@ -245,6 +248,5 @@
 
         ga('create', 'UA-4625583-2', 'webapplayers.com');
         ga('send', 'pageview');
-
     </script>
 </html>
