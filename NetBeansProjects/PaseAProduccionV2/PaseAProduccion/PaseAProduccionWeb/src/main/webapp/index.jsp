@@ -100,26 +100,63 @@
                             Formularios en uso
                         </h2>
                         <small>En esta sección se visualizarán los formularios que estan siendo usados con sus detalles</small>
+                        <div class="row">
+                            <div class="col-sm-3">
+                                <a class="btn btn-success " href="mostrarEntornos.jsp" style="margin: 20px;">
+                                    <i class="fa fa-download"></i>
+                                    <span class="bold">Descargar formulario</span>
+                                </a>                
+                            </div>
+                        </div>  
                     </div>
                 </div>
             </div>
-            <br><br><br>
-            <div class="row">
-                <div class='col-sm-1'></div>
-                <div class="col-sm-3">
-                    <a class="btn btn-success " href="mostrarEntornos.jsp">
-                        <i class="fa fa-upload"></i>
-                        <span class="bold">Descargar formulario</span>
-                    </a>                
-                </div>
-            </div>
+            
             <br>
-            <div class="col-sm-1"></div>
-            <div class="col-sm-10 animated-panel zoomIn" style="-webkit-animation: 0.1s;">
+            <div class="col-sm-6 animated-panel zoomIn" style="-webkit-animation: 0.1s;">
                 <div class="hpanel">
+                    <div class="panel-heading">
+                        Formularios en Uso por Mi
+                    </div>
                     <div class="panel-body" style="display: block;">
                         <div class="table-responsive">
-                            <table cellpadding="1" cellspacing="1" class="table">
+                            <table cellpadding="1" cellspacing="1" class="table table-condensed table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Formulario</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:forEach var="i" begin="1" end="3">
+                                        <tr>
+                                            <td>
+                                                Formulario<c:out value="${i}"/>&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <button class="btn btn-primary btn-xs" type="button" value="<c:out value="${i};"/>" onclick="pasarAProduccion(this);">
+                                                    <i class="fa fa-upload"></i> Pasar a producción
+                                                </button>
+                                                <button class="btn btn-danger btn-xs" type="button" value="<c:out value="${i};"/>" onclick="cancelarPaseAProduccion(this);">
+                                                    <i class="fa fa-trash"></i> Cancelar pase a producción
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </c:forEach>
+                                </tbody>
+                            </table>
+                        </div> 
+                    </div>
+                    <div class="panel-footer" style="display: block;">
+                        5 formularios se encuentran en uso
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-6 animated-panel zoomIn" style="-webkit-animation: 0.1s;">
+                <div class="hpanel">
+                    <div class="panel-heading">
+                        Formularios Generales en Uso
+                    </div>
+                    <div class="panel-body" style="display: block;">
+                        <div class="table-responsive">
+                            <table cellpadding="1" cellspacing="1" class="table table-condensed table-striped">
                                 <thead>
                                     <tr>
                                         <th>Formulario</th>
@@ -234,6 +271,13 @@
 
         ga('create', 'UA-4625583-2', 'webapplayers.com');
         ga('send', 'pageview');
-
+        
+        function pasarAProduccion(formulario){
+            alert("Se paso a produccion el formulario " + formulario.value);
+        }
+        
+        function cancelarPaseAProduccion(formulario){
+            alert("Se cancelo el pase a produccion del formulario " + formulario.value);
+        }
     </script>
 </html>
