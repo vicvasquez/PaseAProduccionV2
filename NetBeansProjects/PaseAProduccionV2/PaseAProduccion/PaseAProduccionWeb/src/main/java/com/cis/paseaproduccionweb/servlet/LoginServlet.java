@@ -5,12 +5,17 @@
  */
 package com.cis.paseaproduccionweb.servlet;
 
+import com.cis.paseaproduccionweb.beans.PpUsuarios;
+import com.cis.paseaproduccionweb.hibernate.HibernateUtil;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
 
 
 @WebServlet(name = "LoginServlet", urlPatterns = {"/Login"})
@@ -19,10 +24,55 @@ public class LoginServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        try {
+        String username = request.getParameter("username");
+        String password = request.getParameter("password");
+        boolean resultado = authenticate(username, password);
+        
+        if(resultado)
+        {
+            PpUsuarios usuario = getUsuarioByUsername(username);
+            request.getSession().setAttribute("user", usuario);
             response.sendRedirect("index.jsp");
+        }
+        
+        else
+            response.sendRedirect("login.jsp");
+        try {
         } catch (Exception e) {
         }
+    }
+    
+    public boolean authenticate(String username, String password)
+    {
+        PpUsuarios usuario = getUsuarioByUsername(username);
+        if(usuario != null && usuario.getNombreUsuario().equals(username) 
+                && usuario.getClave().equals(password))
+            return true;
+        else
+            return false;
+    }
+    
+    public PpUsuarios getUsuarioByUsername(String username)
+    {
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        PpUsuarios usuario = null;
+        
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            Query query = session.createQuery("from PpUsuarios where nombreUsuario='"+username+"'");
+            usuario = (PpUsuarios)query.uniqueResult();
+            tx.commit();
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+            e.printStackTrace();
+        } finally{
+            session.close();
+        }
+        
+        return usuario;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

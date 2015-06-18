@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18/06/2015 11:24:36 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.cis.paseaproduccionweb.beans.PpHorasPases" table="PP_HORAS_PASES" schema="PROYECTO01" optimistic-lock="version">
+        <id name="horapaseId" type="long">
+            <column name="HORAPASE_ID" precision="10" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="horaInicio" type="date">
+            <column name="HORA_INICIO" length="7" />
+        </property>
+        <property name="horaFin" type="date">
+            <column name="HORA_FIN" length="7" />
+        </property>
+        <property name="horapaseDia" type="string">
+            <column name="HORAPASE_DIA" length="10" />
+        </property>
+        <property name="horapaseHorapaseId" type="big_decimal">
+            <column name="HORAPASE_HORAPASE_ID" precision="22" scale="0" />
+        </property>
+        <property name="entornoEntornoId" type="big_decimal">
+            <column name="ENTORNO_ENTORNO_ID" precision="22" scale="0" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

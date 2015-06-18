@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18/06/2015 11:24:36 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.cis.paseaproduccionweb.beans.PpModulos" table="PP_MODULOS" schema="PROYECTO01" optimistic-lock="version">
+        <id name="moduloId" type="big_decimal">
+            <column name="MODULO_ID" precision="22" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="nombreModulo" type="string">
+            <column name="NOMBRE_MODULO" length="100" />
+        </property>
+        <property name="flagUso" type="string">
+            <column name="FLAG_USO" length="1" />
+        </property>
+        <property name="descModulo" type="string">
+            <column name="DESC_MODULO" length="250" />
+        </property>
+        <property name="flagEstado" type="string">
+            <column name="FLAG_ESTADO" length="1" />
+        </property>
+        <property name="ppsistemaSistemaId" type="big_decimal">
+            <column name="PPSISTEMA_SISTEMA_ID" precision="22" scale="0" not-null="true" />
+        </property>
+        <property name="ppusuarioUsuarioId" type="big_decimal">
+            <column name="PPUSUARIO_USUARIO_ID" precision="22" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>

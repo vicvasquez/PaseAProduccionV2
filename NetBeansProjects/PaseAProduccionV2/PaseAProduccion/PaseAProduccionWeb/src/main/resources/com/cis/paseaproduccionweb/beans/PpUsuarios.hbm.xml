@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18/06/2015 11:24:36 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.cis.paseaproduccionweb.beans.PpUsuarios" table="PP_USUARIOS" schema="PROYECTO01" optimistic-lock="version">
+        <id name="usuarioId" type="big_decimal">
+            <column name="USUARIO_ID" precision="22" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="email" type="string">
+            <column name="EMAIL" length="100" />
+        </property>
+        <property name="rutaLocal" type="string">
+            <column name="RUTA_LOCAL" length="250" />
+        </property>
+        <property name="clave" type="string">
+            <column name="CLAVE" length="100" />
+        </property>
+        <property name="nombreUsuario" type="string">
+            <column name="NOMBRE_USUARIO" length="100" />
+        </property>
+        <property name="nombre" type="string">
+            <column name="NOMBRE" length="100" />
+        </property>
+        <property name="dateModified" type="date">
+            <column name="DATE_MODIFIED" length="7" />
+        </property>
+        <property name="flagEstado" type="string">
+            <column name="FLAG_ESTADO" length="1" />
+        </property>
+        <property name="pprolRolId" type="big_decimal">
+            <column name="PPROL_ROL_ID" precision="22" scale="0" not-null="true" />
+        </property>
+    </class>
+</hibernate-mapping>

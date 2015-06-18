@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18/06/2015 11:24:36 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.cis.paseaproduccionweb.beans.PpSubmenus" table="PP_SUBMENUS" schema="PROYECTO01" optimistic-lock="version">
+        <id name="submenuId" type="big_decimal">
+            <column name="SUBMENU_ID" precision="22" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <property name="descSubmenu" type="string">
+            <column name="DESC_SUBMENU" length="250" />
+        </property>
+        <property name="flagUso" type="string">
+            <column name="FLAG_USO" length="1" />
+        </property>
+        <property name="flagEstado" type="string">
+            <column name="FLAG_ESTADO" length="1" />
+        </property>
+        <property name="nombreSubmenu" type="string">
+            <column name="NOMBRE_SUBMENU" length="100" />
+        </property>
+        <property name="moduloModuloId" type="big_decimal">
+            <column name="MODULO_MODULO_ID" precision="22" scale="0" not-null="true" />
+        </property>
+        <property name="ppusuarioUsuarioId" type="big_decimal">
+            <column name="PPUSUARIO_USUARIO_ID" precision="22" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>

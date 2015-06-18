@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 18/06/2015 11:24:36 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.cis.paseaproduccionweb.beans.PpHistoriales" table="PP_HISTORIALES" schema="PROYECTO01">
+        <id name="historialId" type="big_decimal">
+            <column name="HISTORIAL_ID" precision="22" scale="0" />
+            <generator class="assigned" />
+        </id>
+        <version name="version" type="string">
+            <column name="VERSION" length="10" />
+        </version>
+        <property name="aprobadorId" type="big_decimal">
+            <column name="APROBADOR_ID" precision="22" scale="0" />
+        </property>
+        <property name="archivo" type="blob">
+            <column name="ARCHIVO" />
+        </property>
+        <property name="fecha" type="date">
+            <column name="FECHA" length="7" />
+        </property>
+        <property name="moduloModuloId" type="big_decimal">
+            <column name="MODULO_MODULO_ID" precision="22" scale="0" />
+        </property>
+        <property name="ppsubmenuSubmenuId" type="big_decimal">
+            <column name="PPSUBMENU_SUBMENU_ID" precision="22" scale="0" />
+        </property>
+        <property name="ppformFormularioId" type="big_decimal">
+            <column name="PPFORM_FORMULARIO_ID" precision="22" scale="0" />
+        </property>
+    </class>
+</hibernate-mapping>

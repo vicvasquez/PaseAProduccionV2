@@ -116,7 +116,7 @@
             <div class="col-sm-6 animated-panel zoomIn" style="-webkit-animation: 0.1s;">
                 <div class="hpanel">
                     <div class="panel-heading">
-                        Formularios en Uso por Mi
+                        Mis formularios en uso
                     </div>
                     <div class="panel-body" style="display: block;">
                         <div class="table-responsive">
@@ -145,14 +145,14 @@
                         </div> 
                     </div>
                     <div class="panel-footer" style="display: block;">
-                        5 formularios se encuentran en uso
+                        3 formularios se encuentran en uso
                     </div>
                 </div>
             </div>
             <div class="col-sm-6 animated-panel zoomIn" style="-webkit-animation: 0.1s;">
                 <div class="hpanel">
                     <div class="panel-heading">
-                        Formularios Generales en Uso
+                        Formularios en uso (todos)
                     </div>
                     <div class="panel-body" style="display: block;">
                         <div class="table-responsive">
@@ -281,3 +281,5 @@
         }
     </script>
 </html>
+
+<!-- 192.168.185.25   intra   PROYECTO01  PROYECTO01-->
