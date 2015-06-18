@@ -4,12 +4,17 @@
     Author     : vvasquez
 --%>
 
+<%@page import="com.cis.paseaproduccionweb.hibernate.PpUsuarios"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.Random"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <% Random x = new Random();
    int num = 0;
+   
+    PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
+    if(usuario==null)
+        response.sendRedirect("login.jsp");
 %>
 
 <!DOCTYPE html>
