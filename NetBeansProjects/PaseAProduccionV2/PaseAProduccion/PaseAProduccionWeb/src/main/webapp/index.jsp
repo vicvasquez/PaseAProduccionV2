@@ -23,8 +23,6 @@
     
     List<PpArchivosUso> misFormsEnUso = archvDao.getArchivosUsoPorUsuario(usuario.getUsuarioId());
     List<PpArchivosUso> formsEnUso= archvDao.getArchivosUso();
-    
-    int cantFormsEnUso = misFormsEnUso.size();
 %>
 <!DOCTYPE html>
 <html>
@@ -147,6 +145,9 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <tr>
+                                        <td style=""></td>
+                                    </tr>
                                     <%
                                     for(int i=0; i<misFormsEnUso.size(); i++){
                                         out.print("<tr>");
@@ -157,8 +158,8 @@
                                         out.print("<button class=\"btn btn-primary btn-xs\" type=\"button\" onclick=\"pasarAProduccion(this);\" value=\""+ formsEnUso.get(i).getId().getArchivoId()+"\">");
                                         out.print("<i class=\"fa fa-upload\"></i> Pasar a producción");
                                         out.print("</button>");
-                                        out.print("<button class=\"btn btn-danger btn-xs\" type=\"button\" onclick=\"cancelarPaseAProduccion(this);\" value=\""+ formsEnUso.get(i).getId().getArchivoId()+"\">");
-                                        out.print("<i class=\"fa fa-upload\"></i> Cancelar pase a producción");
+                                        out.print("&nbsp;&nbsp;<button class=\"btn btn-danger btn-xs\" type=\"button\" onclick=\"cancelarPaseAProduccion(this);\" value=\""+ formsEnUso.get(i).getId().getArchivoId()+"\">");
+                                        out.print("<i class=\"fa fa-times\"></i> Cancelar");
                                         out.print("</button>");
                                         out.print("</td>");
                                         out.print("</tr>");

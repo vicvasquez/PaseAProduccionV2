@@ -4,6 +4,12 @@
     Author     : vvasquez
 --%>
 
+<%@page import="java.util.AbstractList"%>
+<%@page import="java.math.BigDecimal"%>
+<%@page import="javax.persistence.Convert"%>
+<%@page import="com.cis.paseaproduccionweb.hibernate.PpEntornos"%>
+<%@page import="java.util.List"%>
+<%@page import="com.cis.paseaproduccionweb.dao.EntornoDao"%>
 <%@page import="com.cis.paseaproduccionweb.hibernate.PpUsuarios"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.Random"%>
@@ -13,8 +19,8 @@
     PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
     if(usuario==null)
         response.sendRedirect("login.jsp");
-   Random x = new Random();
-   int num = 0;
+   
+   EntornoDao entDao = new EntornoDao();
 %>
 
 <!DOCTYPE html>
@@ -130,52 +136,62 @@
                             <div class="tab-content ">
                                 <div id="tab-1" class="tab-pane active">
                                     <div class="panel-body">
-                                        <c:forEach var="i" begin="1" end="3">
-                                            <div class="col-lg-4">
-                                                <div class="col-lg-12 animated-panel zoomIn" style="-webkit-animation: 0.1s;">
-                                                    <div class="panel-body">
-                                                        <div class="text-center">
-                                                            <h2 class="m-b-xs">Ambiente <c:out value="${i}"/></h2>
-                                                            <div class="m">
-                                                                <i class="pe-7s-server" style="font-size: 40px;"></i>
-                                                            </div>
-                                                            <p class="small">
-                                                                Ambiente de desarrolo, pruebas o produccion <c:out value="${i}"/>
-                                                            </p>
-                                                            <button class="btn btn-success btn-sm" value="<c:out value="${i}"/>" onclick="mostrarModulos(this);">
-                                                                Mostrar Modulos &nbsp;&nbsp;&nbsp;
-                                                                <i class="fa fa-arrow-right"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </c:forEach>
+                                        <%
+   BigDecimal big = new BigDecimal("1");
+   List<PpEntornos> lstEntornos = entDao.getEntornosBySistemaId(big);
+   for(int i=0; i< lstEntornos.size(); i++){
+       out.print("<div class=\"col-lg-4\">");
+       out.print("<div class=\"col-lg-12 animated-panel zoomIn\" style=\"-webkit-animation: 0.1s;\">");
+       out.print("<div class=\"panel-body\">");
+       out.print("<div class=\"text-center\">");
+       out.print("<h2 class=\"m-b-xs\">Ambiente"+ lstEntornos.get(i).getNombreEntorno() +"</h2>");
+       out.print("<div class=\"m\">");
+       out.print("<i class=\"pe-7s-server\" style=\"font-size: 40px;\"></i>");
+       out.print("</div>");
+       out.print("<p class=\"small\">");
+       out.print("Ambiente de designado para " + lstEntornos.get(i).getNombreEntorno());
+       out.print("</p>");
+       out.print("<button class=\"btn btn-success btn-sm\" value=\""+lstEntornos.get(i).getEntornoId()+"\" onclick=\"mostrarModulos(this);\">");
+       out.print("Mostrar Modulos &nbsp;&nbsp;&nbsp;");
+       out.print("<i class=\"fa fa-arrow-right\"></i>");
+       out.print("</button>");
+       out.print("</div>");
+       out.print("</div>");
+       out.print("</div>");
+       out.print("</div>");
+   }
+                                        %>
                                     </div>
                                 </div>
                                 <div id="tab-2" class="tab-pane">
                                     <div class="panel-body">
-                                        <c:forEach var="i" begin="1" end="3">
-                                            <div class="col-lg-4">
-                                                <div class="col-lg-12 animated-panel zoomIn" style="-webkit-animation: 0.1s;">
-                                                    <div class="panel-body">
-                                                        <div class="text-center">
-                                                            <h2 class="m-b-xs">Ambiente <c:out value="${i}"/></h2>
-                                                            <div class="m">
-                                                                <i class="pe-7s-server" style="font-size: 40px;"></i>
-                                                            </div>
-                                                            <p class="small">
-                                                                Ambiente de desarrolo, pruebas o produccion <c:out value="${i}"/>
-                                                            </p>
-                                                            <button class="btn btn-info btn-sm" value="<c:out value="${i}"/>" onclick="mostrarModulos(this);">
-                                                                Mostrar Modulos &nbsp;&nbsp;&nbsp;
-                                                                <i class="fa fa-arrow-right"></i>
-                                                            </button>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </c:forEach>
+                                        <%
+   big = new BigDecimal("2");
+   lstEntornos = entDao.getEntornosBySistemaId(big);
+   for(int i=0; i< lstEntornos.size(); i++){
+       out.print("<div class=\"col-lg-4\">");
+       out.print("<div class=\"col-lg-12 animated-panel zoomIn\" style=\"-webkit-animation: 0.1s;\">");
+       out.print("<div class=\"panel-body\">");
+       out.print("<div class=\"panel-body\">");
+       out.print("<div class=\"text-center\">");
+       out.print("<h2 class=\"m-b-xs\">Ambiente"+ lstEntornos.get(i).getNombreEntorno() +"</h2>\"");
+       out.print("<div class=\"m\">\"");
+       out.print("<div class=\"m\">\"");
+       out.print("<i class=\"pe-7s-server\" style=\"font-size: 40px;\"></i>");
+       out.print("</div>");
+       out.print("<p class=\"small\">");
+       out.print("Ambiente de designado para " + lstEntornos.get(i).getNombreEntorno());
+       out.print("</p>");
+       out.print("<button class=\"btn btn-success btn-sm\" value=\""+lstEntornos.get(i).getEntornoId()+"\" onclick=\"mostrarModulos(this);\">");
+       out.print("Mostrar Modulos &nbsp;&nbsp;&nbsp;");
+       out.print("<i class=\"fa fa-arrow-right\"></i>");
+       out.print("</button>");
+       out.print("</div>");
+       out.print("</div>");
+       out.print("</div>");
+       out.print("</div>");
+   }
+                                        %>
                                     </div>
                                 </div>
                             </div>
