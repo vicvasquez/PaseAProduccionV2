@@ -1,5 +1,5 @@
 package com.cis.paseaproduccionweb.hibernate;
-// Generated 18/06/2015 01:03:57 PM by Hibernate Tools 4.3.1
+// Generated 19/06/2015 11:30:11 AM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;

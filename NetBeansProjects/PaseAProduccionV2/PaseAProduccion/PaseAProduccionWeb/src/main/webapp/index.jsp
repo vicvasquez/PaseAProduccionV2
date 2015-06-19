@@ -4,6 +4,10 @@
     Author     : vvasquez
 --%>
 
+<%@page import="com.cis.paseaproduccionweb.dao.UsuariosDao"%>
+<%@page import="com.cis.paseaproduccionweb.hibernate.PpArchivosUso"%>
+<%@page import="java.util.List"%>
+<%@page import="com.cis.paseaproduccionweb.dao.ArchivosUsoDao"%>
 <%@page import="com.cis.paseaproduccionweb.hibernate.PpUsuarios"%>
 <%@page import="com.cis.paseaproduccionweb.servlet.AuthenticateServlet"%>>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
@@ -13,6 +17,14 @@
     PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
     if(usuario==null)
         response.sendRedirect("login.jsp");
+    
+    ArchivosUsoDao archvDao = new ArchivosUsoDao();
+    UsuariosDao uDao = new UsuariosDao();
+    
+    List<PpArchivosUso> misFormsEnUso = archvDao.getArchivosUsoPorUsuario(usuario.getUsuarioId());
+    List<PpArchivosUso> formsEnUso= archvDao.getArchivosUso();
+    
+    int cantFormsEnUso = misFormsEnUso.size();
 %>
 <!DOCTYPE html>
 <html>
@@ -135,25 +147,31 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach var="i" begin="1" end="3">
-                                        <tr>
-                                            <td>
-                                                Formulario<c:out value="${i}"/>&nbsp;&nbsp;&nbsp;&nbsp;
-                                                <button class="btn btn-primary btn-xs" type="button" value="<c:out value="${i};"/>" onclick="pasarAProduccion(this);">
-                                                    <i class="fa fa-upload"></i> Pasar a producción
-                                                </button>
-                                                <button class="btn btn-danger btn-xs" type="button" value="<c:out value="${i};"/>" onclick="cancelarPaseAProduccion(this);">
-                                                    <i class="fa fa-trash"></i> Cancelar pase a producción
-                                                </button>
-                                            </td>
-                                        </tr>
-                                    </c:forEach>
+                                    <%
+                                    for(int i=0; i<misFormsEnUso.size(); i++){
+                                        out.print("<tr>");
+                                        out.print("<td>");
+                                        out.print(formsEnUso.get(i).getNombreArchivo() + "&nbsp;&nbsp;&nbsp;&nbsp;");
+                                        out.print("</td>");
+                                        out.print("<td>");
+                                        out.print("<button class=\"btn btn-primary btn-xs\" type=\"button\" onclick=\"pasarAProduccion(this);\" value=\""+ formsEnUso.get(i).getId().getArchivoId()+"\">");
+                                        out.print("<i class=\"fa fa-upload\"></i> Pasar a producción");
+                                        out.print("</button>");
+                                        out.print("<button class=\"btn btn-danger btn-xs\" type=\"button\" onclick=\"cancelarPaseAProduccion(this);\" value=\""+ formsEnUso.get(i).getId().getArchivoId()+"\">");
+                                        out.print("<i class=\"fa fa-upload\"></i> Cancelar pase a producción");
+                                        out.print("</button>");
+                                        out.print("</td>");
+                                        out.print("</tr>");
+                                    }                            
+                                    %>
                                 </tbody>
                             </table>
                         </div> 
                     </div>
                     <div class="panel-footer" style="display: block;">
-                        3 formularios se encuentran en uso
+                        <%
+                          out.print(misFormsEnUso.size() + " formularios se encuentran en uso por el usuario " + usuario.getNombre());
+                        %>
                     </div>
                 </div>
             </div>
@@ -172,10 +190,23 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <c:forEach var="i" begin="1" end="5">
+                                    <%
+                          for(int i=0; i<formsEnUso.size(); i++)
+                          {
+                            out.print("<tr>");
+                            out.print("<td>");
+                            out.print(formsEnUso.get(i).getNombreArchivo());
+                            out.print("</td>");
+                            out.print("<td>");
+                            out.print(uDao.getUsuarioById(formsEnUso.get(i).getUsuarioId()).getNombre());
+                            out.print("</td>");
+                            out.print("</tr>");  
+                          }
+                                    %>
+                                    <c:forEach items="${formsEnUso}" var="formulario">
                                         <tr>
-                                            <td>Formulario<c:out value="${i}"/></td>
-                                            <td>Usuario<c:out value="${i}"/></td>
+                                            <td>${formulario.nombreArchivo}</td>
+                                            <td>${formulario.usuarioId}</td>
                                         </tr>
                                     </c:forEach>
                                 </tbody>
@@ -183,7 +214,7 @@
                         </div> 
                     </div>
                     <div class="panel-footer" style="display: block;">
-                        5 formularios se encuentran en uso
+                        ${cantFormsEnUso}
                     </div>
                 </div>
             </div>

@@ -5,17 +5,14 @@
  */
 package com.cis.paseaproduccionweb.servlet;
 
-import com.cis.paseaproduccionweb.hibernate.HibernateUtil;
+import com.cis.paseaproduccionweb.dao.UsuariosDao;
 import com.cis.paseaproduccionweb.hibernate.PpUsuarios;
 import java.io.IOException;
-import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+
 
 /**
  *
@@ -27,37 +24,15 @@ public class AuthenticateServlet extends HttpServlet {
             throws ServletException, IOException {
     }
         
-        public boolean authenticate(String username, String password)
+        public PpUsuarios authenticate(String username, String password)
     {
-        PpUsuarios usuario = getUsuarioByUsername(username);
+        UsuariosDao uDao = new UsuariosDao();
+        PpUsuarios usuario = uDao.getUsuarioByUsername(username);
         if(usuario != null && usuario.getNombreUsuario().equals(username) 
                 && usuario.getClave().equals(password))
-            return true;
+            return usuario;
         else
-            return false;
-    }
-    
-    public PpUsuarios getUsuarioByUsername(String username)
-    {
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = null;
-        PpUsuarios usuario = null;
-        
-        try {
-            tx = session.getTransaction();
-            tx.begin();
-            Query query = session.createQuery("from PpUsuarios where nombreUsuario='"+username+"'");
-            usuario = (PpUsuarios)query.uniqueResult();
-            tx.commit();
-        } catch (Exception e) {
-            if(tx != null)
-                tx.rollback();
-            e.printStackTrace();
-        } finally{
-            session.close();
-        }
-        
-        return usuario;
+            return null;
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

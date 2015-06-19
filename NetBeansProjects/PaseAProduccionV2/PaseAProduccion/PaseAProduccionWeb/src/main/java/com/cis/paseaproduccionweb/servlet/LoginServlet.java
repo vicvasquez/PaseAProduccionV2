@@ -6,15 +6,12 @@
 package com.cis.paseaproduccionweb.servlet;
 
 import com.cis.paseaproduccionweb.hibernate.PpUsuarios;
-import com.cis.paseaproduccionweb.hibernate.HibernateUtil;
 import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.hibernate.Query;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
+
 
 /**
  *
@@ -28,11 +25,10 @@ public class LoginServlet extends HttpServlet {
         AuthenticateServlet autenticar = new AuthenticateServlet();
         String username = request.getParameter("username");
         String password = request.getParameter("password");
-        boolean resultado = autenticar.authenticate(username, password);
+        PpUsuarios usuario = autenticar.authenticate(username, password);
         
-        if(resultado)
+        if(usuario != null)
         {
-            PpUsuarios usuario = autenticar.getUsuarioByUsername(username);
             request.setAttribute("user", usuario);
             request.getSession().setAttribute("user", usuario);
             response.sendRedirect("index.jsp");
@@ -74,11 +70,7 @@ public class LoginServlet extends HttpServlet {
         processRequest(request, response);
     }
 
-    /**
-     * Returns a short description of the servlet.
-     *
-     * @return a String containing servlet description
-     */
+
     @Override
     public String getServletInfo() {
         return "Short description";
