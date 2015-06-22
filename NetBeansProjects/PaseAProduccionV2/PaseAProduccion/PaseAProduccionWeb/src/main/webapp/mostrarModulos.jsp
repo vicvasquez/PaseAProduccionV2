@@ -4,8 +4,16 @@
     Author     : vvasquez
 --%>
 
+<%@page import="com.cis.paseaproduccionweb.dao.FormulariosDao"%>
+<%@page import="com.cis.paseaproduccionweb.hibernate.PpFormularios"%>
+<%@page import="com.cis.paseaproduccionweb.hibernate.PpSubmenus"%>
+<%@page import="com.cis.paseaproduccionweb.dao.SubMenusDao"%>
+<%@page import="java.util.List"%>
+<%@page import="java.math.BigDecimal"%>
+<%@page import="com.cis.paseaproduccionweb.hibernate.PpModulos"%>
+<%@page import="com.cis.paseaproduccionweb.dao.ModulosDao"%>
 <%@page import="com.cis.paseaproduccionweb.hibernate.PpUsuarios"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="java.util.Random"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -15,6 +23,11 @@
     PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
     if(usuario==null)
         response.sendRedirect("login.jsp");
+    
+    BigDecimal sistemaId = new BigDecimal(request.getParameter("sistemaId"));
+    
+    ModulosDao mDao = new ModulosDao();
+    List<PpModulos> lstModulos = mDao.getModulosBySistemaId(sistemaId);
 %>
 
 <!DOCTYPE html>
@@ -119,64 +132,70 @@
                     </div>
                 </div>
             </div>
-            <div class="content animate-panel">    
-                <c:forEach var="i" begin="1" end="5">
-                    <div class="row">
-                        <div class="hpanel col-lg-12">
-                            <div class="panel-heading hbuilt">
-                                <div class="panel-tools">
-                                    <a class="showhide"><i class="fa fa-chevron-up"></i></a>
-                                </div>
-                                <i class="pe-7s-folder" style="font-size: 30px; vertical-align: bottom"></i>&nbsp;&nbsp;Modulo <c:out value="${i}"/>
-                                &nbsp;&nbsp;
-                                <span class="badge badge-primary">
-                                    <% num = x.nextInt(100);%>
-                                    <%= num %>
-                                </span>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button class="btn btn-primary btn-sm" type="button" value="<c:out value="${i}"/>" onclick="verFormularios(this);">
-                                    <i class="fa fa-search"></i>
-                                    Ver Todos
-                                </button>
-                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                <button class="btn btn-success btn-sm" type="button" value="<c:out value="${i}"/>" onclick="descargar(this);">
-                                    <i class="fa fa-download"></i>
-                                    Descargar formulario padre
-                                </button>
-                            </div>
-                            <div class="panel-body no-padding">
-                                <ul class="list-group">
-                                    <c:forEach var="j" begin="1" end="5">
-                                        <li class="list-group-item">
-                                            <div class="row">
-                                                <div class="col-lg-10">
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <i class="pe-7s-folder"></i>&nbsp;&nbsp;Submenu <c:out value="${j}"/>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <button class="btn btn-outline btn-primary btn-xs" type="button" value="<c:out value="${i}"/>" onclick="verFormularios(this);">
-                                                        <i class="fa fa-search"></i>
-                                                        Ver Todos
-                                                    </button>
-                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                    <button class="btn btn-outline btn-success btn-xs" type="button" value="<c:out value="${i}"/>" onclick="descargar(this);">
-                                                        <i class="fa fa-download"></i>
-                                                        Descargar formulario padre
-                                                    </button>
-                                                </div>
-                                                <div class="col-lg-1">
-                                                    <span class="badge badge-primary">
-                                                        <% num = x.nextInt(100);%>
-                                                        <%= num %>
-                                                    </span>
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </c:forEach>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>    
-                </c:forEach>
+            <div class="content animate-panel">
+                <%
+                SubMenusDao dSubMenu = new SubMenusDao();
+                FormulariosDao dFormulario = new FormulariosDao();
+                List<PpSubmenus> lstSubmenus = null;
+                List<PpFormularios> lstFormularios = null;
+                int cantForms=0;
+                for(int i=0; i<lstModulos.size(); i++){
+                    out.print("<div class=\"row\">");
+                    out.print("<div class=\"hpanel col-lg-12\">");
+                    out.print("<div class=\"panel-heading hbuilt\">");
+                    out.print("<div class=\"panel-tools\">");
+                    out.print("<a class=\"showhide\"><i class=\"fa fa-chevron-up\"></i></a>");
+                    out.print("</div>");
+                    out.print("<i class=\"pe-7s-folder\" style=\"font-size: 30px; vertical-align: bottom\"></i>");
+                    out.print("&nbsp;&nbsp;"+lstModulos.get(i).getNombreModulo()+"&nbsp;&nbsp;");
+                    out.print("<span class=\"badge badge-primary\">");
+                    out.print(dFormulario.getFormulariosByModuloId(lstModulos.get(i).getModuloId()).size());
+                    out.print("</span>");
+                    out.print("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                    out.print("<button class=\"btn btn-primary btn-sm\" type=\"button\" value=\""+ 
+                            lstModulos.get(i).getModuloId() +"\" onclick=\"verFormularios(this);\">");
+                    out.print("<i class=\"fa fa-search\"></i> Ver Todos");
+                    out.print("</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                    out.print("<button class=\"btn btn-success btn-sm\" type=\"button\" value=\""+ 
+                            lstModulos.get(i).getModuloId() +"\" onclick=\"descargar(this);\">");
+                    out.print("<i class=\"fa fa-download\"></i> Descargar formulario padre");
+                    out.print("</button>");
+                    out.print("</div>");
+                    
+                    out.print("<div class= \"panel-body no-padding\">");
+                    out.print("<ul class=\"list-group\">");
+                    
+                    lstSubmenus = dSubMenu.getSubMenuByModuloId(lstModulos.get(i).getModuloId());
+                    for(int j=0; j<lstSubmenus.size(); j++){
+                        lstFormularios = dFormulario.getFormulariosBySubmenuId(lstSubmenus.get(j).getSubmenuId());
+                        if(lstFormularios != null)
+                            cantForms=lstFormularios.size();
+                        out.print("<li class=\"list-group-item\">");
+                        out.print("<div class=\"row\">");
+                        out.print("<div class=\"col-lg-10\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                        out.print("<i class=\"pe-7s-folder\"></i>&nbsp;&nbsp;"+ lstSubmenus.get(j).getNombreSubmenu());
+                        out.print("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                        out.print("<button class=\"btn btn-outline btn-primary btn-xs\" type=\"button\" value=\""
+                                + lstSubmenus.get(j).getSubmenuId() +"\" onclick=\"verFormularios(this);\">");
+                        out.print("<i class=\"fa fa-search\"></i> Ver Todos");
+                        out.print("</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
+                        out.print("<button class=\"btn btn-outline btn-success btn-xs\" type=\"button\" value=\""
+                                + lstSubmenus.get(j).getSubmenuId() +"\" onclick=\"descargar(this);\">");
+                        out.print("<i class=\"fa fa-download\"></i> Descargar formulario padre");
+                        out.print("</button>");
+                        out.print("</div>");
+                        out.print("<div class=\"col-lg-1\">");
+                        out.print("<span class=\"badge badge-primary\">"+ cantForms +"</span>");
+                        out.print("</div>");
+                        out.print("</div>");
+                        out.print("</li>");
+                    } 
+                   out.print("</ul>");
+                   out.print("</div>");
+                   out.print("</div>");
+                   out.print("</div>");
+                }
+                %>
             </div>
         </div>
     </body>

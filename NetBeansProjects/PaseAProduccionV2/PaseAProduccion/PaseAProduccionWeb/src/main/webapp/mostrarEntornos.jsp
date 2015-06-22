@@ -114,12 +114,12 @@
                 <div class="hpanel">
                     <div class="panel-body">
                         <h2 class="font-light m-b-xs">
-                            Seleccione el elemento deseado
+                            Sistemas
                         </h2>
-                        <small>Estos son los modulos y submenús que tiene el sistema</small>
+                        <small>Seleccione el sistema del cual desea descargar un formulario o reporte</small>
                         <br><br><br>
                         <ol class="hbreadcrumb breadcrumb">
-                            <li><label style="color: green">Entornos</label></li>                            
+                            <li><label style="color: green">Sistemas</label></li>                            
                         </ol>
                     </div>
                 </div>
@@ -128,74 +128,46 @@
                 
                 <div class="col-lg-12 animated-panel zoomIn" style="-webkit-animation: 0.5s;">
                     <div class="hpanel">
-                        <div class="tabs-left">
-                            <ul class="nav nav-tabs">
-                                <li class="active"><a data-toggle="tab" href="#tab-1" aria-expanded="true">SAAS</a></li>
-                                <li class=""><a data-toggle="tab" href="#tab-2" aria-expanded="false">TDM</a></li>
-                            </ul>
-                            <div class="tab-content ">
-                                <div id="tab-1" class="tab-pane active">
+                        <form action="/PaseAProduccionWeb/Modulos" method="post" id="entornosForm">
+                            <input type="hidden" name="sistemaId" id="sistemaId"/>
+                        <div class="col-lg-2"></div>
+                        <div>
+                            <div class="col-lg-4">
+                                <div class="col-lg-12 animated-panel zoomIn" style="-webkit-animation: 0.1s;">
                                     <div class="panel-body">
-                                        <%
-   BigDecimal big = new BigDecimal("1");
-   List<PpEntornos> lstEntornos = entDao.getEntornosBySistemaId(big);
-   for(int i=0; i< lstEntornos.size(); i++){
-       out.print("<div class=\"col-lg-4\">");
-       out.print("<div class=\"col-lg-12 animated-panel zoomIn\" style=\"-webkit-animation: 0.1s;\">");
-       out.print("<div class=\"panel-body\">");
-       out.print("<div class=\"text-center\">");
-       out.print("<h2 class=\"m-b-xs\">Ambiente"+ lstEntornos.get(i).getNombreEntorno() +"</h2>");
-       out.print("<div class=\"m\">");
-       out.print("<i class=\"pe-7s-server\" style=\"font-size: 40px;\"></i>");
-       out.print("</div>");
-       out.print("<p class=\"small\">");
-       out.print("Ambiente de designado para " + lstEntornos.get(i).getNombreEntorno());
-       out.print("</p>");
-       out.print("<button class=\"btn btn-success btn-sm\" value=\""+lstEntornos.get(i).getEntornoId()+"\" onclick=\"mostrarModulos(this);\">");
-       out.print("Mostrar Modulos &nbsp;&nbsp;&nbsp;");
-       out.print("<i class=\"fa fa-arrow-right\"></i>");
-       out.print("</button>");
-       out.print("</div>");
-       out.print("</div>");
-       out.print("</div>");
-       out.print("</div>");
-   }
-                                        %>
-                                    </div>
-                                </div>
-                                <div id="tab-2" class="tab-pane">
-                                    <div class="panel-body">
-                                        <%
-   big = new BigDecimal("2");
-   lstEntornos = entDao.getEntornosBySistemaId(big);
-   for(int i=0; i< lstEntornos.size(); i++){
-       out.print("<div class=\"col-lg-4\">");
-       out.print("<div class=\"col-lg-12 animated-panel zoomIn\" style=\"-webkit-animation: 0.1s;\">");
-       out.print("<div class=\"panel-body\">");
-       out.print("<div class=\"panel-body\">");
-       out.print("<div class=\"text-center\">");
-       out.print("<h2 class=\"m-b-xs\">Ambiente"+ lstEntornos.get(i).getNombreEntorno() +"</h2>\"");
-       out.print("<div class=\"m\">\"");
-       out.print("<div class=\"m\">\"");
-       out.print("<i class=\"pe-7s-server\" style=\"font-size: 40px;\"></i>");
-       out.print("</div>");
-       out.print("<p class=\"small\">");
-       out.print("Ambiente de designado para " + lstEntornos.get(i).getNombreEntorno());
-       out.print("</p>");
-       out.print("<button class=\"btn btn-success btn-sm\" value=\""+lstEntornos.get(i).getEntornoId()+"\" onclick=\"mostrarModulos(this);\">");
-       out.print("Mostrar Modulos &nbsp;&nbsp;&nbsp;");
-       out.print("<i class=\"fa fa-arrow-right\"></i>");
-       out.print("</button>");
-       out.print("</div>");
-       out.print("</div>");
-       out.print("</div>");
-       out.print("</div>");
-   }
-                                        %>
+                                        <div class="text-center">
+                                            <h2 class="m-b-xs">SAAS</h2>
+                                            <div class="m">
+                                                <i class="pe-7s-server" style="font-size: 40px;"></i>
+                                            </div>
+                                            <p class="small">Ambiente designado para el sistema SAAS y sus 3 entornos</p>
+                                            <button class="btn btn-success btn-sm" value="1" onclick="setModuloId(this);">Mostrar Modulos &nbsp;&nbsp;&nbsp;
+                                                <i class="fa fa-arrow-right"></i>
+                                            </button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        <div>
+                            <div class="col-lg-4">
+                                <div class="col-lg-12 animated-panel zoomIn" style="-webkit-animation: 0.1s;">
+                                    <div class="panel-body">
+                                        <div class="text-center">
+                                            <h2 class="m-b-xs">TDM</h2>
+                                            <div class="m">
+                                                <i class="pe-7s-server" style="font-size: 40px;"></i>
+                                            </div>
+                                            <p class="small">Ambiente designado para el sistema TDM y sus 3 entornos</p>
+                                            <button class="btn btn-info btn-sm" value="2" onclick="setModuloId(this);">Mostrar Modulos &nbsp;&nbsp;&nbsp;
+                                                <i class="fa fa-arrow-right"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -297,13 +269,9 @@
             alert("Se descagará el formulario " + formulario.value);
         }
         
-        function verFormularios(menu){
-            window.location = "mostrarFormularios.jsp"
-        }
-        
-        function mostrarModulos(entorno){
-            window.location = "mostrarModulos.jsp";
+        function setModuloId(entorno){
             
+            $('input[name=sistemaId]').val(entorno.value)
         }
     </script>
 </html>

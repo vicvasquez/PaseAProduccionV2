@@ -2,7 +2,6 @@ package com.cis.paseaproduccionweb.dao;
 
 import com.cis.paseaproduccionweb.hibernate.HibernateUtil;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosUso;
-import com.cis.paseaproduccionweb.hibernate.PpUsuarios;
 import java.math.BigDecimal;
 import java.util.List;
 import org.hibernate.Query;

@@ -8,6 +8,10 @@
         <servlet-name>AuthenticateServlet</servlet-name>
         <servlet-class>com.cis.paseaproduccionweb.servlet.AuthenticateServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>ModulosServlet</servlet-name>
+        <servlet-class>com.cis.paseaproduccionweb.servlet.ModulosServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -15,6 +19,10 @@
     <servlet-mapping>
         <servlet-name>AuthenticateServlet</servlet-name>
         <url-pattern>/AuthenticateServlet</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ModulosServlet</servlet-name>
+        <url-pattern>/Modulos</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>
