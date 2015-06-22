@@ -17,6 +17,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
 import static jdk.nashorn.internal.objects.NativeError.printStackTrace;
 
@@ -45,11 +46,14 @@ public class TransferServlet extends HttpServlet {
             // remoteFile.getInputStream();
             // SmbFile remoteFile = new SmbFile("smb://elitebook-pc/proyecto01/prueba001.txt"); 
             
-            //MetODO WINDOWS:
-            SmbFile remoteFile = new SmbFile("smb://192.168.185.99/proyecto01/llega_ALTOK.txt"); 
-            InputStream is = new FileInputStream(new File("/home/jmoscoso/Escritorio/llego.txt"));
-            OutputStream os = remoteFile.getOutputStream();               //new FileOutputStream(new File("/home/jmoscoso/Escritorio/2daversion.txt"));
-              
+            
+            //MetODO WINDOWS: NECESITO EL IP
+            NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("", "eyomona", "intratego");
+            SmbFile remoteFile = new SmbFile("smb://192.168.185.20/Prueba/ACERCADE.fmx",auth); 
+            InputStream is = new FileInputStream(new File("/home/eyomona/Escritorio/ACERCADE.fmx"));
+            OutputStream os = remoteFile.getOutputStream();               //new FileOutputStream(new File("/home/jmoscoso/Escritorio/2daversion.txt"));              
+            
+            //5 MEGAS
             int bufferSize = 5096;
 
             byte[] b = new byte[bufferSize];
