@@ -120,10 +120,20 @@
                         <small>En esta sección se visualizarán los formularios que estan siendo usados con sus detalles</small>
                         <div class="row">
                             <div class="col-sm-3">
-                                <a class="btn btn-success " href="mostrarEntornos.jsp" style="margin: 20px;">
+                                <!--<form action="PaseAProduccionWeb/Transfer" method="post">
+                                <!-- href="mostrarEntornos.jsp"-->
+                                <!--<a class="btn btn-success "  style="margin: 20px;">
                                     <i class="fa fa-download"></i>
                                     <span class="bold">Descargar formulario</span>
-                                </a>                
+                                </a>              
+                                </form>-->
+                                 <form action="/PaseAProduccionWeb/Transfer" method="post" id="transCopy">
+                                   <button class="btn btn-success btn-block">Copiar</button>
+                                   <i class="fa fa-download"></i>
+                                 
+                                   <span class="bold">Descargar formulario</span>
+                               </a>
+                                </form>
                             </div>
                         </div>  
                     </div>
