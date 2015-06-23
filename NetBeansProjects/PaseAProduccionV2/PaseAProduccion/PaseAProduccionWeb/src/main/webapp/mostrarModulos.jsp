@@ -17,9 +17,7 @@
 <%@page import="java.util.Random"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<% Random x = new Random();
-   int num = 0;
-   
+<%    
     PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
     if(usuario==null)
         response.sendRedirect("login.jsp");
@@ -121,9 +119,9 @@
                 <div class="hpanel">
                     <div class="panel-body">
                         <h2 class="font-light m-b-xs">
-                            Seleccione el elemento deseado
+                            Modulos y Submenus
                         </h2>
-                        <small>Estos son los modulos y submenús que tiene el sistema</small>
+                        <small>Seleccione el módulo o submenu del cual desea descargar los formularios</small>
                         <br><br><br>
                         <ol class="hbreadcrumb breadcrumb">
                             <li><a href="mostrarEntornos.jsp" style="font-weight: bold">Entorno</a></li>
@@ -132,6 +130,10 @@
                     </div>
                 </div>
             </div>
+            <form action="/PaseAProduccionWeb/Formularios" method="post">
+            <input type="hidden" id="tipoPadre" name="tipoPadre"/>
+            <input type="hidden" id="padreId" name="padreId"/>
+            <input type="hidden" id="sistemaId" name="sistemaId" value="<% out.print(sistemaId); %>"/>
             <div class="content animate-panel">
                 <%
                 SubMenusDao dSubMenu = new SubMenusDao();
@@ -152,7 +154,7 @@
                     out.print(dFormulario.getFormulariosByModuloId(lstModulos.get(i).getModuloId()).size());
                     out.print("</span>");
                     out.print("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-                    out.print("<button class=\"btn btn-primary btn-sm\" type=\"button\" value=\""+ 
+                    out.print("<button class=\"btn btn-primary btn-sm\" id=\"btnModulo\" type=\"submit\" value=\""+ 
                             lstModulos.get(i).getModuloId() +"\" onclick=\"verFormularios(this);\">");
                     out.print("<i class=\"fa fa-search\"></i> Ver Todos");
                     out.print("</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
@@ -170,12 +172,14 @@
                         lstFormularios = dFormulario.getFormulariosBySubmenuId(lstSubmenus.get(j).getSubmenuId());
                         if(lstFormularios != null)
                             cantForms=lstFormularios.size();
+                        else
+                            cantForms=0;
                         out.print("<li class=\"list-group-item\">");
                         out.print("<div class=\"row\">");
                         out.print("<div class=\"col-lg-10\">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
                         out.print("<i class=\"pe-7s-folder\"></i>&nbsp;&nbsp;"+ lstSubmenus.get(j).getNombreSubmenu());
                         out.print("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-                        out.print("<button class=\"btn btn-outline btn-primary btn-xs\" type=\"button\" value=\""
+                        out.print("<button class=\"btn btn-outline btn-primary btn-xs\" id=\"btnSubmenu\" type=\"submit\" value=\""
                                 + lstSubmenus.get(j).getSubmenuId() +"\" onclick=\"verFormularios(this);\">");
                         out.print("<i class=\"fa fa-search\"></i> Ver Todos");
                         out.print("</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
@@ -197,6 +201,7 @@
                 }
                 %>
             </div>
+            </form>
         </div>
     </body>
     
@@ -295,8 +300,18 @@
             alert("Se descagará el formulario " + formulario.value);
         }
         
-        function verFormularios(menu){
-            window.location = "mostrarFormularios.jsp"
+        function verFormularios(menu){    
+        
+            if(menu.id == "btnModulo")
+                $('input[name=tipoPadre]').val("modulo")
+               
+            else if(menu.id == "btnSubmenu")
+                $('input[name=tipoPadre]').val("submenu")
+            else
+                $('input[name=tipoPadre]').val("")
+            
+            var x = $(menu).val();
+            $('input[name=padreId]').val(x);
         }
     </script>
 </html>

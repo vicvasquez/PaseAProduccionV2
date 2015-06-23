@@ -4,6 +4,10 @@
     Author     : vvasquez
 --%>
 
+<%@page import="java.util.List"%>
+<%@page import="com.cis.paseaproduccionweb.hibernate.PpFormularios"%>
+<%@page import="com.cis.paseaproduccionweb.dao.FormulariosDao"%>
+<%@page import="java.math.BigDecimal"%>
 <%@page import="com.cis.paseaproduccionweb.hibernate.PpUsuarios"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -12,6 +16,19 @@
     PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
     if(usuario==null)
         response.sendRedirect("login.jsp");
+    
+    String tipoPadre = request.getParameter("tipoPadre");
+    BigDecimal padreId = new BigDecimal(request.getParameter("padreId"));
+    String sistemaId = request.getParameter("sistemaId");
+    List<PpFormularios> lstFormularios = null;
+    
+    FormulariosDao dFormularios = new FormulariosDao();
+    if(tipoPadre.equals("modulo"))
+        lstFormularios = dFormularios.getFormulariosByModuloId(padreId);
+    else if(tipoPadre.equals("submenu"))
+        lstFormularios = dFormularios.getFormulariosBySubmenuId(padreId);
+    else
+        lstFormularios = null;
 %>
 
 <!DOCTYPE html>
@@ -107,7 +124,7 @@
                         <br><br><br>
                         <ol class="hbreadcrumb breadcrumb">
                             <li><a href="mostrarEntornos.jsp" style="font-weight: bold">Entorno</a></li>
-                            <li><a href="mostrarModulos.jsp" style="font-weight: bold">Módulos</a></li>
+                            <li><a href="Modulos?sistemaId=<% out.print(sistemaId); %>" style="font-weight: bold">Módulos</a></li>
                             <li><label style="color: green">Formularios</label></li>
                         </ol>
                     </div>
@@ -124,13 +141,15 @@
                     </form>
                 </div>
                 <div class="row">
-                    <c:forEach var="i" begin="1" end="99">
-                        <button type="button" class="btn btn-default btn-lg col-sm-2" style="padding: 15px; margin: 20px;" 
-                                value="<c:out value="${i}"/>" onclick="descargar(this)">
-                            <i class="fa fa-download"></i>
-                            Formulario <c:out value="${i}"/>
-                        </button>
-                    </c:forEach>
+                    <%
+                    for(int i=0; i<lstFormularios.size(); i++){
+                        out.print("<button type=\"button\" class=\"btn btn-default btn-lg col-sm-2\" style=\"padding: 15px; margin: 20px;\" "
+                            + "value=\""+ lstFormularios.get(i).getFormularioId() +"\" onclick=\"descargar(this)\">");
+                        out.print("<i class=\"fa fa-download\"></i>");
+                        out.print(lstFormularios.get(i).getNombreFormulario());
+                        out.print("</button>");
+                    }
+                    %>
                 </div>
             </div>
         </div>
@@ -152,12 +171,6 @@
         function descargar(formulario)
         {
             alert("Se descargara el formulario " + formulario.value);
-        }
-        
-        function buscar()
-        {
-            window.location = "mostrarFormularios.jsp";
-        }
-        
+        }     
     </script>
 </html>

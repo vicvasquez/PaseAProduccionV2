@@ -61,11 +61,6 @@
                 <div class="small-logo">
                     <span class="text-primary">Pase a Producción</span>
                 </div>
-                <form role="search" class="navbar-form-custom" method="post" action="#">
-                    <div class="form-group">
-                        <input type="text" placeholder="" class="form-control" name="search">
-                    </div>
-                </form>
                 <div class="navbar-right">
                     <ul class="nav navbar-nav no-borders">
 
