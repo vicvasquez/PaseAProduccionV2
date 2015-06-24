@@ -66,11 +66,6 @@
                 <div class="small-logo">
                     <span class="text-primary">Pase a Producción</span>
                 </div>
-                <form role="search" class="navbar-form-custom" method="post" action="#">
-                    <div class="form-group">
-                        <input type="text" placeholder="" class="form-control" name="search">
-                    </div>
-                </form>
                 <div class="navbar-right">
                     <ul class="nav navbar-nav no-borders">
 
@@ -88,11 +83,9 @@
             <div id="navigation">
                 <div class="profile-picture">
                     <div class="stats-label text-color">
-                        <span class="font-extra-bold font-uppercase">Nombre</span>
-                        <div id="sparkline1" class="small-chart m-t-sm"></div>
-                        <div>
-                            <small class="text-muted">Roll</small>
-                        </div>
+                        <span class="font-extra-bold font-uppercase"><% out.print(usuario.getNombre()); %></span>
+                        <br/>
+                        <img src="images/logo_cis.gif" height="70" width="150"/>
                     </div>
                 </div>
                 <ul class="nav" id="side-menu">
@@ -315,3 +308,4 @@
         }
     </script>
 </html>
+

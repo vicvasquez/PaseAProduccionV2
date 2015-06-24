@@ -37,17 +37,15 @@ public class FormulariosDao {
     }
     public List<PpFormularios> getFormulariosByModuloId(BigDecimal moduloId){
         
-        Session session = HibernateUtil.getSessionFactory().openSession();
-        Transaction tx = null;
         List <PpFormularios> lstFormularios = null;
         ArrayList<PpFormularios> lstFormulariosFinal = new ArrayList<>();
         SubMenusDao dSubMenu = new SubMenusDao();
         List <PpSubmenus> lstSubMenus = dSubMenu.getSubMenuByModuloId(moduloId);
         
-        for (PpSubmenus lstSubMenu : lstSubMenus) {
+        for (PpSubmenus submenu : lstSubMenus) {
             try {
                 if (lstSubMenus.size() > 0) {
-                    lstFormularios = getFormulariosBySubmenuId(lstSubMenu.getSubmenuId());
+                    lstFormularios = getFormulariosBySubmenuId(submenu.getSubmenuId());
                     for(int i=0; i<lstFormularios.size(); i++){
                         if(lstFormularios!=null && lstFormularios.size()>0){
                             lstFormulariosFinal.add(lstFormularios.get(i));
@@ -59,5 +57,23 @@ public class FormulariosDao {
         }
         
         return lstFormulariosFinal;
+    }
+    public List<PpFormularios> filtrarFormularios(List<PpFormularios> lstLista, String filtro){
+        
+        ArrayList<PpFormularios> lstFormularios = new ArrayList<>();
+        
+        if(lstLista != null)
+        {
+            for (PpFormularios formulario : lstLista) {
+                try {
+                    if(formulario.getNombreFormulario().toUpperCase().contains(filtro.toUpperCase()))
+                        lstFormularios.add(formulario);
+
+                }catch (Exception e) {
+                }
+            }
+        }
+        
+        return lstFormularios;
     }
 }

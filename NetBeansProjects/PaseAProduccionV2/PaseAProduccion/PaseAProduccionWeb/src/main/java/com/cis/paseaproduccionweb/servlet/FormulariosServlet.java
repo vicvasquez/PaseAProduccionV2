@@ -17,9 +17,11 @@ public class FormulariosServlet extends HttpServlet {
         String padreId = request.getParameter("padreId");
         String tipoPadre = request.getParameter("tipoPadre");
         String sistemaId = request.getParameter("sistemaId");
+        String filtro = request.getParameter("filtro");
         request.setAttribute("padreId", padreId);
         request.setAttribute("tipoPadre", tipoPadre);
         request.setAttribute("sistemaId", sistemaId);
+        request.setAttribute("filtro", filtro);
         RequestDispatcher rDispatcher = getServletContext().getRequestDispatcher("/mostrarFormularios.jsp");
         rDispatcher.forward(request, response);
 

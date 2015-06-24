@@ -77,13 +77,9 @@
         <aside id="menu">
             <div id="navigation">
                 <div class="profile-picture">
-                    <div class="stats-label text-color">
-                        <span class="font-extra-bold font-uppercase">Nombre</span>
-                        <div id="sparkline1" class="small-chart m-t-sm"></div>
-                        <div>
-                            <small class="text-muted">Roll</small>
-                        </div>
-                    </div>
+                    <span class="font-extra-bold font-uppercase"><% out.print(usuario.getNombre()); %></span>
+                    <br/>
+                    <img src="images/logo_cis.gif" height="70" width="150"/>
                 </div>
                 <ul class="nav" id="side-menu">
                     <li class="active">

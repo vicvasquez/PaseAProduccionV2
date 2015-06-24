@@ -9,7 +9,7 @@
 <%@page import="java.util.List"%>
 <%@page import="com.cis.paseaproduccionweb.dao.ArchivosUsoDao"%>
 <%@page import="com.cis.paseaproduccionweb.hibernate.PpUsuarios"%>
-<%@page import="com.cis.paseaproduccionweb.servlet.AuthenticateServlet"%>>
+<%@page import="com.cis.paseaproduccionweb.servlet.AuthenticateServlet"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
@@ -62,11 +62,6 @@
                 <div class="small-logo">
                     <span class="text-primary">Pase a Producción</span>
                 </div>
-                <form role="search" class="navbar-form-custom" method="post" action="#">
-                    <div class="form-group">
-                        <input type="text" placeholder="" class="form-control" name="search">
-                    </div>
-                </form>
                 <div class="navbar-right">
                     <ul class="nav navbar-nav no-borders">
 
@@ -83,13 +78,9 @@
         <aside id="menu">
             <div id="navigation">
                 <div class="profile-picture">
-                    <div class="stats-label text-color">
-                        <span class="font-extra-bold font-uppercase">Nombre</span>
-                        <div id="sparkline1" class="small-chart m-t-sm"></div>
-                        <div>
-                            <small class="text-muted">Roll</small>
-                        </div>
-                    </div>
+                    <span class="font-extra-bold font-uppercase"><% out.print(usuario.getNombre()); %></span>
+                    <br/>
+                    <img src="images/logo_cis.gif" height="70" width="150"/>
                 </div>
                 <ul class="nav" id="side-menu">
                     <li class="active">
@@ -204,12 +195,6 @@
                             out.print("</tr>");  
                           }
                                     %>
-                                    <c:forEach items="${formsEnUso}" var="formulario">
-                                        <tr>
-                                            <td>${formulario.nombreArchivo}</td>
-                                            <td>${formulario.usuarioId}</td>
-                                        </tr>
-                                    </c:forEach>
                                 </tbody>
                             </table>
                         </div> 
@@ -302,8 +287,6 @@
 
         });
 
-    </script>
-    <script>
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
             (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
                 m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)

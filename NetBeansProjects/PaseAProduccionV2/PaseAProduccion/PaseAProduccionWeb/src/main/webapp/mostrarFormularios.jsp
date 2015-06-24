@@ -4,6 +4,7 @@
     Author     : vvasquez
 --%>
 
+<%@page import="com.cis.paseaproduccionweb.dao.UsuariosDao"%>
 <%@page import="java.util.List"%>
 <%@page import="com.cis.paseaproduccionweb.hibernate.PpFormularios"%>
 <%@page import="com.cis.paseaproduccionweb.dao.FormulariosDao"%>
@@ -20,15 +21,24 @@
     String tipoPadre = request.getParameter("tipoPadre");
     BigDecimal padreId = new BigDecimal(request.getParameter("padreId"));
     String sistemaId = request.getParameter("sistemaId");
+    String filtro = request.getParameter("filtro");
     List<PpFormularios> lstFormularios = null;
     
     FormulariosDao dFormularios = new FormulariosDao();
+    UsuariosDao dUsuario = new UsuariosDao();
+    
     if(tipoPadre.equals("modulo"))
         lstFormularios = dFormularios.getFormulariosByModuloId(padreId);
     else if(tipoPadre.equals("submenu"))
         lstFormularios = dFormularios.getFormulariosBySubmenuId(padreId);
     else
         lstFormularios = null;
+    
+    if(filtro!=null)
+        lstFormularios = dFormularios.filtrarFormularios(lstFormularios, filtro);
+    
+    PpFormularios frm = null;
+        
 %>
 
 <!DOCTYPE html>
@@ -87,11 +97,9 @@
             <div id="navigation">
                 <div class="profile-picture">
                     <div class="stats-label text-color">
-                        <span class="font-extra-bold font-uppercase">Nombre</span>
-                        <div id="sparkline1" class="small-chart m-t-sm"></div>
-                        <div>
-                            <small class="text-muted">Roll</small>
-                        </div>
+                        <span class="font-extra-bold font-uppercase"><% out.print(usuario.getNombre()); %></span>
+                        <br/>
+                        <img src="images/logo_cis.gif" height="70" width="150"/>
                     </div>
                 </div>
                 <ul class="nav" id="side-menu">
@@ -132,28 +140,76 @@
             </div>
             <div class="content animate-panel">    
                 <div class="row">
-                    <form class="form-horizontal">
-                        <div class="form-group"><label class="col-sm-3 control-label">BUSCAR</label>
-                        <div class="col-sm-4"><input type="text" class="form-control"></div>
-                        <button class="btn btn-primary" type="button" onclick="buscar(this);"><i class="fa fa-search"></i></button>
-                        <div></div>
-                    </div>
+                    <form class="form-horizontal" action="/PaseAProduccionWeb/Formularios" method="post">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label">BUSCAR</label>
+                            <div class="col-sm-4">
+                                <input type="text" class="form-control" name="filtro" id="filtro">
+                            </div>
+                            <button class="btn btn-primary" type="submit" onclick="buscar();">
+                                <i class="fa fa-search"></i>
+                            </button>
+                        </div>
+                        <input type="hidden" value="<% out.print(tipoPadre); %>" name="tipoPadre"/>
+                        <input type="hidden" value="<% out.print(padreId); %>" name="padreId"/>
+                        <input type="hidden" value="<% out.print(sistemaId); %>" name="sistemaId"/>
                     </form>
                 </div>
+                    <input type="hidden" name="formulario" id="formulario"/>
                 <div class="row">
                     <%
                     for(int i=0; i<lstFormularios.size(); i++){
-                        out.print("<button type=\"button\" class=\"btn btn-default btn-lg col-sm-2\" style=\"padding: 15px; margin: 20px;\" "
-                            + "value=\""+ lstFormularios.get(i).getFormularioId() +"\" onclick=\"descargar(this)\">");
-                        out.print("<i class=\"fa fa-download\"></i>");
-                        out.print(lstFormularios.get(i).getNombreFormulario());
-                        out.print("</button>");
+                        out.print("<div class=\"col-md-4 animated-panel zoomIn\" style=\"-webkit-animation: 0.1s;\">");
+                        out.print("<div class=\"hpanel\">");
+                        out.print("<div class=\"panel-body\">");
+                        out.print("<div class=\"text-center\">");
+                        out.print("<h2 class=\"m-b-xs\">"+ lstFormularios.get(i).getNombreFormulario() +"</h2>");
+                        if(lstFormularios.get(i).getFlagUso().equals("S"))
+                            out.print("<p class=\"font-bold text-danger\">EN USO POR "
+                                    +  dUsuario.getUsuarioById(lstFormularios.get(i).getPpusuarioUsuarioId()).getNombre().toUpperCase()+"</p>");
+                        else
+                            out.print("<p class=\"font-bold text-success\">DISPONIBLE</p>");
+                        out.print("<div class=\"m\"><i class=\"pe-7s-cloud-download fa-5x\"></i></div>");
+                        out.print("<p class=\"small\">"+ lstFormularios.get(i).getDescFormulario() +"</p>");
+                        if(lstFormularios.get(i).getFlagUso().equals("S"))
+                            out.print("<button class=\"btn btn-success btn-sm\" disabled=\"true\" value=\"" 
+                                    + lstFormularios.get(i).getFormularioId() +"\" onclick=\"descargar(this);\">Descargar para trabajar</button>&nbsp;&nbsp;");
+                        else
+                            out.print("<button class=\"btn btn-success btn-sm\" value=\"" 
+                                    + lstFormularios.get(i).getFormularioId() +"\" onclick=\"descargar(this);\">Descargar para trabajar</button>&nbsp;&nbsp;");
+                        out.print("<button class=\"btn btn-info btn-sm\" value=\"" 
+                                    + lstFormularios.get(i).getFormularioId() +"\" onclick=\"descargar(this);\">Descargar para consultar</button>");
+                        out.print("</div>");
+                        out.print("</div>");
+                        out.print("</div>");
+                        out.print("</div>");
                     }
                     %>
                 </div>
             </div>
         </div>
     </body>
+    
+    <div class="modal fade" id="myModal6" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+                        <div class="modal-dialog modal-sm">
+                            <div class="modal-content">
+                                <div class="color-line"></div>
+                                <div class="modal-header">
+                                    <h4 class="modal-title"></h4>
+                                    <small class="font-bold">Lorem Ipsum is simply dummy text.</small>
+                                </div>
+                                <div class="modal-body">
+                                    <p><strong>Lorem Ipsum is simply dummy</strong> text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown
+                                        printer took a galley of type and scrambled it to make a type specimen book. It has survived not only five centuries, but also the leap into electronic typesetting,
+                                        remaining essentially unchanged.</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                    <button type="button" class="btn btn-primary">Save changes</button>
+                                </div>
+                            </div>
+                        </div>
+    </div>
     
     <script src="vendor/jquery/dist/jquery.min.js"></script>
     <script src="vendor/jquery-ui/jquery-ui.min.js"></script>
@@ -168,9 +224,19 @@
     
     <script>
         
+        function setValues(formulario){
+            var formId = formulario.value;
+            
+            $('.modal-header').text();
+        }
+    
         function descargar(formulario)
         {
             alert("Se descargara el formulario " + formulario.value);
-        }     
+        }
+        
+        function buscar(){
+            
+        }
     </script>
 </html>
