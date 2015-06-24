@@ -156,7 +156,8 @@
                     </form>
                 </div>
                     <input type="hidden" name="formulario" id="formulario"/>
-                <div class="row">
+                <form action="/PaseAProduccionWeb/Download" method="post">
+                    <div class="row">
                     <%
                     for(int i=0; i<lstFormularios.size(); i++){
                         out.print("<div class=\"col-md-4 animated-panel zoomIn\" style=\"-webkit-animation: 0.1s;\">");
@@ -172,12 +173,12 @@
                         out.print("<div class=\"m\"><i class=\"pe-7s-cloud-download fa-5x\"></i></div>");
                         out.print("<p class=\"small\">"+ lstFormularios.get(i).getDescFormulario() +"</p>");
                         if(lstFormularios.get(i).getFlagUso().equals("S"))
-                            out.print("<button class=\"btn btn-success btn-sm\" disabled=\"true\" value=\"" 
+                            out.print("<button class=\"btn btn-success btn-sm\" disabled=\"true\" type=\"submit\" value=\"" 
                                     + lstFormularios.get(i).getFormularioId() +"\" onclick=\"descargar(this);\">Descargar para trabajar</button>&nbsp;&nbsp;");
                         else
-                            out.print("<button class=\"btn btn-success btn-sm\" value=\"" 
+                            out.print("<button class=\"btn btn-success btn-sm\" type=\"submit\" value=\"" 
                                     + lstFormularios.get(i).getFormularioId() +"\" onclick=\"descargar(this);\">Descargar para trabajar</button>&nbsp;&nbsp;");
-                        out.print("<button class=\"btn btn-info btn-sm\" value=\"" 
+                        out.print("<button class=\"btn btn-info btn-sm\" type=\"submit\" value=\"" 
                                     + lstFormularios.get(i).getFormularioId() +"\" onclick=\"descargar(this);\">Descargar para consultar</button>");
                         out.print("</div>");
                         out.print("</div>");
@@ -186,6 +187,7 @@
                     }
                     %>
                 </div>
+                </form>
             </div>
         </div>
     </body>
