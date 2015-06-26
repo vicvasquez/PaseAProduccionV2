@@ -1,5 +1,5 @@
 package com.cis.paseaproduccionweb.hibernate;
-// Generated 19/06/2015 11:30:11 AM by Hibernate Tools 4.3.1
+// Generated 26/06/2015 10:00:18 AM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -17,6 +17,7 @@ public class PpFormularios  implements java.io.Serializable {
      private String nombreFormulario;
      private BigDecimal ppsubmenuSubmenuId;
      private BigDecimal ppusuarioUsuarioId;
+     private String flagTipo;
 
     public PpFormularios() {
     }
@@ -26,7 +27,7 @@ public class PpFormularios  implements java.io.Serializable {
         this.formularioId = formularioId;
         this.ppsubmenuSubmenuId = ppsubmenuSubmenuId;
     }
-    public PpFormularios(BigDecimal formularioId, String flagEstado, String flagUso, String descFormulario, String nombreFormulario, BigDecimal ppsubmenuSubmenuId, BigDecimal ppusuarioUsuarioId) {
+    public PpFormularios(BigDecimal formularioId, String flagEstado, String flagUso, String descFormulario, String nombreFormulario, BigDecimal ppsubmenuSubmenuId, BigDecimal ppusuarioUsuarioId, String flagTipo) {
        this.formularioId = formularioId;
        this.flagEstado = flagEstado;
        this.flagUso = flagUso;
@@ -34,6 +35,7 @@ public class PpFormularios  implements java.io.Serializable {
        this.nombreFormulario = nombreFormulario;
        this.ppsubmenuSubmenuId = ppsubmenuSubmenuId;
        this.ppusuarioUsuarioId = ppusuarioUsuarioId;
+       this.flagTipo = flagTipo;
     }
    
     public BigDecimal getFormularioId() {
@@ -84,6 +86,13 @@ public class PpFormularios  implements java.io.Serializable {
     
     public void setPpusuarioUsuarioId(BigDecimal ppusuarioUsuarioId) {
         this.ppusuarioUsuarioId = ppusuarioUsuarioId;
+    }
+    public String getFlagTipo() {
+        return this.flagTipo;
+    }
+    
+    public void setFlagTipo(String flagTipo) {
+        this.flagTipo = flagTipo;
     }
 
 

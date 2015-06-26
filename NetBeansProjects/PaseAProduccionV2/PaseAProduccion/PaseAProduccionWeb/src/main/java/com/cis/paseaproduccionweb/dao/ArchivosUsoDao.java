@@ -54,4 +54,62 @@ public class ArchivosUsoDao {
         return lstArchivos;
     }
     
+    public PpArchivosUso getArchivosUsoByArchivoIdYTipo(BigDecimal archivoId, String tipo){
+        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        PpArchivosUso archivoUso = null;
+        
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            Query query = session.createQuery("from PpArchivosUso where archivoId='"+ archivoId +"' and tipo='"+ tipo +"'");
+            archivoUso = (PpArchivosUso)query.uniqueResult();
+            tx.commit();
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+        } finally{
+            session.close();
+        }
+        return archivoUso;
+    }
+    
+    public void eliminarArchivoUso(PpArchivosUso archivosUsoDelete){
+        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            session.delete(archivosUsoDelete);
+            tx.commit();
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+        } finally{
+            session.close();
+        }
+    }
+    
+    public void insertarArchivoUso(PpArchivosUso archivoUsoInsert){
+        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            session.save(archivoUsoInsert);
+            tx.commit();
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+        } finally{
+            session.close();
+        }
+        
+    }
+    
 }

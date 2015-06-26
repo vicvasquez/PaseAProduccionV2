@@ -79,7 +79,7 @@
                 <div class="profile-picture">
                     <span class="font-extra-bold font-uppercase"><% out.print(usuario.getNombre()); %></span>
                     <br/>
-                    <img src="images/logo_cis.gif" height="70" width="150"/>
+                    <img src="images/logo_cis.jpg" height="70" width="130"/>
                 </div>
                 <ul class="nav" id="side-menu">
                     <li class="active">

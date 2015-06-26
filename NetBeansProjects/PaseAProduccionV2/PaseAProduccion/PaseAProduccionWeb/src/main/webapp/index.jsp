@@ -40,6 +40,7 @@
      <link rel="stylesheet" href="fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
      <link rel="stylesheet" href="fonts/pe-icon-7-stroke/css/helper.css" />
      <link rel="stylesheet" href="styles/style.css">
+     <link rel="stylesheet" href="styles/static_custom.css">
     </head>
     
     <body>
@@ -80,7 +81,7 @@
                 <div class="profile-picture">
                     <span class="font-extra-bold font-uppercase"><% out.print(usuario.getNombre()); %></span>
                     <br/>
-                    <img src="images/logo_cis.gif" height="70" width="150"/>
+                    <img src="images/logo_cis.jpg" height="70" width="130"/>
                 </div>
                 <ul class="nav" id="side-menu">
                     <li class="active">
@@ -111,7 +112,7 @@
                         <small>En esta sección se visualizarán los formularios que estan siendo usados con sus detalles</small>
                         <div class="row">
                             <div class="col-sm-3">
-                                <a class="btn btn-success " href="mostrarEntornos.jsp" style="margin: 20px;">
+                                <a class=" homerDemo1 btn btn-success " href="mostrarEntornos.jsp" style="margin: 20px;">
                                     <i class="fa fa-download"></i>
                                     <span class="bold">Descargar formulario</span>
                                 </a>                
@@ -129,29 +130,33 @@
                     </div>
                     <div class="panel-body" style="display: block;">
                         <div class="table-responsive">
-                            <table cellpadding="1" cellspacing="1" class="table table-condensed table-striped">
+                            <table cellpadd  ing="1" cellspacing="1" class="table table-condensed table-striped">
                                 <thead>
                                     <tr>
                                         <th>Formulario</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr>
-                                        <td style=""></td>
-                                    </tr>
                                     <%
                                     for(int i=0; i<misFormsEnUso.size(); i++){
                                         out.print("<tr>");
                                         out.print("<td>");
-                                        out.print(formsEnUso.get(i).getNombreArchivo() + "&nbsp;&nbsp;&nbsp;&nbsp;");
+                                        out.print(misFormsEnUso.get(i).getNombreArchivo() + "&nbsp;&nbsp;&nbsp;&nbsp;");
                                         out.print("</td>");
                                         out.print("<td>");
-                                        out.print("<button class=\"btn btn-primary btn-xs\" type=\"button\" onclick=\"pasarAProduccion(this);\" value=\""+ formsEnUso.get(i).getId().getArchivoId()+"\">");
+                                        //out.print("<form action=\"/PaseAProduccionWeb/CancelarFormulario\" method=\"post\">");
+                                        out.print("<button class=\"btn btn-primary btn-xs\" type=\"button\" onclick=\"pasarAProduccion(\'"
+                                                + misFormsEnUso.get(i).getArchivoId()+ "\', \'" + misFormsEnUso.get(i).getTipo() +"\');\" >");
                                         out.print("<i class=\"fa fa-upload\"></i> Pasar a producción");
                                         out.print("</button>");
-                                        out.print("&nbsp;&nbsp;<button class=\"btn btn-danger btn-xs\" type=\"button\" onclick=\"cancelarPaseAProduccion(this);\" value=\""+ formsEnUso.get(i).getId().getArchivoId()+"\">");
+                                        //out.print("</form>");
+                                        out.print("</td>");
+                                        out.print("<td>");
+                                        //out.print("<form>");
+                                        out.print("&nbsp;&nbsp;<button class=\"btn btn-danger btn-xs\" type=\"button\" onclick=\"setValues(\'"
+                                                + misFormsEnUso.get(i).getArchivoId()+ "\', \'" + misFormsEnUso.get(i).getTipo() +"\');\" data-toggle=\"modal\" data-target=\"#modalCancelar\">");
                                         out.print("<i class=\"fa fa-times\"></i> Cancelar");
                                         out.print("</button>");
+                                        //out.print("</form>");
                                         out.print("</td>");
                                         out.print("</tr>");
                                     }                            
@@ -179,6 +184,7 @@
                                     <tr>
                                         <th>Formulario</th>
                                         <th>Usuario</th>
+                                        <th>Tipo</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -191,6 +197,9 @@
                             out.print("</td>");
                             out.print("<td>");
                             out.print(uDao.getUsuarioById(formsEnUso.get(i).getUsuarioId()).getNombre());
+                            out.print("</td>");
+                            out.print("<td>");
+                            out.print(formsEnUso.get(i).getTipo());
                             out.print("</td>");
                             out.print("</tr>");  
                           }
@@ -205,8 +214,28 @@
                 </div>
             </div>
         </div>
-    </body>
-    
+        
+                    
+        <input type="hidden" name="archivoId" id="archivoId"/>
+        <input type="hidden" name="archivoTipo" id="tipo"/>
+        <div class="modal fade hmodal-danger" id="modalCancelar" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="color-line"></div>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Cancelar Pase a Producción</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Esta usted seguro que desea <strong>CANCELAR</strong> el pase a producción del elemento seleccionado?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+                        <button type="button" class="btn btn-primary" onclick="cancelarPaseAProduccion();">Si</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+                    
     <script src="vendor/jquery/dist/jquery.min.js"></script>
     <script src="vendor/jquery-ui/jquery-ui.min.js"></script>
     <script src="vendor/slimScroll/jquery.slimscroll.min.js"></script>
@@ -220,9 +249,9 @@
     <script src="vendor/iCheck/icheck.min.js"></script>
     <script src="vendor/peity/jquery.peity.min.js"></script>
     <script src="scripts/homer.js"></script>
-    <script src="scripts/charts.js"></script>
-
-    <script>
+    <script src="vendor/sparkline/index.js"></script>
+    
+    <script type="text/javascript">
 
         $(function () {
 
@@ -283,8 +312,6 @@
 
             $.plot($("#flot-income-chart"), chartIncomeData, chartIncomeOptions);
 
-
-
         });
 
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -295,14 +322,25 @@
         ga('create', 'UA-4625583-2', 'webapplayers.com');
         ga('send', 'pageview');
         
-        function pasarAProduccion(formulario){
-            alert("Se paso a produccion el formulario " + formulario.value);
+        function pasarAProduccion(archivoId, tipo){
+            alert("Se paso a produccion el formulario " + archivoId.toString() + "de tipo " + tipo.toString());
         }
         
-        function cancelarPaseAProduccion(formulario){
-            alert("Se cancelo el pase a produccion del formulario " + formulario.value);
+        function setValues(archivoId, tipo){
+            
+        $('input[name=archivoId]').val(archivoId.toString());
+        $('input[name=archivoTipo]').val(tipo.toString());
+        }
+        
+        function cancelarPaseAProduccion(){
+            
+            $('#modalCancelar').hide();
+            var archivoId = $('input[name=archivoId]').val();
+            var archivoTipo = $('input[name=archivoTipo]').val();
+            document.location.href = '/PaseAProduccionWeb/CancelarFormulario?archivoId='+archivoId.toString()+'&archivoTipo='+archivoTipo.toString();
         }
     </script>
+    </body>
 </html>
 
 <!-- 192.168.185.25   intra   PROYECTO01  PROYECTO01-->

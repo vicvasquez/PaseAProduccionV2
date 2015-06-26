@@ -85,7 +85,7 @@
                     <div class="stats-label text-color">
                         <span class="font-extra-bold font-uppercase"><% out.print(usuario.getNombre()); %></span>
                         <br/>
-                        <img src="images/logo_cis.gif" height="70" width="150"/>
+                        <img src="images/logo_cis.jpg" height="70" width="130"/>
                     </div>
                 </div>
                 <ul class="nav" id="side-menu">
@@ -176,10 +176,6 @@
                                 + lstSubmenus.get(j).getSubmenuId() +"\" onclick=\"verFormularios(this);\">");
                         out.print("<i class=\"fa fa-search\"></i> Ver Todos");
                         out.print("</button> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-                        out.print("<button class=\"btn btn-outline btn-success btn-xs\" type=\"button\" value=\""
-                                + lstSubmenus.get(j).getSubmenuId() +"\" onclick=\"descargar(this);\">");
-                        out.print("<i class=\"fa fa-download\"></i> Descargar formulario padre");
-                        out.print("</button>");
                         out.print("</div>");
                         out.print("<div class=\"col-lg-1\">");
                         out.print("<span class=\"badge badge-primary\">"+ cantForms +"</span>");

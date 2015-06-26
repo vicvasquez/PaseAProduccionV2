@@ -1,16 +1,21 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.cis.paseaproduccionweb.servlet;
 
+import com.cis.paseaproduccionweb.dao.ArchivosUsoDao;
+import com.cis.paseaproduccionweb.dao.FormulariosDao;
+import com.cis.paseaproduccionweb.dao.ModulosDao;
+import com.cis.paseaproduccionweb.dao.SubMenusDao;
+import com.cis.paseaproduccionweb.hibernate.PpArchivosUso;
+import com.cis.paseaproduccionweb.hibernate.PpFormularios;
+import com.cis.paseaproduccionweb.hibernate.PpModulos;
+import com.cis.paseaproduccionweb.hibernate.PpSubmenus;
+import com.cis.paseaproduccionweb.hibernate.PpUsuarios;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.PrintWriter;
+import java.math.BigDecimal;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -18,49 +23,50 @@ import javax.servlet.http.HttpServletResponse;
 import jcifs.smb.NtlmPasswordAuthentication;
 import jcifs.smb.SmbFile;
 
-/**
- *
- * @author jmoscoso
- */
 public class DownloadServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
     
        
          try
         {
-
-            NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("", "jmoscoso", "intratego5%");
-            //si la ruta y archivo del remotefile debe existir
-            SmbFile remoteFile = new SmbFile("smb://192.168.185.30/saastest/LI05.RDF",auth); 
-              InputStream is = remoteFile.getInputStream();  
-              OutputStream os =  new FileOutputStream(new File("/home/jmoscoso/Escritorio/LI05.RDF"));    //new FileOutputStream(new File("/home/jmoscoso/Escritorio/2daversion.txt"));
-              
-                  int bufferSize = 5096;
-
-                  byte[] b = new byte[bufferSize];
-                  int noOfBytes = 0;
-                         while( (noOfBytes = is.read(b)) != -1 )
-                  {
-                      os.write(b, 0, noOfBytes);
-                  }
-                    os.close();
-                    is.close();
-
+            String formId = request.getParameter("formularioId");
+            String tipoDescarga = request.getParameter("tipoDescarga");
+            String tipoPadre = request.getParameter("tipoPadre");
+            String padreId = request.getParameter("padreId");
+            String sisId = request.getParameter("sistemaId");
+            BigDecimal sistemaId = new BigDecimal(sisId);
             
-            
+            if(tipoDescarga.equals("trabajo")){
+                
+                PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
+                
+                ArchivosUsoDao dArchivoUso = new ArchivosUsoDao();
+                FormulariosDao dFormulario = new FormulariosDao();
+                BigDecimal formularioId = new BigDecimal(formId);
 
-         response.sendRedirect("index.jsp");
+                PpArchivosUso archivoUso = new PpArchivosUso();
+                PpFormularios formulario = dFormulario.getFormularioByFormularioId(formularioId);
+
+                archivoUso.setArchivoUsoId(formularioId);
+                archivoUso.setArchivoId(formularioId);
+                archivoUso.setDescArchivo(formulario.getDescFormulario());
+                archivoUso.setNombreArchivo(formulario.getNombreFormulario());
+                archivoUso.setSistemaId(sistemaId);
+                archivoUso.setTipo("FOR");
+                archivoUso.setUsuarioId(usuario.getUsuarioId());
+
+                dArchivoUso.insertarArchivoUso(archivoUso);
+                dFormulario.actualizarEnUso(formularioId, "S", usuario.getUsuarioId());
+            }
+            
+            request.setAttribute("tipoPadre", tipoPadre);
+            request.setAttribute("tipoPadre", padreId);
+            request.setAttribute("tipoPadre", sistemaId);
+            
+            RequestDispatcher rDispatcher = getServletContext().getRequestDispatcher("/mostrarFormularios.jsp");
+            rDispatcher.forward(request, response);
         }
         catch(Exception ex)
         {

@@ -19,6 +19,7 @@
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpFormularios.hbm.xml"/>
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpEntornos.hbm.xml"/>
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpSistemas.hbm.xml"/>
+    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpArchivosAprob.hbm.xml"/>
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpSubmenus.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

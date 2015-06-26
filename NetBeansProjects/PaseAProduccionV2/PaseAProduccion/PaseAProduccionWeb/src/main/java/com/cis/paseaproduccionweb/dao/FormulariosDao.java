@@ -76,4 +76,48 @@ public class FormulariosDao {
         
         return lstFormularios;
     }
+    
+    public PpFormularios getFormularioByFormularioId(BigDecimal formularioId){
+        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        PpFormularios formulario = null;
+        
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            Query query = session.createQuery("from PpFormularios where formularioId='"+ formularioId +"'");
+            formulario = (PpFormularios)query.uniqueResult();
+            tx.commit();
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+        } finally{
+            session.close();
+        }
+        
+        return formulario;
+    }
+    
+    public int actualizarEnUso(BigDecimal formularioId, String uso, BigDecimal usuarioId){
+        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        int result = 0;
+        
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            Query query = session.createQuery("update PpFormularios set flagUso = '"+ uso 
+                    +"'where formularioId='"+ formularioId +"' and ppusuarioUsuarioId= '"+ usuarioId +"'");
+            result = query.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+        } finally{
+            session.close();
+        }
+        return result;
+    }
 }

@@ -34,4 +34,26 @@ public class SubMenusDao {
         
     }
     
+    public PpSubmenus getSubMenuBySubMenuId(BigDecimal submenuId){
+        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        PpSubmenus submenu = null;
+        
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            Query query = session.createQuery("from PpSubmenus where submenuId='"+ submenuId +"'");
+            submenu = (PpSubmenus)query.uniqueResult();
+            tx.commit();
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+        } finally{
+            session.close();
+        }
+        
+        return submenu;
+    }
+    
 }

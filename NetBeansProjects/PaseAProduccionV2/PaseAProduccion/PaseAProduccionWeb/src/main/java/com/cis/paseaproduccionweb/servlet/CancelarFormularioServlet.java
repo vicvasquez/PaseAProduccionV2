@@ -1,56 +1,44 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.cis.paseaproduccionweb.servlet;
 
-import java.io.File;
-import java.io.FileInputStream;
+import com.cis.paseaproduccionweb.dao.ArchivosUsoDao;
+import com.cis.paseaproduccionweb.dao.FormulariosDao;
+import com.cis.paseaproduccionweb.dao.ModulosDao;
+import com.cis.paseaproduccionweb.hibernate.PpArchivosUso;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.math.BigDecimal;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import jcifs.smb.NtlmPasswordAuthentication;
-import jcifs.smb.SmbFile;
 
-
-public class UploadServlet extends HttpServlet {
+public class CancelarFormularioServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-     
-       
-        try
-        {
-         
-            
-            NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("", "jmoscoso", "intratego5%");
-            //el archivo del remote file debe existir
-            SmbFile remoteFile = new SmbFile("smb://192.168.185.30/saastest/nuevoprueba.doc",auth); 
-              InputStream is = new FileInputStream(new File("/home/jmoscoso/Escritorio/documento.doc"));
-              OutputStream os =   remoteFile.getOutputStream();   
-              
-                  int bufferSize = 5096;
 
-                  byte[] b = new byte[bufferSize];
-                  int noOfBytes = 0;
-                         while( (noOfBytes = is.read(b)) != -1 )
-                  {
-                      os.write(b, 0, noOfBytes);
-                  }
-                    os.close();
-                    is.close();
-       
-         response.sendRedirect("index.jsp");
+        String archId = request.getParameter("archivoId");
+        String tipo = request.getParameter("archivoTipo");
+        PpArchivosUso archivoUso = null;
+        
+        ArchivosUsoDao dArchivosUso = new ArchivosUsoDao();
+        BigDecimal archivoId = new BigDecimal(archId);
+        
+        archivoUso = dArchivosUso.getArchivosUsoByArchivoIdYTipo(archivoId, tipo);
+        if(archivoUso != null)
+            dArchivosUso.eliminarArchivoUso(archivoUso);
+        
+        if(tipo.equals("MOD")){
+            ModulosDao dModulo = new ModulosDao();
+            dModulo.actualizarEnUso(archivoId, "N");
         }
-        catch(Exception ex)
-        {
-            
+        
+        else if(tipo.equals("FOR")){
+            FormulariosDao dFormulario = new FormulariosDao();
+            dFormulario.actualizarEnUso(archivoId, "N", BigDecimal.ONE);
         }
+        
+        response.sendRedirect("index.jsp");
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

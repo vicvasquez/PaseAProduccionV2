@@ -42,4 +42,47 @@ public class ModulosDao {
         
     }
     
+    public PpModulos getModuloByModuloId(BigDecimal moduloId){
+        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        PpModulos modulo = null;
+        
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            Query query = session.createQuery("from PpModulos where moduloId='"+ moduloId +"'");
+            modulo = (PpModulos)query.uniqueResult();
+            tx.commit();
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+        } finally{
+            session.close();
+        }
+        
+        return modulo;
+    }
+    
+    public int actualizarEnUso(BigDecimal moduloId, String uso){
+        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        int result = 0;
+        
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            Query query = session.createQuery("update PpModulos set flagUso = '"+ uso +"'where moduloId='"+ moduloId +"'");
+            result = query.executeUpdate();
+            tx.commit();
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+        } finally{
+            session.close();
+        }
+        return result;
+    }
+    
 }

@@ -1,5 +1,5 @@
 package com.cis.paseaproduccionweb.hibernate;
-// Generated 19/06/2015 11:30:11 AM by Hibernate Tools 4.3.1
+// Generated 26/06/2015 10:00:18 AM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -20,6 +20,8 @@ public class PpUsuarios  implements java.io.Serializable {
      private Date dateModified;
      private String flagEstado;
      private BigDecimal pprolRolId;
+     private String credUsuario;
+     private String credPassword;
 
     public PpUsuarios() {
     }
@@ -29,7 +31,7 @@ public class PpUsuarios  implements java.io.Serializable {
         this.usuarioId = usuarioId;
         this.pprolRolId = pprolRolId;
     }
-    public PpUsuarios(BigDecimal usuarioId, String email, String rutaLocal, String clave, String nombreUsuario, String nombre, Date dateModified, String flagEstado, BigDecimal pprolRolId) {
+    public PpUsuarios(BigDecimal usuarioId, String email, String rutaLocal, String clave, String nombreUsuario, String nombre, Date dateModified, String flagEstado, BigDecimal pprolRolId, String credUsuario, String credPassword) {
        this.usuarioId = usuarioId;
        this.email = email;
        this.rutaLocal = rutaLocal;
@@ -39,6 +41,8 @@ public class PpUsuarios  implements java.io.Serializable {
        this.dateModified = dateModified;
        this.flagEstado = flagEstado;
        this.pprolRolId = pprolRolId;
+       this.credUsuario = credUsuario;
+       this.credPassword = credPassword;
     }
    
     public BigDecimal getUsuarioId() {
@@ -103,6 +107,20 @@ public class PpUsuarios  implements java.io.Serializable {
     
     public void setPprolRolId(BigDecimal pprolRolId) {
         this.pprolRolId = pprolRolId;
+    }
+    public String getCredUsuario() {
+        return this.credUsuario;
+    }
+    
+    public void setCredUsuario(String credUsuario) {
+        this.credUsuario = credUsuario;
+    }
+    public String getCredPassword() {
+        return this.credPassword;
+    }
+    
+    public void setCredPassword(String credPassword) {
+        this.credPassword = credPassword;
     }
 
 
