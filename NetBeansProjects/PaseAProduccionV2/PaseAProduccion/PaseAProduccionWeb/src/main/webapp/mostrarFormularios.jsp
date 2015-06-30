@@ -146,7 +146,7 @@
                             <div class="col-sm-4">
                                 <input type="text" class="form-control" name="filtro" id="filtro">
                             </div>
-                            <button class="btn btn-primary" type="submit" onclick="buscar();">
+                            <button class="btn btn-primary" type="submit">
                                 <i class="fa fa-search"></i>
                             </button>
                         </div>

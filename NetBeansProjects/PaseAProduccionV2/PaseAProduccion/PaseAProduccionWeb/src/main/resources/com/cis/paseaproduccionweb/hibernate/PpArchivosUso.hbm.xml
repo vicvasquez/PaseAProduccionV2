@@ -6,7 +6,7 @@
     <class name="com.cis.paseaproduccionweb.hibernate.PpArchivosUso" table="PP_ARCHIVOS_USO" schema="PROYECTO01" optimistic-lock="version">
         <id name="archivoUsoId" type="big_decimal">
             <column name="ARCHIVO_USO_ID" precision="22" scale="0" />
-            <generator class="assigned" />
+            <generator class="increment" />
         </id>
         <property name="archivoId" type="big_decimal">
             <column name="ARCHIVO_ID" precision="22" scale="0" not-null="true" />

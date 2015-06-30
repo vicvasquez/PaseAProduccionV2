@@ -9,7 +9,6 @@ import java.math.BigDecimal;
  */
 public class PpArchivosUso  implements java.io.Serializable {
 
-
      private BigDecimal archivoUsoId;
      private BigDecimal archivoId;
      private BigDecimal sistemaId;

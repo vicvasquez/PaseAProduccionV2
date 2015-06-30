@@ -2,26 +2,16 @@ package com.cis.paseaproduccionweb.servlet;
 
 import com.cis.paseaproduccionweb.dao.ArchivosUsoDao;
 import com.cis.paseaproduccionweb.dao.FormulariosDao;
-import com.cis.paseaproduccionweb.dao.ModulosDao;
-import com.cis.paseaproduccionweb.dao.SubMenusDao;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosUso;
 import com.cis.paseaproduccionweb.hibernate.PpFormularios;
-import com.cis.paseaproduccionweb.hibernate.PpModulos;
-import com.cis.paseaproduccionweb.hibernate.PpSubmenus;
 import com.cis.paseaproduccionweb.hibernate.PpUsuarios;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.math.BigDecimal;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import jcifs.smb.NtlmPasswordAuthentication;
-import jcifs.smb.SmbFile;
 
 public class DownloadServlet extends HttpServlet {
 
@@ -48,8 +38,7 @@ public class DownloadServlet extends HttpServlet {
 
                 PpArchivosUso archivoUso = new PpArchivosUso();
                 PpFormularios formulario = dFormulario.getFormularioByFormularioId(formularioId);
-
-                archivoUso.setArchivoUsoId(formularioId);
+                
                 archivoUso.setArchivoId(formularioId);
                 archivoUso.setDescArchivo(formulario.getDescFormulario());
                 archivoUso.setNombreArchivo(formulario.getNombreFormulario());
@@ -58,7 +47,10 @@ public class DownloadServlet extends HttpServlet {
                 archivoUso.setUsuarioId(usuario.getUsuarioId());
 
                 dArchivoUso.insertarArchivoUso(archivoUso);
-                dFormulario.actualizarEnUso(formularioId, "S", usuario.getUsuarioId());
+                formulario.setFlagUso("S");
+                formulario.setPpusuarioUsuarioId(usuario.getUsuarioId());
+                
+                dFormulario.actualizarEnUso(formulario);
             }
             
             request.setAttribute("tipoPadre", tipoPadre);

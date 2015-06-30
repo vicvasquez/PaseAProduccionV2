@@ -4,6 +4,8 @@ import com.cis.paseaproduccionweb.dao.ArchivosUsoDao;
 import com.cis.paseaproduccionweb.dao.FormulariosDao;
 import com.cis.paseaproduccionweb.dao.ModulosDao;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosUso;
+import com.cis.paseaproduccionweb.hibernate.PpFormularios;
+import com.cis.paseaproduccionweb.hibernate.PpModulos;
 import java.io.IOException;
 import java.math.BigDecimal;
 import javax.servlet.ServletException;
@@ -29,12 +31,18 @@ public class CancelarFormularioServlet extends HttpServlet {
         
         if(tipo.equals("MOD")){
             ModulosDao dModulo = new ModulosDao();
-            dModulo.actualizarEnUso(archivoId, "N");
+            PpModulos modulo = dModulo.getModuloByModuloId(archivoId);
+            modulo.setFlagUso("N");
+            modulo.setPpusuarioUsuarioId(null);
+            dModulo.actualizarEnUso(modulo);
         }
         
         else if(tipo.equals("FOR")){
             FormulariosDao dFormulario = new FormulariosDao();
-            dFormulario.actualizarEnUso(archivoId, "N", BigDecimal.ONE);
+            PpFormularios formulario = dFormulario.getFormularioByFormularioId(archivoId);
+            formulario.setFlagEstado("N");
+            formulario.setPpusuarioUsuarioId(null);
+            dFormulario.actualizarEnUso(formulario);
         }
         
         response.sendRedirect("index.jsp");

@@ -64,7 +64,7 @@ public class ModulosDao {
         return modulo;
     }
     
-    public int actualizarEnUso(BigDecimal moduloId, String uso){
+    public int actualizarEnUso(PpModulos moduloAct){
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
@@ -73,8 +73,7 @@ public class ModulosDao {
         try {
             tx = session.getTransaction();
             tx.begin();
-            Query query = session.createQuery("update PpModulos set flagUso = '"+ uso +"'where moduloId='"+ moduloId +"'");
-            result = query.executeUpdate();
+            session.update(moduloAct);
             tx.commit();
         } catch (Exception e) {
             if(tx != null)

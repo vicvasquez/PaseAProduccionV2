@@ -99,7 +99,7 @@ public class FormulariosDao {
         return formulario;
     }
     
-    public int actualizarEnUso(BigDecimal formularioId, String uso, BigDecimal usuarioId){
+    public int actualizarEnUso(PpFormularios formularioAct){
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
@@ -108,9 +108,7 @@ public class FormulariosDao {
         try {
             tx = session.getTransaction();
             tx.begin();
-            Query query = session.createQuery("update PpFormularios set flagUso = '"+ uso 
-                    +"'where formularioId='"+ formularioId +"' and ppusuarioUsuarioId= '"+ usuarioId +"'");
-            result = query.executeUpdate();
+            session.update(formularioAct);
             tx.commit();
         } catch (Exception e) {
             if(tx != null)
