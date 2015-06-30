@@ -8,18 +8,18 @@
     <property name="hibernate.connection.username">PROYECTO01</property>
     <property name="hibernate.connection.password">PROYECTO01</property>
     <property name="hibernate.current_session_context_class">thread</property>
-    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpUsuarios.hbm.xml"/>
-    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpModulos.hbm.xml"/>
-    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpHistoriales.hbm.xml"/>
-    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpRolPermisos.hbm.xml"/>
-    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpHorasPases.hbm.xml"/>
-    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpRoles.hbm.xml"/>
-    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpArchivosUso.hbm.xml"/>
-    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpPermisos.hbm.xml"/>
-    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpFormularios.hbm.xml"/>
-    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpEntornos.hbm.xml"/>
-    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpSistemas.hbm.xml"/>
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpArchivosAprob.hbm.xml"/>
+    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpFormularios.hbm.xml"/>
+    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpModulos.hbm.xml"/>
+    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpSistemas.hbm.xml"/>
+    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpHorasPases.hbm.xml"/>
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpSubmenus.hbm.xml"/>
+    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpRolPermisos.hbm.xml"/>
+    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpPermisos.hbm.xml"/>
+    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpArchivosUso.hbm.xml"/>
+    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpEntornos.hbm.xml"/>
+    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpHistoriales.hbm.xml"/>
+    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpRoles.hbm.xml"/>
+    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpUsuarios.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>

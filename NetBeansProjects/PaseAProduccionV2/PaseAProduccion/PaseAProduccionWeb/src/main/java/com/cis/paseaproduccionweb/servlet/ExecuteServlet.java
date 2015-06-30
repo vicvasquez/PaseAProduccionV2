@@ -5,30 +5,21 @@
  */
 package com.cis.paseaproduccionweb.servlet;
 
-import com.cis.paseaproduccionweb.dao.UsuariosDao;
-import com.cis.paseaproduccionweb.hibernate.PpUsuarios;
-import java.awt.Desktop;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import jcifs.smb.NtlmPasswordAuthentication;
-import jcifs.smb.SmbFile;
-import static jdk.nashorn.internal.objects.NativeError.printStackTrace;
 
 /**
  *
  * @author eyomona
  */
-public class TransferServlet extends HttpServlet {
+public class ExecuteServlet extends HttpServlet {
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -41,38 +32,19 @@ public class TransferServlet extends HttpServlet {
      */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        
-        try {    
-            //METODO LINUX:         
-            // maquina manu smb://desarrollo05/shared/NOTOCAR/algo.txt -- linux si sale
-            // remoteFile.getInputStream();
-            // SmbFile remoteFile = new SmbFile("smb://elitebook-pc/proyecto01/prueba001.txt"); 
-
-            //MEtODO COPIAR DE MI CARPETA UBUNTU a SERVIDOR WINDOWS: NECESITO EL IP
-            PpUsuarios usuario = new PpUsuarios();
-            usuario = (PpUsuarios) request.getSession().getAttribute("user");
-            String rutaUsuario = usuario.getRutaLocal();
-            NtlmPasswordAuthentication auth = new NtlmPasswordAuthentication("", "eyomona", "intratego");
-            SmbFile remoteFile = new SmbFile("smb://192.168.185.20/Prueba/ACERCADE.fmx",auth); 
-            InputStream is = new FileInputStream(new File(rutaUsuario +"ACERCADE.fmx"));
-            OutputStream os = remoteFile.getOutputStream();               //new FileOutputStream(new File("/home/jmoscoso/Escritorio/2daversion.txt"));              
-            
-            //5 MEGAS
-            int bufferSize = 5096;
-
-            byte[] b = new byte[bufferSize];
-            int noOfBytes = 0;
-            while( (noOfBytes = is.read(b)) != -1 )
+        try {
+            ProcessBuilder pb = new ProcessBuilder("script.sh", "myArg1", "myArg2");
+            Process p = pb.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line = null;
+            while ((line = reader.readLine()) != null)
             {
-               os.write(b, 0, noOfBytes);
+               System.out.println(line);
             }
-            os.close();
-            is.close();                  
-        
             response.sendRedirect("index.jsp");
         }
         catch (Exception ex){
-        } 
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

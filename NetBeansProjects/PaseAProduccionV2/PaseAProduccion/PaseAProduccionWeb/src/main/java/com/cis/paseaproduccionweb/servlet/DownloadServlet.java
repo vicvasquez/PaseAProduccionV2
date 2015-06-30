@@ -5,7 +5,12 @@ import com.cis.paseaproduccionweb.dao.FormulariosDao;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosUso;
 import com.cis.paseaproduccionweb.hibernate.PpFormularios;
 import com.cis.paseaproduccionweb.hibernate.PpUsuarios;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -27,17 +32,16 @@ public class DownloadServlet extends HttpServlet {
             String padreId = request.getParameter("padreId");
             String sisId = request.getParameter("sistemaId");
             BigDecimal sistemaId = new BigDecimal(sisId);
+            FormulariosDao dFormulario = new FormulariosDao();
+            BigDecimal formularioId = new BigDecimal(formId);
+            PpFormularios formulario = dFormulario.getFormularioByFormularioId(formularioId);
             
             if(tipoDescarga.equals("trabajo")){
                 
                 PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
                 
                 ArchivosUsoDao dArchivoUso = new ArchivosUsoDao();
-                FormulariosDao dFormulario = new FormulariosDao();
-                BigDecimal formularioId = new BigDecimal(formId);
-
                 PpArchivosUso archivoUso = new PpArchivosUso();
-                PpFormularios formulario = dFormulario.getFormularioByFormularioId(formularioId);
                 
                 archivoUso.setArchivoId(formularioId);
                 archivoUso.setDescArchivo(formulario.getDescFormulario());
@@ -50,8 +54,24 @@ public class DownloadServlet extends HttpServlet {
                 formulario.setFlagUso("S");
                 formulario.setPpusuarioUsuarioId(usuario.getUsuarioId());
                 
-                dFormulario.actualizarEnUso(formulario);
+                dFormulario.actualizarEnUso(formulario);                
             }
+            
+             InputStream is = formulario.getArchivo().getBinaryStream();
+             FileOutputStream fos = new FileOutputStream("home/eyomona/FORMULARIO.FMB");
+            
+            //5 MEGAS
+            int bufferSize = 5096;
+
+            byte[] b = new byte[bufferSize];
+            int noOfBytes = 0;
+            while( (noOfBytes = is.read(b)) != -1 )
+            {
+               fos.write(b, 0, noOfBytes);
+            }
+            fos.close();
+            is.close();
+  
             
             request.setAttribute("tipoPadre", tipoPadre);
             request.setAttribute("tipoPadre", padreId);
@@ -62,10 +82,11 @@ public class DownloadServlet extends HttpServlet {
         }
         catch(Exception ex)
         {
-            
+            response.sendRedirect("mostrarFormularios");
+            ex.printStackTrace();
         }
         
-    }
+        }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**

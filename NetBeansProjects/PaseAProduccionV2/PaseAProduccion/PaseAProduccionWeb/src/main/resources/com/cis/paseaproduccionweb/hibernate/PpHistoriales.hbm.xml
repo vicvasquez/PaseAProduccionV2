@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 26/06/2015 10:00:18 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated 30/06/2015 11:45:38 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.cis.paseaproduccionweb.hibernate.PpHistoriales" table="PP_HISTORIALES" schema="PROYECTO01">
         <id name="historialId" type="big_decimal">
