@@ -306,7 +306,7 @@
             var sistemaId = $('input[name=sistemaId]').val();
             var tipoDescarga = $('input[name=tipoDescarga]').val();
             
-            document.location.href = '/PaseAProduccionWeb/Download?formularioId='+formularioId.toString() + '&tipoDescarga=' + tipoDescarga.toString()
+            document.location.href = '/PaseAProduccionWeb/DownloadFormulario?formularioId='+formularioId.toString() + '&tipoDescarga=' + tipoDescarga.toString()
                     +'&tipoPadre=' + tipoPadre.toString() + '&padreId='+padreId.toString() +'&sistemaId='+sistemaId.toString();
         }
         

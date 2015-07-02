@@ -5,12 +5,9 @@ import com.cis.paseaproduccionweb.dao.FormulariosDao;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosUso;
 import com.cis.paseaproduccionweb.hibernate.PpFormularios;
 import com.cis.paseaproduccionweb.hibernate.PpUsuarios;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.math.BigDecimal;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -18,7 +15,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-public class DownloadServlet extends HttpServlet {
+public class DownloadFormularioServlet extends HttpServlet {
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -82,8 +79,6 @@ public class DownloadServlet extends HttpServlet {
         }
         catch(Exception ex)
         {
-            response.sendRedirect("mostrarFormularios");
-            ex.printStackTrace();
         }
         
         }

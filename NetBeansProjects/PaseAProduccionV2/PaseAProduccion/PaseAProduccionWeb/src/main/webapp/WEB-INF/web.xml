@@ -21,12 +21,16 @@
         <servlet-class>com.cis.paseaproduccionweb.servlet.UploadServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>DownloadServlet</servlet-name>
-        <servlet-class>com.cis.paseaproduccionweb.servlet.DownloadServlet</servlet-class>
+        <servlet-name>DownloadFormularioServlet</servlet-name>
+        <servlet-class>com.cis.paseaproduccionweb.servlet.DownloadFormularioServlet</servlet-class>
     </servlet>
     <servlet>
         <servlet-name>CancelarFormularioServlet</servlet-name>
         <servlet-class>com.cis.paseaproduccionweb.servlet.CancelarFormularioServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DownloadModuloServlet</servlet-name>
+        <servlet-class>com.cis.paseaproduccionweb.servlet.DownloadModuloServlet</servlet-class>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -49,12 +53,16 @@
         <url-pattern>/Upload</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
-        <servlet-name>DownloadServlet</servlet-name>
-        <url-pattern>/Download</url-pattern>
+        <servlet-name>DownloadFormularioServlet</servlet-name>
+        <url-pattern>/DownloadFormulario</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>CancelarFormularioServlet</servlet-name>
         <url-pattern>/CancelarFormulario</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DownloadModuloServlet</servlet-name>
+        <url-pattern>/DownloadModulo</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

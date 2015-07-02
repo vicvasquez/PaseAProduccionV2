@@ -151,12 +151,24 @@
                             lstModulos.get(i).getModuloId() +"\" onclick=\"verFormularios(this);\">");
                     out.print("<i class=\"fa fa-search\"></i> Ver Todos");
                     out.print("</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
-                    out.print("<button class=\"btn btn-success btn-sm\" type=\"button\" value=\""+ 
-                            lstModulos.get(i).getModuloId() +"\" onclick=\"descargar(this);\">");
-                    out.print("<i class=\"fa fa-download\"></i> Descargar formulario padre");
+                    if(lstModulos.get(i).getFlagUso().equals("S")){
+                        out.print("<div class=\"btn btn-success btn-sm\" disabled=\"true\">");
+                        out.print("<i class=\"fa fa-download\"></i> Descargar formulario padre para trabajar");
+                        out.print("</div>");
+                        
+                    }
+                    else{
+                        out.print("<button class=\"btn btn-success btn-sm\" data-toggle=\"modal\" data-target=\"#modalDescargar\""
+                                + "type=\"button\" onclick=\"setValues(\'"+ lstModulos.get(i).getModuloId()+"\', \'trabajo\');\">");
+                        out.print("<i class=\"fa fa-download\"></i> Descargar formulario padre para trabajar");
+                        out.print("</button>");
+                    }
+                    
+                    out.print("&nbsp;&nbsp;&nbsp;<button class=\"btn btn-info btn-sm\" data-toggle=\"modal\" data-target=\"#modalDescargar\""
+                                + "type=\"button\" onclick=\"setValues(\'"+ lstModulos.get(i).getModuloId()+"\', \'consulta\');\">");
+                    out.print("<i class=\"fa fa-download\"></i> Descargar formulario padre para consultar");
                     out.print("</button>");
                     out.print("</div>");
-                    
                     out.print("<div class= \"panel-body no-padding\">");
                     out.print("<ul class=\"list-group\">");
                     
@@ -193,6 +205,28 @@
             </form>
         </div>
     </body>
+    
+    <form action="/PaseAProduccionWeb/DownloadModulo" method="post">
+        <input type="hidden" name="formularioId" id="formularioId"/>
+        <input type="hidden" name="tipoDescarga" id="tipoDescarga"/>
+        <div class="modal fade" id="modalDescargar" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog modal-sm">
+                <div class="modal-content">
+                    <div class="color-line"></div>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Descarga</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Esta usted seguro que desea <strong>DESCARGAR</strong> el elemento seleccionado?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+                        <button type="button" class="btn btn-primary" onclick="descargar();">Si</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
     
     <script src="vendor/jquery/dist/jquery.min.js"></script>
     <script src="vendor/jquery-ui/jquery-ui.min.js"></script>
@@ -284,9 +318,20 @@
         ga('create', 'UA-4625583-2', 'webapplayers.com');
         ga('send', 'pageview');
         
-        function descargar(formulario)
+        function setValues(formularioId, tipoDescarga){
+            $('input[name=formularioId]').val(formularioId.toString());
+            $('input[name=tipoDescarga]').val(tipoDescarga.toString());
+        }
+        
+        function descargar()
         {
-            alert("Se descagará el formulario " + formulario.value);
+            $('#modalDescargar').hide();
+            var formularioId = $('input[name=formularioId]').val();
+            var tipoDescarga = $('input[name=tipoDescarga]').val();
+            var sistemaId = $('input[name=sistemaId]').val();
+            
+            document.location.href = '/PaseAProduccionWeb/DownloadModulo?moduloId='+formularioId.toString() + '&tipoDescarga=' + tipoDescarga.toString()
+                    +'&sistemaId='+ sistemaId.toString();
         }
         
         function verFormularios(menu){    
