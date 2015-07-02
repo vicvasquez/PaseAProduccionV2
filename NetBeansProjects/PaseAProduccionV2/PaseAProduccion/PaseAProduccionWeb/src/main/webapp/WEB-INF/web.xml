@@ -32,6 +32,10 @@
         <servlet-name>DownloadModuloServlet</servlet-name>
         <servlet-class>com.cis.paseaproduccionweb.servlet.DownloadModuloServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>PaseAProduccionServlet</servlet-name>
+        <servlet-class>com.cis.paseaproduccionweb.servlet.PaseAProduccionServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -63,6 +67,10 @@
     <servlet-mapping>
         <servlet-name>DownloadModuloServlet</servlet-name>
         <url-pattern>/DownloadModulo</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PaseAProduccionServlet</servlet-name>
+        <url-pattern>/PaseAProduccion</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

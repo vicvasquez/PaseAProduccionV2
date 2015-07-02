@@ -20,6 +20,7 @@
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpEntornos.hbm.xml"/>
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpHistoriales.hbm.xml"/>
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpRoles.hbm.xml"/>
+    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpArchivosPase.hbm.xml"/>
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpUsuarios.hbm.xml"/>
   </session-factory>
 </hibernate-configuration>
