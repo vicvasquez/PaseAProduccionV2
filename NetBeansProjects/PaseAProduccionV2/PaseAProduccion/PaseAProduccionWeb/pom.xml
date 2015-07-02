@@ -42,6 +42,12 @@
             <type>jar</type>
         </dependency>
         <dependency>
+            <groupId>com.adobe.flex.compiler</groupId>
+            <artifactId>aglj32</artifactId>
+            <version>3.6.0.16995</version>
+            <type>jar</type>
+        </dependency>
+        <dependency>
             <groupId>javax</groupId>
             <artifactId>javaee-web-api</artifactId>
             <version>7.0</version>
