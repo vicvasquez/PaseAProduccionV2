@@ -62,7 +62,6 @@ public class PaseAProduccionServlet extends HttpServlet {
             PpArchivosAprob archivoAprob = new PpArchivosAprob();
             PpHistoriales historial = new PpHistoriales();
             
-            DateFormat dateFormat = new SimpleDateFormat("dd/MM/yy HH:mm:ss");
             Date date = new Date();
             
             if(archivoTipo.equals("REP"))
@@ -90,7 +89,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                 PpFormularios formulario = new PpFormularios();
                 formulario = dFormulario.getFormularioByFormularioId(archivoId);
                 switch(paseTipo){
-                    case 0:
+                    case 0:  //INTENTAR SIN BAJAR SERVICIOS
                             archivoPaseForm.setNombreArchivo(formulario.getNombreFormulario());
                             archivoPaseForm.setArchivo(formulario.getArchivo());
 
@@ -103,7 +102,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                             historial.setPpformFormularioId(archivoId);
                         break;
                             
-                    case 1:
+                    case 1:   //BAJANDO SERVICIOS
                             archivoPaseForm.setNombreArchivo(formulario.getNombreFormulario());
                             archivoPaseForm.setArchivo(formulario.getArchivo());
 
@@ -116,7 +115,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                             historial.setPpformFormularioId(archivoId);
                         break;
                         
-                    case 2:
+                    case 2:    //PASE NOCTURNO
                             archivoAprob.setNombreArchivo(formulario.getNombreFormulario());
                             archivoAprob.setArchivo(formulario.getArchivo());
                             
@@ -134,7 +133,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                 PpModulos modulo = new PpModulos();
                 modulo = dModulos.getModuloByModuloId(archivoId);
                 switch(paseTipo){
-                    case 0:
+                    case 0: //INTENTAR SIN BAJAR SERVICIOS
                             archivoPaseForm.setNombreArchivo(modulo.getNombreModulo());
                             archivoPaseForm.setArchivo(modulo.getArchivo());
 
@@ -147,7 +146,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                             historial.setModuloModuloId(archivoId);
                         break;
                     
-                    case 1:
+                    case 1: //BAJANDO SERVICIOS
                             archivoPaseForm.setNombreArchivo(modulo.getNombreModulo());
                             archivoPaseForm.setArchivo(modulo.getArchivo());
 
@@ -160,7 +159,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                             historial.setModuloModuloId(archivoId);
                         break;
                         
-                    case 2:
+                    case 2: //PASE NOCTURNO
                             archivoAprob.setNombreArchivo(modulo.getNombreModulo());
                             archivoAprob.setArchivo(modulo.getArchivo());
                             

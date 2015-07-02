@@ -42,23 +42,23 @@
                     <div class="text-center m-b-md">
                         <h3>Pase a Producción - CIS</h3>
                     </div>
-                        <div class="hpanel">
-                            <div class="panel-body">
-                                <form action="/PaseAProduccionWeb/Login" method="post" id="loginForm">
-                                    <div class="form-group">
-                                        <label class="control-label" for="username">Ususario</label>
-                                        <input type="text" placeholder="user" title="Por favor ingrese su usario" required="" value="" name="username" id="username" class="form-control">
-                                    </div>
-                                    <div class="form-group">
-                                        <label class="control-label" for="password">Contraseña</label>
-                                        <input type="password" title="Por favor ingrese su contraseña" placeholder="******" required="" value="" name="password" id="password" class="form-control">
-                                    </div>
+                    <div class="hpanel">
+                        <div class="panel-body">
+                            <form action="/PaseAProduccionWeb/Login" method="post" id="loginForm">
+                                <div class="form-group">
+                                    <label class="control-label" for="username">Ususario</label>
+                                    <input type="text" placeholder="user" title="Por favor ingrese su usario" required="" value="" name="username" id="username" class="form-control">
+                                </div>
+                                <div class="form-group">
+                                    <label class="control-label" for="password">Contraseña</label>
+                                    <input type="password" title="Por favor ingrese su contraseña" placeholder="******" required="" value="" name="password" id="password" class="form-control">
+                                </div>
                                     <div class="checkbox"> </div>
                                     <button class="btn btn-success btn-block">Ingresar</button>
-                                </form>
-                            </div>
+                            </form>
                         </div>
                     </div>
+                </div>
             </div>
         </div>
         <div class="row">

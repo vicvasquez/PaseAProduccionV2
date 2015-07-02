@@ -143,20 +143,16 @@
                                         out.print(misFormsEnUso.get(i).getNombreArchivo() + "&nbsp;&nbsp;&nbsp;&nbsp;");
                                         out.print("</td>");
                                         out.print("<td>");
-                                        //out.print("<form action=\"/PaseAProduccionWeb/CancelarFormulario\" method=\"post\">");
-                                        out.print("<button class=\"btn btn-primary btn-xs\" type=\"button\" onclick=\"pasarAProduccion(\'"
-                                                + misFormsEnUso.get(i).getArchivoId()+ "\', \'" + misFormsEnUso.get(i).getTipo() +"\');\" >");
+                                        out.print("<button class=\"btn btn-primary btn-xs\" type=\"button\" onclick=\"setValues(\'"
+                                                + misFormsEnUso.get(i).getArchivoId()+ "\', \'" + misFormsEnUso.get(i).getTipo() +"\');\" data-toggle=\"modal\" data-target=\"#modalPasarAProduccion\">");
                                         out.print("<i class=\"fa fa-upload\"></i> Pasar a producción");
                                         out.print("</button>");
-                                        //out.print("</form>");
                                         out.print("</td>");
                                         out.print("<td>");
-                                        //out.print("<form>");
                                         out.print("&nbsp;&nbsp;<button class=\"btn btn-danger btn-xs\" type=\"button\" onclick=\"setValues(\'"
                                                 + misFormsEnUso.get(i).getArchivoId()+ "\', \'" + misFormsEnUso.get(i).getTipo() +"\');\" data-toggle=\"modal\" data-target=\"#modalCancelar\">");
                                         out.print("<i class=\"fa fa-times\"></i> Cancelar");
                                         out.print("</button>");
-                                        //out.print("</form>");
                                         out.print("</td>");
                                         out.print("</tr>");
                                     }                            
@@ -231,6 +227,54 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
                         <button type="button" class="btn btn-primary" onclick="cancelarPaseAProduccion();">Si</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" id="modalPasarAProduccion" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="color-line"></div>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Pasar archivo a Producción</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Elija el archivo que desea pasar a producción</p>
+                        <p><input type="file" class="form-control" name="archivo" id="archivo" value="SinValor"></p>
+                        <br>
+                        <p>Elija el método por el cual desea pasar a producción el archivo seleccionado:</p>
+                        <p><button type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="pasarAProduccion();">Intentar pasar a producción sin bajar servicios</button></p>
+                        <p><button type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="pasarAProduccion();">Pasar a producción en horario nocturno</button></p>
+                        <p><button type="button" class="btn btn-outline btn-danger" style="width: 500px;" 
+                                   data-toggle="modal" data-target="#modalBajarServicios">Pasar a producción bajando servicios</button></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade hmodal-danger" id="modalBajarServicios" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="color-line"></div>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Esta a punto de <strong>BAJAR</strong> los servicios</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Para confirmar la bajada de servicios es necesario que se identifique</p>
+                        <div class="form-group">
+                            <label class="control-label" for="username">Ususario</label>
+                            <input type="text" placeholder="user" title="Por favor ingrese su usario" required="" value="" name="username" id="username" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label" for="password">Contraseña</label>
+                            <input type="password" title="Por favor ingrese su contraseña" placeholder="******" required="" value="" name="password" id="password" class="form-control">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                        <button type="button" class="btn btn-primary" onclick="">Aceptar</button>
                     </div>
                 </div>
             </div>
@@ -322,8 +366,11 @@
         ga('create', 'UA-4625583-2', 'webapplayers.com');
         ga('send', 'pageview');
         
-        function pasarAProduccion(archivoId, tipo){
-            alert("Se paso a produccion el formulario " + archivoId.toString() + "de tipo " + tipo.toString());
+        function pasarAProduccion(){
+            if ((document.getElementById("archivo").value)=="")
+                alert("Debe elegir un archivo");
+            else
+                alert("Se paso a produccion el formulario " + document.getElementById("archivo").value);
         }
         
         function setValues(archivoId, tipo){
