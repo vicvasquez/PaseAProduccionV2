@@ -114,7 +114,7 @@
                             <div class="col-sm-3">
                                 <a class=" homerDemo1 btn btn-success " href="mostrarEntornos.jsp" style="margin: 20px;">
                                     <i class="fa fa-download"></i>
-                                    <span class="bold">Descargar formulario</span>
+                                    <span class="bold">Reservar formulario</span>
                                 </a>                
                             </div>
                         </div>  
@@ -151,7 +151,7 @@
                                         out.print("<td>");
                                         out.print("&nbsp;&nbsp;<button class=\"btn btn-danger btn-xs\" type=\"button\" onclick=\"setValues(\'"
                                                 + misFormsEnUso.get(i).getArchivoId()+ "\', \'" + misFormsEnUso.get(i).getTipo() +"\');\" data-toggle=\"modal\" data-target=\"#modalCancelar\">");
-                                        out.print("<i class=\"fa fa-times\"></i> Cancelar");
+                                        out.print("<i class=\"fa fa-times\"></i> Liberar");
                                         out.print("</button>");
                                         out.print("</td>");
                                         out.print("</tr>");
@@ -240,12 +240,12 @@
                     </div>
                     <div class="modal-body">
                         <p>Elija el archivo que desea pasar a producción</p>
-                        <p><input type="file" class="form-control" name="archivo" id="archivo" value="SinValor"></p>
+                        <p><input type="file" class="form-control" name="archivo" id="archivo" value="" onchange="activarBotones();"></p>
                         <br>
                         <p>Elija el método por el cual desea pasar a producción el archivo seleccionado:</p>
-                        <p><button type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="pasarAProduccion();">Intentar pasar a producción sin bajar servicios</button></p>
-                        <p><button type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="pasarAProduccion();">Pasar a producción en horario nocturno</button></p>
-                        <p><button type="button" class="btn btn-outline btn-danger" style="width: 500px;" 
+                        <p><button name="btnNocturno" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="pasarAProduccion();"disabled="true" >Pasar a producción en horario nocturno</button></p>
+                        <p><button name="btnSinBajar" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="pasarAProduccion();" disabled="true">Intentar pasar a producción sin bajar servicios</button></p>
+                        <p><button name="btnBajar" type="button" class="btn btn-outline btn-danger" style="width: 500px;" disabled="true"
                                    data-toggle="modal" data-target="#modalBajarServicios">Pasar a producción bajando servicios</button></p>
                     </div>
                     <div class="modal-footer">
@@ -367,16 +367,23 @@
         ga('send', 'pageview');
         
         function pasarAProduccion(){
-            if ((document.getElementById("archivo").value)=="")
-                alert("Debe elegir un archivo");
-            else
-                alert("Se paso a produccion el formulario " + document.getElementById("archivo").value);
+            alert("Se paso a produccion el formulario " + document.getElementById("archivo").value);
+        }
+        
+        function activarBotones(){
+            $('button[name=btnSinBajar]').removeAttr("disabled");
+            $('button[name=btnNocturno]').removeAttr("disabled");
+            $('button[name=btnBajar]').removeAttr("disabled");
         }
         
         function setValues(archivoId, tipo){
             
         $('input[name=archivoId]').val(archivoId.toString());
         $('input[name=archivoTipo]').val(tipo.toString());
+        $('input[name=archivo]').val("");
+        $('button[name=btnSinBajar]').prop('disabled', true);
+        $('button[name=btnNocturno]').prop('disabled', true);
+        $('button[name=btnBajar]').prop('disabled', true);
         }
         
         function cancelarPaseAProduccion(){

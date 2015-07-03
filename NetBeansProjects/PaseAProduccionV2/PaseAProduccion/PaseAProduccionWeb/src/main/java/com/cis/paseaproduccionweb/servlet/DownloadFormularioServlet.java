@@ -54,8 +54,8 @@ public class DownloadFormularioServlet extends HttpServlet {
                 dFormulario.actualizarEnUso(formulario);                
             }
             
-            /*InputStream is = formulario.getArchivo().getBinaryStream();
-            FileOutputStream fos = new FileOutputStream("home/eyomona/FORMULARIO.FMB");
+           /* InputStream is = formulario.getArchivo().getBinaryStream();
+            FileOutputStream fos = new FileOutputStream("home/vvasquez/Descargas/"+formulario.getNombreFormulario());
             
             //5 MEGAS
             int bufferSize = 5096;

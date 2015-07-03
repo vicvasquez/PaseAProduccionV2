@@ -153,20 +153,20 @@
                     out.print("</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
                     if(lstModulos.get(i).getFlagUso().equals("S")){
                         out.print("<div class=\"btn btn-success btn-sm\" disabled=\"true\">");
-                        out.print("<i class=\"fa fa-download\"></i> Descargar formulario padre para trabajar");
+                        out.print("<i class=\"fa fa-download\"></i> Descargar Menú para trabajar");
                         out.print("</div>");
                         
                     }
                     else{
                         out.print("<button class=\"btn btn-success btn-sm\" data-toggle=\"modal\" data-target=\"#modalDescargar\""
                                 + "type=\"button\" onclick=\"setValues(\'"+ lstModulos.get(i).getModuloId()+"\', \'trabajo\');\">");
-                        out.print("<i class=\"fa fa-download\"></i> Descargar formulario padre para trabajar");
+                        out.print("<i class=\"fa fa-download\"></i> Descargar Menú para trabajar");
                         out.print("</button>");
                     }
                     
                     out.print("&nbsp;&nbsp;&nbsp;<button class=\"btn btn-info btn-sm\" data-toggle=\"modal\" data-target=\"#modalDescargar\""
                                 + "type=\"button\" onclick=\"setValues(\'"+ lstModulos.get(i).getModuloId()+"\', \'consulta\');\">");
-                    out.print("<i class=\"fa fa-download\"></i> Descargar formulario padre para consultar");
+                    out.print("<i class=\"fa fa-download\"></i> Descargar Menú para consultar");
                     out.print("</button>");
                     out.print("</div>");
                     out.print("<div class= \"panel-body no-padding\">");

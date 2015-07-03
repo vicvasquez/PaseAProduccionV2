@@ -60,8 +60,8 @@ public class DownloadModuloServlet extends HttpServlet {
                 dModulo.actualizarEnUso(modulo);                
             }
             
-            /* InputStream is = modulo.getArchivo().getBinaryStream();
-             FileOutputStream fos = new FileOutputStream("home/eyomona/FORMULARIO.FMB");
+            /*InputStream is = modulo.getArchivo().getBinaryStream();
+             FileOutputStream fos = new FileOutputStream("home/vvasquez/"+modulo.getNombreModulo());
             
             //5 MEGAS
             int bufferSize = 5096;
