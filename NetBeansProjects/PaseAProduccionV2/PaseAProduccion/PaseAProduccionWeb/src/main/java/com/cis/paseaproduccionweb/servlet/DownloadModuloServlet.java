@@ -60,8 +60,8 @@ public class DownloadModuloServlet extends HttpServlet {
                 dModulo.actualizarEnUso(modulo);                
             }
             
-            /*InputStream is = modulo.getArchivo().getBinaryStream();
-             FileOutputStream fos = new FileOutputStream("home/vvasquez/"+modulo.getNombreModulo());
+            InputStream is = modulo.getArchivo().getBinaryStream();
+             FileOutputStream fos = new FileOutputStream("/home/eyomona/"+modulo.getNombreModulo());
             
             //5 MEGAS
             int bufferSize = 5096;
@@ -73,7 +73,7 @@ public class DownloadModuloServlet extends HttpServlet {
                fos.write(b, 0, noOfBytes);
             }
             fos.close();
-            is.close();*/
+            is.close();
   
             request.setAttribute("tipoPadre", sistemaId);
             

@@ -15,7 +15,7 @@ import org.hibernate.Transaction;
  * @author eyomona
  */
 public class HistorialesDao {
-    public void insertarArchivoUso(PpHistoriales historialInsert){
+    public void insertarHistorial(PpHistoriales historialInsert){
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
