@@ -106,20 +106,17 @@
                     </div>
                 </div>
                 <ul class="nav" id="side-menu">
-                    <li class="active">
+                    <li>
                         <a href="index.jsp"> <span class="nav-label">Inicio</span>  </a>
                     </li>
+                    <li class="active">
+                        <a href="mostrarEntornos.jsp"> <span class="nav-label">Reservar Formulario</span> </a>
+                    </li>
                     <li>
-                        <a href="#"> <span class="nav-label">Perfil</span> </a>
+                        <a href="perfil.jsp#"> <span class="nav-label">Perfil</span> </a>
                     </li>
                     <li>
                         <a href="#"> <span class="nav-label">Mantenimiento</span> </a>
-                    </li>
-                    <li>
-                        <a href="#"> <span class="nav-label">Parametros</span> </a>
-                    </li>
-                    <li>
-                        <a href="#"> <span class="nav-label">Aprobacion</span> </a>
                     </li>
                 </ul>
             </div>

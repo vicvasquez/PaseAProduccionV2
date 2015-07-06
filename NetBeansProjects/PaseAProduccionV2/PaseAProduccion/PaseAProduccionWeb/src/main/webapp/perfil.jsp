@@ -1,9 +1,10 @@
 <%-- 
-    Document   : mostrarEntornos
-    Created on : 17/06/2015, 04:24:12 PM
+    Document   : perfil
+    Created on : 06/07/2015, 03:00:07 PM
     Author     : vvasquez
 --%>
 
+<%@page import="com.cis.paseaproduccionweb.dao.RolDao"%>
 <%@page import="java.util.AbstractList"%>
 <%@page import="java.math.BigDecimal"%>
 <%@page import="javax.persistence.Convert"%>
@@ -19,8 +20,8 @@
     PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
     if(usuario==null)
         response.sendRedirect("login.jsp");
-   
-   EntornoDao entDao = new EntornoDao();
+    
+    RolDao dRol = new RolDao();
 %>
 
 <!DOCTYPE html>
@@ -85,11 +86,11 @@
                     <li>
                         <a href="index.jsp"> <span class="nav-label">Inicio</span>  </a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="mostrarEntornos.jsp"> <span class="nav-label">Reservar Formulario</span> </a>
                     </li>
-                    <li>
-                        <a href="perfil.jsp#"> <span class="nav-label">Perfil</span> </a>
+                    <li class="active">
+                        <a href="perfil.jsp"> <span class="nav-label">Perfil</span> </a>
                     </li>
                     <li>
                         <a href="#"> <span class="nav-label">Mantenimiento</span> </a>
@@ -102,60 +103,111 @@
                 <div class="hpanel">
                     <div class="panel-body">
                         <h2 class="font-light m-b-xs">
-                            Sistemas
+                            Perfil
                         </h2>
-                        <small>Seleccione el sistema del cual desea descargar un formulario o reporte</small>
+                        <small>En esa sección encontrará sus datos personales y los de su cuenta</small>
                         <br><br><br>
                         <ol class="hbreadcrumb breadcrumb">
-                            <li><label style="color: green">Sistemas</label></li>                            
+                            <li><label style="color: green">Perfil</label></li>                            
                         </ol>
                     </div>
                 </div>
             </div>
-            <div class="content animate-panel">    
-                
-                <div class="col-lg-12 animated-panel zoomIn" style="-webkit-animation: 0.5s;">
-                    <div class="hpanel">
-                        <form action="/PaseAProduccionWeb/Modulos" method="post" id="entornosForm">
-                            <input type="hidden" name="sistemaId" id="sistemaId"/>
-                        <div class="col-lg-2"></div>
-                        <div>
-                            <div class="col-lg-4">
-                                <div class="col-lg-12 animated-panel zoomIn" style="-webkit-animation: 0.1s;">
-                                    <div class="panel-body">
-                                        <div class="text-center">
-                                            <h2 class="m-b-xs">SAAS</h2>
-                                            <div class="m">
-                                                <i class="pe-7s-server" style="font-size: 40px;"></i>
+            <div class="content animate-panel">
+                <div class="row">
+                    <div class="col-sm-12 animated-panel zoomIn" style="-webkit-animation: 0.1s 0.1s;">
+                        <div class="hpanel">
+                            <div class="panel-body">
+                                <form method="POST" action="/PaseAProduccionWeb/ActualizarPerfil">
+                                    <input type="hidden" name="usuarioId" value="<% out.print(usuario.getUsuarioId()); %>">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Nombres</label>
+                                            <div class="col-sm-5">
+                                                <% out.print("<input type=\"text\" class=\"form-control\" value=\""+ usuario.getNombre() +"\" "
+                                                        + "name=\"nombre\" id=\"nombre\">");  %>
                                             </div>
-                                            <p class="small">Ambiente designado para el sistema SAAS y sus 3 entornos</p>
-                                            <button class="btn btn-success btn-sm" value="1" onclick="setModuloId(this);">Mostrar Modulos &nbsp;&nbsp;&nbsp;
-                                                <i class="fa fa-arrow-right"></i>
-                                            </button>
                                         </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="col-lg-4">
-                                <div class="col-lg-12 animated-panel zoomIn" style="-webkit-animation: 0.1s;">
-                                    <div class="panel-body">
-                                        <div class="text-center">
-                                            <h2 class="m-b-xs">TDM</h2>
-                                            <div class="m">
-                                                <i class="pe-7s-server" style="font-size: 40px;"></i>
+                                    <br>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Rol</label>
+                                            <div class="col-sm-5">
+                                            <% out.print("<input type=\"text\" class=\"form-control\" value=\""+ dRol.getRolByRolId(usuario.getPprolRolId()).getNombreRol() +"\" "
+                                                        + " disabled=\"\">");  %>
                                             </div>
-                                            <p class="small">Ambiente designado para el sistema TDM y sus 3 entornos</p>
-                                            <button class="btn btn-info btn-sm" value="2" onclick="setModuloId(this);">Mostrar Modulos &nbsp;&nbsp;&nbsp;
-                                                <i class="fa fa-arrow-right"></i>
-                                            </button>
                                         </div>
                                     </div>
-                                </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Email</label>
+                                            <div class="col-sm-5">
+                                                <% out.print("<input type=\"text\" class=\"form-control\" value=\""+ usuario.getEmail()+"\" "
+                                                        + "name=\"email\" id=\"email\">");  %>
+                                            </div>
+                                        </div>     
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Ruta Local</label>
+                                            <div class="col-sm-5">
+                                                <% out.print("<input type=\"text\" class=\"form-control\" value=\""+ usuario.getRutaLocal()+"\" "
+                                                        + "name=\"rutaLocal\" id=\"rutaLocal\">");  %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Nombre de usuario</label>
+                                            <div class="col-sm-5">
+                                            <% out.print("<input type=\"text\" class=\"form-control\" value=\""+ usuario.getNombreUsuario() +"\" "
+                                                        + " disabled=\"\">");  %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Password</label>
+                                            <div class="col-sm-5">
+                                                <% out.print("<input type=\"password\" class=\"form-control\" value=\""+ usuario.getClave()+"\" "
+                                                        + "name=\"password1\" id=\"password1\">");  %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Repita Password</label>
+                                            <div class="col-sm-5">
+                                                <% out.print("<input type=\"password\" class=\"form-control\" value=\""+ usuario.getClave()+"\" "
+                                                        + "name=\"password2\" id=\"password2\">");  %>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Ultima modificación</label>
+                                            <div class="col-sm-5">
+                                                <% out.print("<input type=\"text\" class=\"form-control\" value=\""+ usuario.getDateModified() +"\" "
+                                                            + "disabled=\"\">");  %>
+                                            </div>  
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="col-sm-4"></div>
+                                    <div class="col-sm-5" style="text-align: right">
+                                        <button type="submit" class="btn w-xs btn-primary">Guardar</button>
+                                        <button type="button" class="btn w-xs btn-danger" onclick="window.location.href='/PaseAProduccionWeb/index.jsp'">Cancelar</button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
-                        </form>
                     </div>
                 </div>
             </div>

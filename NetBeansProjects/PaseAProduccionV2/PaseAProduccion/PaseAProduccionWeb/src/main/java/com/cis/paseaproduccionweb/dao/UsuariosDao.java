@@ -54,4 +54,21 @@ public class UsuariosDao {
         return usuario;
     }
     
+    public void updateUsuario(PpUsuarios usuarioAct){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            session.update(usuarioAct);
+            tx.commit();
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+        } finally{
+            session.close();
+        }
+    }
+    
 }

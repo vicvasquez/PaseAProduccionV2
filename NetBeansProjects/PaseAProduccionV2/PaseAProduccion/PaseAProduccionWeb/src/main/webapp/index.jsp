@@ -89,16 +89,13 @@
                         <a href="index.jsp"> <span class="nav-label">Inicio</span>  </a>
                     </li>
                     <li>
-                        <a href="#"> <span class="nav-label">Perfil</span> </a>
+                        <a href="mostrarEntornos.jsp"> <span class="nav-label">Reservar Formulario</span> </a>
+                    </li>
+                    <li>
+                        <a href="perfil.jsp#"> <span class="nav-label">Perfil</span> </a>
                     </li>
                     <li>
                         <a href="#"> <span class="nav-label">Mantenimiento</span> </a>
-                    </li>
-                    <li>
-                        <a href="#"> <span class="nav-label">Parametros</span> </a>
-                    </li>
-                    <li>
-                        <a href="#"> <span class="nav-label">Por Aprobar</span> </a>
                     </li>
                 </ul>
             </div>
@@ -282,7 +279,7 @@
                         <h4 class="modal-title">Esta a punto de <strong>BAJAR</strong> los servicios</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Para confirmar la bajada de servicios es necesario que se identifique</p>
+                        <p>Para confirmar la bajada de servicios es necesario que confirme el siguiente código</p>
                         <p name="mensajeLogin" id="mensajeLogin" class="font-bold text-danger"></p>
                         <div class="form-group" >
                             <input type="text" value="" name="captcha" id="captcha" disabled="" class="col-sm-8" style="padding-top: 6px; padding-bottom: 6px; font-weight: bold">
