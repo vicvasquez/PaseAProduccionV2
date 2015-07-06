@@ -64,8 +64,8 @@ public class ArchivoPaseDao {
         try {
             tx = session.getTransaction();
             tx.begin();
-            Query q = session.createSQLQuery("CALL PASE_A_PRODUCCION_INMEDIATA()");
-            q.executeUpdate();
+            Query q = session.getNamedQuery("SP_PRUEBA");
+            Object resultado = q.uniqueResult();
             tx.commit();
         } catch (Exception e) {
             if(tx != null)

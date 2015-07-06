@@ -241,12 +241,15 @@
                     <div class="modal-body">
                         <p>Elija el archivo que desea pasar a producción</p>
                         <p><input type="file" class="form-control" name="archivo" id="archivo" value="" onchange="activarBotones();"></p>
-                        <br>
+                        <br>                           
                         <p>Elija el método por el cual desea pasar a producción el archivo seleccionado:</p>
                         <p><button name="btnNocturno" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="pasarAProduccion(3);"disabled="true" >Pasar a producción en horario nocturno</button></p>
                         <p><button name="btnSinBajar" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="pasarAProduccion(1);" disabled="true">Intentar pasar a producción sin bajar servicios</button></p>
                         <p><button name="btnBajar" type="button" class="btn btn-outline btn-danger" style="width: 500px;" disabled="true"
                                    data-toggle="modal" data-target="#modalConfirmacion">Pasar a producción bajando servicios</button></p>
+                        <div id='loadingmessage' style='display:none' align='center'>
+                            <img src='images/ajax-loader.gif'/>
+                        </div>       
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -391,6 +394,8 @@
         ga('send', 'pageview');
         
         function pasarAProduccion(paseTipo){
+            
+            $("#loadingmessage").show();
             var fileInput = document.getElementById('archivo');
             var file = fileInput.files[0];
             var reader = new FileReader();
@@ -405,8 +410,8 @@
                     data: data,
                     success: function (data) {
                         if(data === "SUCCESS") {
+                           $("#loadingmessage").hide();
                             //respuesta del servlet
-                           window.location.replace("http://stackoverflow.com");
 
                         }
 

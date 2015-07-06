@@ -19,4 +19,12 @@
             </column>
         </property>
     </class>
+    <sql-query name="SP_PASE_PRODUCCION" callable="true">
+        <return-scalar column="cnt" type="integer"/>
+        { ? = call PASE_A_PRODUCCION_INMEDIATA() }
+    </sql-query>
+    <sql-query name="SP_PRUEBA" callable="true">
+        <return-scalar column="cnt" type="integer"/>
+        { ? = call PASE_A_PRODUCCION_INMEDIATA() }
+    </sql-query>
 </hibernate-mapping>
