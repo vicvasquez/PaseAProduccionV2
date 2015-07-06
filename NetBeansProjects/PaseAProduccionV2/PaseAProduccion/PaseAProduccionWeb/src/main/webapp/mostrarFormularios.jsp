@@ -22,6 +22,7 @@
     BigDecimal padreId = new BigDecimal(request.getParameter("padreId"));
     String sistemaId = request.getParameter("sistemaId");
     String filtro = request.getParameter("filtro");
+    String filtroEstado = request.getParameter("filtroEstado");
     List<PpFormularios> lstFormularios = null;
     
     FormulariosDao dFormularios = new FormulariosDao();
@@ -34,8 +35,10 @@
     else
         lstFormularios = null;
     
-    if(filtro!=null)
-        lstFormularios = dFormularios.filtrarFormularios(lstFormularios, filtro);
+    if(filtro!=null){
+        lstFormularios = dFormularios.filtrarFormularios(lstFormularios, filtro, filtroEstado);
+    }
+    
     
     PpFormularios frm = null;
         
@@ -143,47 +146,65 @@
                     <form class="form-horizontal" action="/PaseAProduccionWeb/Formularios" method="post">
                         <div class="form-group">
                             <label class="col-sm-3 control-label">BUSCAR</label>
-                            <div class="col-sm-4">
+                            <div class="col-sm-3">
                                 <input type="text" class="form-control" name="filtro" id="filtro">
                             </div>
                             <button class="btn btn-primary" type="submit">
                                 <i class="fa fa-search"></i>
                             </button>
+                            <div class="col-sm-2">
+                                <select class="form-control m-b" name="filtroEstado">
+                                    <option value="Todos">Todos</option>
+                                    <option value="Disponibles">Disponibles</option>
+                                    <option value="Ocupados">Ocupados</option>
+                                </select>
+                            </div>
                         </div>
                         <input type="hidden" value="<% out.print(tipoPadre); %>" name="tipoPadre"/>
                         <input type="hidden" value="<% out.print(padreId); %>" name="padreId"/>
                         <input type="hidden" value="<% out.print(sistemaId); %>" name="sistemaId"/>
                     </form>
                 </div>
-                    <input type="hidden" name="formulario" id="formulario"/>
-                    <div class="row">
-                    <%
-                    for(int i=0; i<lstFormularios.size(); i++){
-                        out.print("<div class=\"col-md-4 animated-panel zoomIn\" style=\"-webkit-animation: 0.1s;\">");
-                        out.print("<div class=\"hpanel\">");
-                        out.print("<div class=\"panel-body\">");
-                        out.print("<div class=\"text-center\">");
-                        out.print("<h2 class=\"m-b-xs\">"+ lstFormularios.get(i).getNombreFormulario() +"</h2>");
-                        if(lstFormularios.get(i).getFlagUso().equals("S"))
-                            out.print("<p class=\"font-bold text-danger\">EN USO POR "
-                                    +  dUsuario.getUsuarioById(lstFormularios.get(i).getPpusuarioUsuarioId()).getNombre().toUpperCase()+"</p>");
-                        else
-                            out.print("<p class=\"font-bold text-success\">DISPONIBLE</p>");
-                        out.print("<div class=\"m\"><i class=\"pe-7s-cloud-download fa-5x\"></i></div>");
-                        out.print("<p class=\"small\">"+ lstFormularios.get(i).getDescFormulario() +"</p>");
-                        if(lstFormularios.get(i).getFlagUso().equals("S"))
-                            out.print("<div class=\"btn btn-success btn-sm\" disabled=\"true\">Descargar para trabajar</div>&nbsp;&nbsp;");
-                        else
-                            out.print("<button class=\"btn btn-success btn-sm\" data-toggle=\"modal\" data-target=\"#modalDescargar\" type=\"button\" "
-                                    + "onclick=\"setValues(\'"+ lstFormularios.get(i).getFormularioId() +"\', \'trabajo\');\">Descargar para trabajar</button>&nbsp;&nbsp;");
-                        out.print("<button class=\"btn btn-info btn-sm\" data-toggle=\"modal\" data-target=\"#modalDescargar\" type=\"button\" "
-                                    + "onclick=\"setValues(\'"+ lstFormularios.get(i).getFormularioId() +"\', \'consulta\');\">Descargar para consultar</button>&nbsp;&nbsp;");
-                        out.print("</div>");
-                        out.print("</div>");
-                        out.print("</div>");
-                        out.print("</div>");
-                    }
-                    %>
+                <div class="row">
+                    <div class="hpanel">
+                        <div class="panel-body">
+                            <div class="table-responsive">
+                                <table cellpadding="1" cellspacing="1" class="table table-bordered table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Nombre</th>
+                                            <th>Descripcion</th>
+                                            <th>Estado</th>
+                                            <th>Reservar para trabajar</th>
+                                            <th>Descargar para consultar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    <%
+                                        for(int i=0; i<lstFormularios.size(); i++){
+                                            out.print("<tr>");
+                                            out.print("<td>"+ lstFormularios.get(i).getNombreFormulario() +"</td>");
+                                            out.print("<td>"+ lstFormularios.get(i).getDescFormulario()+"</td>");
+                                            if(lstFormularios.get(i).getFlagUso().equals("N")){
+                                                out.print("<td class=\"font-bold text-success\">DISPONIBLE</td>");
+                                                out.print("<td style=\"text-align: center\"><button class=\"btn btn-success\" data-toggle=\"modal\" data-target=\"#modalDescargar\" type=\"button\" "
+                                                        + "onclick=\"setValues(\'"+ lstFormularios.get(i).getFormularioId() +"\', \'trabajo\');\"><i class=\"fa fa-download\"></i>&nbsp;&nbsp;<span class=\"bold\">Reservar para trabajar</span></button></td>");
+                                            }
+                                            else{
+                                                out.print("<td class=\"font-bold text-danger\">EN USO POR "+ 
+                                                        dUsuario.getUsuarioById(lstFormularios.get(i).getPpusuarioUsuarioId()).getNombre().toUpperCase() +"</td>");
+                                                out.print("<td style=\"text-align: center\"><i class=\"fa fa-lock fa-2x\"></i></td>");
+                                            }
+                                            out.print("<td style=\"text-align: center\"><button class=\"btn btn-info btn-sm\" data-toggle=\"modal\" data-target=\"#modalDescargar\" type=\"button\" "
+                                                + "onclick=\"setValues(\'"+ lstFormularios.get(i).getFormularioId() +"\', \'consulta\');\"><i class=\"fa fa-download\"></i>&nbsp;&nbsp;<span class=\"bold\">Descargar para consultar</span></button></td>");
+                                            out.print("</tr>");
+                                        }
+                                    %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

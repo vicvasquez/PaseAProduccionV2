@@ -4,6 +4,7 @@
     Author     : vvasquez
 --%>
 
+<%@page import="java.util.Random"%>
 <%@page import="com.cis.paseaproduccionweb.dao.UsuariosDao"%>
 <%@page import="com.cis.paseaproduccionweb.hibernate.PpArchivosUso"%>
 <%@page import="java.util.List"%>
@@ -121,91 +122,93 @@
                     </div>
                 </div>
             </div>
-            
-            <br>
-            <div class="col-sm-6 animated-panel zoomIn" style="-webkit-animation: 0.1s;">
-                <div class="hpanel">
-                    <div class="panel-heading">
-                        Mis formularios en uso
+            <div class="content animate-panel">
+                <div class="row">
+                    <div class="col-sm-6 animated-panel zoomIn" style="-webkit-animation: 0.1s;">
+                        <div class="hpanel">
+                            <div class="panel-heading">
+                                Mis formularios en uso
+                            </div>
+                            <div class="panel-body" style="display: block;">
+                                <div class="table-responsive">
+                                    <table cellpadd  ing="1" cellspacing="1" class="table table-condensed table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Formulario</th>
+                                            </tr>
+                                        </thead>
+                                            <%
+                                            for(int i=0; i<misFormsEnUso.size(); i++){
+                                                out.print("<tr>");
+                                                out.print("<td>");
+                                                out.print(misFormsEnUso.get(i).getNombreArchivo() + "&nbsp;&nbsp;&nbsp;&nbsp;");
+                                                out.print("</td>");
+                                                out.print("<td>");
+                                                out.print("<button class=\"btn btn-primary btn-xs\" type=\"button\" onclick=\"setValues(\'"
+                                                        + misFormsEnUso.get(i).getArchivoId()+ "\', \'" + misFormsEnUso.get(i).getTipo() +"\');\" data-toggle=\"modal\" data-target=\"#modalPasarAProduccion\">");
+                                                out.print("<i class=\"fa fa-upload\"></i> Pasar a producción");
+                                                out.print("</button>");
+                                                out.print("</td>");
+                                                out.print("<td>");
+                                                out.print("&nbsp;&nbsp;<button class=\"btn btn-danger btn-xs\" type=\"button\" onclick=\"setValues(\'"
+                                                        + misFormsEnUso.get(i).getArchivoId()+ "\', \'" + misFormsEnUso.get(i).getTipo() +"\');\" data-toggle=\"modal\" data-target=\"#modalCancelar\">");
+                                                out.print("<i class=\"fa fa-times\"></i> Liberar");
+                                                out.print("</button>");
+                                                out.print("</td>");
+                                                out.print("</tr>");
+                                            }                            
+                                            %>
+                                        </tbody>
+                                    </table>
+                                </div> 
+                            </div>
+                            <div class="panel-footer" style="display: block;">
+                                <%
+                                  out.print(misFormsEnUso.size() + " formularios se encuentran en uso por el usuario " + usuario.getNombre());
+                                %>
+                            </div>
+                        </div>
                     </div>
-                    <div class="panel-body" style="display: block;">
-                        <div class="table-responsive">
-                            <table cellpadd  ing="1" cellspacing="1" class="table table-condensed table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Formulario</th>
-                                    </tr>
-                                </thead>
-                                    <%
-                                    for(int i=0; i<misFormsEnUso.size(); i++){
-                                        out.print("<tr>");
-                                        out.print("<td>");
-                                        out.print(misFormsEnUso.get(i).getNombreArchivo() + "&nbsp;&nbsp;&nbsp;&nbsp;");
-                                        out.print("</td>");
-                                        out.print("<td>");
-                                        out.print("<button class=\"btn btn-primary btn-xs\" type=\"button\" onclick=\"setValues(\'"
-                                                + misFormsEnUso.get(i).getArchivoId()+ "\', \'" + misFormsEnUso.get(i).getTipo() +"\');\" data-toggle=\"modal\" data-target=\"#modalPasarAProduccion\">");
-                                        out.print("<i class=\"fa fa-upload\"></i> Pasar a producción");
-                                        out.print("</button>");
-                                        out.print("</td>");
-                                        out.print("<td>");
-                                        out.print("&nbsp;&nbsp;<button class=\"btn btn-danger btn-xs\" type=\"button\" onclick=\"setValues(\'"
-                                                + misFormsEnUso.get(i).getArchivoId()+ "\', \'" + misFormsEnUso.get(i).getTipo() +"\');\" data-toggle=\"modal\" data-target=\"#modalCancelar\">");
-                                        out.print("<i class=\"fa fa-times\"></i> Liberar");
-                                        out.print("</button>");
-                                        out.print("</td>");
-                                        out.print("</tr>");
-                                    }                            
-                                    %>
-                                </tbody>
-                            </table>
-                        </div> 
-                    </div>
-                    <div class="panel-footer" style="display: block;">
-                        <%
-                          out.print(misFormsEnUso.size() + " formularios se encuentran en uso por el usuario " + usuario.getNombre());
-                        %>
-                    </div>
-                </div>
-            </div>
-            <div class="col-sm-6 animated-panel zoomIn" style="-webkit-animation: 0.1s;">
-                <div class="hpanel">
-                    <div class="panel-heading">
-                        Formularios en uso (todos)
-                    </div>
-                    <div class="panel-body" style="display: block;">
-                        <div class="table-responsive">
-                            <table cellpadding="1" cellspacing="1" class="table table-condensed table-striped">
-                                <thead>
-                                    <tr>
-                                        <th>Formulario</th>
-                                        <th>Usuario</th>
-                                        <th>Tipo</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <%
-                          for(int i=0; i<formsEnUso.size(); i++)
-                          {
-                            out.print("<tr>");
-                            out.print("<td>");
-                            out.print(formsEnUso.get(i).getNombreArchivo());
-                            out.print("</td>");
-                            out.print("<td>");
-                            out.print(uDao.getUsuarioById(formsEnUso.get(i).getUsuarioId()).getNombre());
-                            out.print("</td>");
-                            out.print("<td>");
-                            out.print(formsEnUso.get(i).getTipo());
-                            out.print("</td>");
-                            out.print("</tr>");  
-                          }
-                                    %>
-                                </tbody>
-                            </table>
-                        </div> 
-                    </div>
-                    <div class="panel-footer" style="display: block;">
-                        ${cantFormsEnUso}
+                    <div class="col-sm-6 animated-panel zoomIn" style="-webkit-animation: 0.1s;">
+                        <div class="hpanel">
+                            <div class="panel-heading">
+                                Formularios en uso (todos)
+                            </div>
+                            <div class="panel-body" style="display: block;">
+                                <div class="table-responsive">
+                                    <table cellpadding="1" cellspacing="1" class="table table-condensed table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>Formulario</th>
+                                                <th>Usuario</th>
+                                                <th>Tipo</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <%
+                                  for(int i=0; i<formsEnUso.size(); i++)
+                                  {
+                                    out.print("<tr>");
+                                    out.print("<td>");
+                                    out.print(formsEnUso.get(i).getNombreArchivo());
+                                    out.print("</td>");
+                                    out.print("<td>");
+                                    out.print(uDao.getUsuarioById(formsEnUso.get(i).getUsuarioId()).getNombre());
+                                    out.print("</td>");
+                                    out.print("<td>");
+                                    out.print(formsEnUso.get(i).getTipo());
+                                    out.print("</td>");
+                                    out.print("</tr>");  
+                                  }
+                                            %>
+                                        </tbody>
+                                    </table>
+                                </div> 
+                            </div>
+                            <div class="panel-footer" style="display: block;">
+                                ${cantFormsEnUso}
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -246,10 +249,27 @@
                         <p><button name="btnNocturno" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="pasarAProduccion();"disabled="true" >Pasar a producción en horario nocturno</button></p>
                         <p><button name="btnSinBajar" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="pasarAProduccion();" disabled="true">Intentar pasar a producción sin bajar servicios</button></p>
                         <p><button name="btnBajar" type="button" class="btn btn-outline btn-danger" style="width: 500px;" disabled="true"
-                                   data-toggle="modal" data-target="#modalBajarServicios">Pasar a producción bajando servicios</button></p>
+                                   data-toggle="modal" data-target="#modalConfirmacion">Pasar a producción bajando servicios</button></p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade hmodal-danger" id="modalConfirmacion" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="color-line"></div>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Esta a punto de <strong>BAJAR</strong> los servicios</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Esta totalmente seguro que desea <strong>BAJAR</strong> los servicios del sistema?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#modalBajarServicios" onclick="resetearCampos();">SI</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">NO</button>
                     </div>
                 </div>
             </div>
@@ -263,18 +283,25 @@
                     </div>
                     <div class="modal-body">
                         <p>Para confirmar la bajada de servicios es necesario que se identifique</p>
-                        <div class="form-group">
-                            <label class="control-label" for="username">Ususario</label>
-                            <input type="text" placeholder="user" title="Por favor ingrese su usario" required="" value="" name="username" id="username" class="form-control">
+                        <p name="mensajeLogin" id="mensajeLogin" class="font-bold text-danger"></p>
+                        <div class="form-group" >
+                            <input type="text" value="" name="captcha" id="captcha" disabled="" class="col-sm-8" style="padding-top: 6px; padding-bottom: 6px; font-weight: bold">
+                            <button type="button" class="btn btn-outline btn-primary" style="padding-top: 6px; padding-bottom: 6px; padding-left: 15px; padding-right: 15px;" onclick="generarCaptcha();">
+                                <i class="fa fa-refresh"></i>
+                            </button>
                         </div>
                         <div class="form-group">
-                            <label class="control-label" for="password">Contraseña</label>
-                            <input type="password" title="Por favor ingrese su contraseña" placeholder="******" required="" value="" name="password" id="password" class="form-control">
+                            <label class="control-label">Ingrese el codigo correcto</label>
+                            <input title="Por favor ingrese el codigo" placeholder="Ingrese el codigo" required="" value="" name="valorCaptcha" id="valorCaptcha" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label class="control-label">Comentario</label>
+                            <textarea type="text" placeholder="comentario" title="Por favor ingrese su comentario" required="" value="" name="comentario" id="comentario" class="form-control"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary" onclick="">Aceptar</button>
+                        <button type="button" class="btn btn-primary" onclick="validar();">Aceptar</button>
                     </div>
                 </div>
             </div>
@@ -392,6 +419,47 @@
             var archivoId = $('input[name=archivoId]').val();
             var archivoTipo = $('input[name=archivoTipo]').val();
             document.location.href = '/PaseAProduccionWeb/CancelarFormulario?archivoId='+archivoId.toString()+'&archivoTipo='+archivoTipo.toString();
+        }
+        
+        function resetearCampos(){
+            
+            generarCaptcha();
+            $('#valorCaptcha').val("");
+            document.getElementById("comentario").value = "";
+            $('#mensaje').remove();
+        }
+        
+        function generarCaptcha(){
+            var text="";
+            var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+            
+            for( var i=0; i < 8; i++ )
+                text += possible.charAt(Math.floor(Math.random() * possible.length));
+            
+            $('#captcha').val(text);
+        }
+        
+        function validar(){
+            
+            var valorCaptcha = $('#valorCaptcha').val();
+            var comentario = document.getElementById("comentario").value;
+            
+            if($('#mensaje').text()!="")
+            {
+                $('#mensaje').remove();
+            }
+                
+            if(valorCaptcha == "" || comentario == ""){
+                $('p[name=mensajeLogin]').append("<label name=\"mensaje\" id=\"mensaje\">Debe llenar todos los campos</label>");
+            }
+            else{
+                $('#mensaje').remove();
+                if($('#valorCaptcha').val() == $('#captcha').val())
+                    alert("Correcto");
+                else
+                    $('p[name=mensajeLogin]').append("<label name=\"mensaje\" id=\"mensaje\">El codigo insertado es incorrecto</label>");
+                
+            }
         }
     </script>
     </body>

@@ -58,20 +58,38 @@ public class FormulariosDao {
         
         return lstFormulariosFinal;
     }
-    public List<PpFormularios> filtrarFormularios(List<PpFormularios> lstLista, String filtro){
+    public List<PpFormularios> filtrarFormularios(List<PpFormularios> lstLista, String filtro, String uso){
         
         ArrayList<PpFormularios> lstFormularios = new ArrayList<>();
         
-        if(lstLista != null)
-        {
-            for (PpFormularios formulario : lstLista) {
-                try {
-                    if(formulario.getNombreFormulario().toUpperCase().contains(filtro.toUpperCase()))
-                        lstFormularios.add(formulario);
-
-                }catch (Exception e) {
+        try {
+            if(lstLista != null)
+            {
+                if(uso.equals("Todos")){
+                    for (PpFormularios formulario : lstLista) {
+                        if(formulario.getNombreFormulario().toUpperCase().contains(filtro.toUpperCase()))
+                            lstFormularios.add(formulario);
+                    }
                 }
-            }
+                else{
+                    if(uso.equals("Disponibles")){
+                        for (PpFormularios formulario : lstLista) {
+                        if(formulario.getNombreFormulario().toUpperCase().contains(filtro.toUpperCase()) &&
+                                formulario.getFlagUso().equals("N"))
+                            lstFormularios.add(formulario);
+                        }
+                    }
+                    else if(uso.equals("Ocupados")){
+                        for (PpFormularios formulario : lstLista) {
+                        if(formulario.getNombreFormulario().toUpperCase().contains(filtro.toUpperCase()) &&
+                                formulario.getFlagUso().equals("S"))
+                            lstFormularios.add(formulario);
+                        }
+                    }
+                }
+            }   
+            
+        } catch (Exception e) {
         }
         
         return lstFormularios;
