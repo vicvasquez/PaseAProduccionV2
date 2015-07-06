@@ -246,8 +246,8 @@
                         <p><input type="file" class="form-control" name="archivo" id="archivo" value="" onchange="activarBotones();"></p>
                         <br>
                         <p>Elija el método por el cual desea pasar a producción el archivo seleccionado:</p>
-                        <p><button name="btnNocturno" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="pasarAProduccion();"disabled="true" >Pasar a producción en horario nocturno</button></p>
-                        <p><button name="btnSinBajar" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="pasarAProduccion();" disabled="true">Intentar pasar a producción sin bajar servicios</button></p>
+                        <p><button name="btnNocturno" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="pasarAProduccion(3);"disabled="true" >Pasar a producción en horario nocturno</button></p>
+                        <p><button name="btnSinBajar" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="pasarAProduccion(1);" disabled="true">Intentar pasar a producción sin bajar servicios</button></p>
                         <p><button name="btnBajar" type="button" class="btn btn-outline btn-danger" style="width: 500px;" disabled="true"
                                    data-toggle="modal" data-target="#modalConfirmacion">Pasar a producción bajando servicios</button></p>
                     </div>
@@ -393,8 +393,29 @@
         ga('create', 'UA-4625583-2', 'webapplayers.com');
         ga('send', 'pageview');
         
-        function pasarAProduccion(){
-            alert("Se paso a produccion el formulario " + document.getElementById("archivo").value);
+        function pasarAProduccion(paseTipo){
+            var fileInput = document.getElementById('archivo');
+            var file = fileInput.files[0];
+            var reader = new FileReader();
+            reader.readAsText(file, "UTF-8"); 
+            reader.onloadend = function () {                
+                alert("Se paso a produccion el formulario " + reader.result);
+                var data = "archivoId=" + $('input[name=archivoId]').val() + "&archivoTipo="+ $('input[name=archivoTipo]').val()
+                        + "&archivo=" + reader.result + "&paseTipo=" + paseTipo;
+                $.ajax({
+                    type: "POST",
+                    url:  "/PaseAProduccionWeb/PaseAProduccion",
+                    data: data,
+                    success: function (data) {
+                        if(data === "SUCCESS") {
+                            //respuesta del servlet
+                           window.location.replace("http://stackoverflow.com");
+
+                        }
+
+                    }
+                });
+            }
         }
         
         function activarBotones(){
@@ -455,7 +476,7 @@
             else{
                 $('#mensaje').remove();
                 if($('#valorCaptcha').val() == $('#captcha').val())
-                    alert("Correcto");
+                    pasarAProduccion(2);
                 else
                     $('p[name=mensajeLogin]').append("<label name=\"mensaje\" id=\"mensaje\">El codigo insertado es incorrecto</label>");
                 

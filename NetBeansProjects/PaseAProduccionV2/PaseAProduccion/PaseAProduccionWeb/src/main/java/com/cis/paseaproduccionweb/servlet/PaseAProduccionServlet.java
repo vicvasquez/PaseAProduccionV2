@@ -15,9 +15,15 @@ import com.cis.paseaproduccionweb.hibernate.PpArchivosPase;
 import com.cis.paseaproduccionweb.hibernate.PpFormularios;
 import com.cis.paseaproduccionweb.hibernate.PpHistoriales;
 import com.cis.paseaproduccionweb.hibernate.PpModulos;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.sql.Blob;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -49,6 +55,10 @@ public class PaseAProduccionServlet extends HttpServlet {
             String archivoTipo = request.getParameter("archivoTipo");
             BigDecimal archivoId = new BigDecimal(archId);
             
+            String archivoString = request.getParameter("archivo");
+            byte[] bytes = archivoString.getBytes();
+            Blob archivoBlob = new javax.sql.rowset.serial.SerialBlob(bytes);
+
             String paseTip = request.getParameter("paseTipo");
             Integer paseTipo = new Integer(paseTip);
             
@@ -62,7 +72,7 @@ public class PaseAProduccionServlet extends HttpServlet {
             PpArchivosAprob archivoAprob = new PpArchivosAprob();
             PpHistoriales historial = new PpHistoriales();
             
-            Date date = new Date();
+            Date date = new Date();          
             
             if(archivoTipo.equals("REP"))
             {
@@ -71,14 +81,13 @@ public class PaseAProduccionServlet extends HttpServlet {
                 PpArchivosPase archivoPase = new PpArchivosPase();
                 
                 archivoPase.setNombreArchivo(reporte.getNombreFormulario());
-                archivoPase.setArchivo(reporte.getArchivo());
+                archivoPase.setArchivo(archivoBlob);
                 
                 dArchivoPase.insertarArchivoUso(archivoPase);
                 dArchivoPase.PasarProduccion();
                 dArchivoPase.TruncarTabla();
                 
-                historial.setArchivo(reporte.getArchivo());
-                
+                historial.setArchivo(archivoBlob);                
                 historial.setFecha(date);
                 historial.setPpformFormularioId(archivoId);
                 
@@ -91,37 +100,39 @@ public class PaseAProduccionServlet extends HttpServlet {
                 switch(paseTipo){
                     case 0:  //INTENTAR SIN BAJAR SERVICIOS
                             archivoPaseForm.setNombreArchivo(formulario.getNombreFormulario());
-                            archivoPaseForm.setArchivo(formulario.getArchivo());
+                            archivoPaseForm.setArchivo(archivoBlob);
 
                             dArchivoPase.insertarArchivoUso(archivoPaseForm);
                             dArchivoPase.PasarProduccion();
                             dArchivoPase.TruncarTabla();
 
-                            historial.setArchivo(formulario.getArchivo());
+                            historial.setArchivo(archivoBlob);
                             historial.setFecha(date);
                             historial.setPpformFormularioId(archivoId);
                         break;
                             
                     case 1:   //BAJANDO SERVICIOS
                             archivoPaseForm.setNombreArchivo(formulario.getNombreFormulario());
-                            archivoPaseForm.setArchivo(formulario.getArchivo());
+                            archivoPaseForm.setArchivo(archivoBlob);
 
                             dArchivoPase.insertarArchivoUso(archivoPaseForm);
                             dArchivoPase.PasarProduccionServicios();
                             dArchivoPase.TruncarTabla();
 
-                            historial.setArchivo(formulario.getArchivo());
+                            historial.setArchivo(archivoBlob);
                             historial.setFecha(date);
                             historial.setPpformFormularioId(archivoId);
+                            
+                            dHistorial.insertarHistorial(historial);
                         break;
                         
                     case 2:    //PASE NOCTURNO
                             archivoAprob.setNombreArchivo(formulario.getNombreFormulario());
-                            archivoAprob.setArchivo(formulario.getArchivo());
+                            archivoAprob.setArchivo(archivoBlob);
                             
                             dArchivoAprob.insertarArchivoUso(archivoAprob);
                             
-                            historial.setArchivo(formulario.getArchivo());
+                            historial.setArchivo(archivoBlob);
                             historial.setFecha(date);
                             historial.setPpformFormularioId(archivoId);
                         break;
@@ -135,49 +146,48 @@ public class PaseAProduccionServlet extends HttpServlet {
                 switch(paseTipo){
                     case 0: //INTENTAR SIN BAJAR SERVICIOS
                             archivoPaseForm.setNombreArchivo(modulo.getNombreModulo());
-                            archivoPaseForm.setArchivo(modulo.getArchivo());
+                            archivoPaseForm.setArchivo(archivoBlob);
 
                             dArchivoPase.insertarArchivoUso(archivoPaseForm);
                             dArchivoPase.PasarProduccion();
                             dArchivoPase.TruncarTabla();
 
-                            historial.setArchivo(modulo.getArchivo());
+                            historial.setArchivo(archivoBlob);
                             historial.setFecha(date);
                             historial.setModuloModuloId(archivoId);
                         break;
                     
                     case 1: //BAJANDO SERVICIOS
                             archivoPaseForm.setNombreArchivo(modulo.getNombreModulo());
-                            archivoPaseForm.setArchivo(modulo.getArchivo());
+                            archivoPaseForm.setArchivo(archivoBlob);
 
                             dArchivoPase.insertarArchivoUso(archivoPaseForm);
                             dArchivoPase.PasarProduccionServicios();
                             dArchivoPase.TruncarTabla();
 
-                            historial.setArchivo(modulo.getArchivo());
+                            historial.setArchivo(archivoBlob);
                             historial.setFecha(date);
                             historial.setModuloModuloId(archivoId);
                         break;
                         
                     case 2: //PASE NOCTURNO
                             archivoAprob.setNombreArchivo(modulo.getNombreModulo());
-                            archivoAprob.setArchivo(modulo.getArchivo());
+                            archivoAprob.setArchivo(archivoBlob);
                             
                             dArchivoAprob.insertarArchivoUso(archivoAprob);
                             
-                            historial.setArchivo(modulo.getArchivo());
+                            historial.setArchivo(archivoBlob);
                             historial.setFecha(date);
                             historial.setModuloModuloId(archivoId);
                         break;
                         
                 }
             }
-            
+            response.getWriter().write("SUCCESS");
         }catch(Exception ex){
-            
+            response.getWriter().write("SUCCESS");
         }
         
-        response.sendRedirect("index.jsp");
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
