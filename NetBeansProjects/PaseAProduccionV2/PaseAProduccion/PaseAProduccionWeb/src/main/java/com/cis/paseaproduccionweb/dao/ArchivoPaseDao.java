@@ -64,7 +64,7 @@ public class ArchivoPaseDao {
         try {
             tx = session.getTransaction();
             tx.begin();
-            Query q = session.getNamedQuery("SP_PRUEBA");
+            Query q = session.getNamedQuery("SP_PASE_PRODUCCION_SERVICIOS");
             Object resultado = q.uniqueResult();
             tx.commit();
         } catch (Exception e) {
