@@ -15,6 +15,7 @@ import com.cis.paseaproduccionweb.hibernate.PpArchivosPase;
 import com.cis.paseaproduccionweb.hibernate.PpFormularios;
 import com.cis.paseaproduccionweb.hibernate.PpHistoriales;
 import com.cis.paseaproduccionweb.hibernate.PpModulos;
+import java.awt.FlowLayout;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -31,6 +32,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.swing.JFrame;
+import javax.swing.JProgressBar;
 
 /**
  *
@@ -117,6 +120,8 @@ public class PaseAProduccionServlet extends HttpServlet {
 
                             dArchivoPase.insertarArchivoUso(archivoPaseForm);
                             dArchivoPase.PasarProduccionServicios();
+                            
+                          
                             dArchivoPase.TruncarTabla();
 
                             historial.setArchivo(archivoBlob);
