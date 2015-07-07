@@ -109,7 +109,24 @@ public class ArchivosUsoDao {
         } finally{
             session.close();
         }
+    }
+    
+    public void updateArchivoUso(PpArchivosUso archivoUsoAct){
         
+                Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            session.update(archivoUsoAct);
+            tx.commit();
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+        } finally{
+            session.close();
+        } 
     }
     
 }

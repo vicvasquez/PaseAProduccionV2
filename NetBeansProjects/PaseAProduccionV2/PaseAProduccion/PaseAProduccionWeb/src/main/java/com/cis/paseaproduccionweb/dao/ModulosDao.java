@@ -64,7 +64,7 @@ public class ModulosDao {
         return modulo;
     }
     
-    public int actualizarEnUso(PpModulos moduloAct){
+    public int updateModulo(PpModulos moduloAct){
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;

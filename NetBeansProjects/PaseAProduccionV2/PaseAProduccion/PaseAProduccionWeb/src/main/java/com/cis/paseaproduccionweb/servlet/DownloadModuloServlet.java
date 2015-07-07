@@ -57,7 +57,7 @@ public class DownloadModuloServlet extends HttpServlet {
                 modulo.setFlagUso("S");
                 modulo.setPpusuarioUsuarioId(usuario.getUsuarioId());
                 
-                dModulo.actualizarEnUso(modulo);                
+                dModulo.updateModulo(modulo);                
             }
             
             InputStream is = modulo.getArchivo().getBinaryStream();

@@ -151,14 +151,22 @@
                                                 out.print(misFormsEnUso.get(i).getNombreArchivo() + "&nbsp;&nbsp;&nbsp;&nbsp;");
                                                 out.print("</td>");
                                                 out.print("<td>");
-                                                out.print("<button class=\"btn btn-primary btn-xs\" type=\"button\" onclick=\"setValues(\'"
-                                                        + misFormsEnUso.get(i).getArchivoId()+ "\', \'" + misFormsEnUso.get(i).getTipo() +"\');\" data-toggle=\"modal\" data-target=\"#modalPasarAProduccion\">");
-                                                out.print("<i class=\"fa fa-upload\"></i> Pasar a producción");
-                                                out.print("</button>");
+                                                if(misFormsEnUso.get(i).getFlagNoche().equals("S")){
+                                                    out.print("<button class=\"btn btn-warning2 btn-xs\" type=\"button\" onclick=\"setValues(\'"
+                                                            + misFormsEnUso.get(i).getArchivoId()+ "\', \'" + misFormsEnUso.get(i).getTipo() +"\');\" data-toggle=\"modal\" data-target=\"#modalCancelar\">");
+                                                    out.print("<i class=\"fa fa-upload\"></i> Cancelar pase");
+                                                    out.print("</button>");
+                                                }
+                                                else{
+                                                    out.print("<button class=\"btn btn-primary btn-xs\" type=\"button\" onclick=\"setValues(\'"
+                                                            + misFormsEnUso.get(i).getArchivoId()+ "\', \'" + misFormsEnUso.get(i).getTipo() +"\');\" data-toggle=\"modal\" data-target=\"#modalPasarAProduccion\">");
+                                                    out.print("<i class=\"fa fa-upload\"></i> Pasar a producción");
+                                                    out.print("</button>");
+                                                }
                                                 out.print("</td>");
                                                 out.print("<td>");
                                                 out.print("&nbsp;&nbsp;<button class=\"btn btn-danger btn-xs\" type=\"button\" onclick=\"setValues(\'"
-                                                        + misFormsEnUso.get(i).getArchivoId()+ "\', \'" + misFormsEnUso.get(i).getTipo() +"\');\" data-toggle=\"modal\" data-target=\"#modalCancelar\">");
+                                                        + misFormsEnUso.get(i).getArchivoId()+ "\', \'" + misFormsEnUso.get(i).getTipo() +"\');\" data-toggle=\"modal\" data-target=\"#modalLiberar\">");
                                                 out.print("<i class=\"fa fa-times\"></i> Liberar");
                                                 out.print("</button>");
                                                 out.print("</td>");
@@ -256,7 +264,24 @@
                 </div>
             </div>
         </div>
-        <div class="modal fade hmodal-danger" id="modalCancelar" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+        <div class="modal fade hmodal-danger" id="modalLiberar" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="color-line"></div>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Liberar Archivo</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>¿Esta usted seguro que desea <strong>LIBERAR</strong> el elemento seleccionado?</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+                        <button type="button" class="btn btn-primary" onclick="cancelarPaseAProduccion(1);">Si</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade hmodal-warning" id="modalCancelar" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="color-line"></div>
@@ -264,11 +289,11 @@
                         <h4 class="modal-title">Cancelar Pase a Producción</h4>
                     </div>
                     <div class="modal-body">
-                        <p>¿Esta usted seguro que desea <strong>CANCELAR</strong> el pase a producción del elemento seleccionado?</p>
+                        <p>¿Esta usted seguro que desea <strong>CANCELAR</strong> el pase a producción del elemento seleccionado y seguirlo trabajando?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
-                        <button type="button" class="btn btn-primary" onclick="cancelarPaseAProduccion();">Si</button>
+                        <button type="button" class="btn btn-primary" onclick="cancelarPaseAProduccion(2);">Si</button>
                     </div>
                 </div>
             </div>
@@ -440,10 +465,11 @@
             var fileInput = document.getElementById('archivo');
             var file = fileInput.files[0];
             var reader = new FileReader();
-            reader.readAsText(file, "UTF-8"); 
-            reader.onloadend = function () {                
+
+            reader.onloadend = function () {
+                
                 var data = "archivoId=" + $('input[name=archivoId]').val() + "&archivoTipo="+ $('input[name=archivoTipo]').val()
-                        + "&archivo=" + reader.result + "&paseTipo=" + paseTipo;
+                        + "&archivo=" + arch + "&paseTipo=" + paseTipo;
                 $.ajax({
                     type: "POST",
                     url:  "/PaseAProduccionWeb/PaseAProduccion",
@@ -462,6 +488,16 @@
             }
         }
         
+        function _arrayBufferToBase64( buffer ) {
+            var binary = '';
+            var bytes = new Uint8Array( buffer );
+            var len = bytes.byteLength;
+            for (var i = 0; i < len; i++) {
+                binary += String.fromCharCode( bytes[ i ] );
+            }
+            return window.btoa( binary );
+        }
+        
         function activarBotones(){
             $('button[name=btnSinBajar]').removeAttr("disabled");
             $('button[name=btnNocturno]').removeAttr("disabled");
@@ -470,20 +506,21 @@
         
         function setValues(archivoId, tipo){
             
-        $('input[name=archivoId]').val(archivoId.toString());
-        $('input[name=archivoTipo]').val(tipo.toString());
-        $('input[name=archivo]').val("");
-        $('button[name=btnSinBajar]').prop('disabled', true);
-        $('button[name=btnNocturno]').prop('disabled', true);
-        $('button[name=btnBajar]').prop('disabled', true);
+            $('input[name=archivoId]').val(archivoId.toString());
+            $('input[name=archivoTipo]').val(tipo.toString());
+            $('input[name=archivo]').val("");
+            $('button[name=btnSinBajar]').prop('disabled', true);
+            $('button[name=btnNocturno]').prop('disabled', true);
+            $('button[name=btnBajar]').prop('disabled', true);
         }
         
-        function cancelarPaseAProduccion(){
+        function cancelarPaseAProduccion(tipoCancelacion){
             
             $('#modalCancelar').hide();
             var archivoId = $('input[name=archivoId]').val();
             var archivoTipo = $('input[name=archivoTipo]').val();
-            document.location.href = '/PaseAProduccionWeb/CancelarFormulario?archivoId='+archivoId.toString()+'&archivoTipo='+archivoTipo.toString();
+            document.location.href = '/PaseAProduccionWeb/CancelarFormulario?archivoId='+archivoId.toString()+'&archivoTipo='+archivoTipo.toString()
+                                    +'&tipoCancelacion='+tipoCancelacion;
         }
         
         function resetearCampos(){

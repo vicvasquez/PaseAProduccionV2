@@ -1,5 +1,5 @@
 package com.cis.paseaproduccionweb.hibernate;
-// Generated 07/07/2015 11:10:09 AM by Hibernate Tools 4.3.1
+// Generated 07/07/2015 02:14:51 PM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -17,6 +17,7 @@ public class PpArchivosUso  implements java.io.Serializable {
      private String nombreArchivo;
      private String descArchivo;
      private String tipo;
+     private String flagNoche;
 
     public PpArchivosUso() {
     }
@@ -29,7 +30,7 @@ public class PpArchivosUso  implements java.io.Serializable {
         this.usuarioId = usuarioId;
         this.tipo = tipo;
     }
-    public PpArchivosUso(BigDecimal archivoUsoId, BigDecimal archivoId, BigDecimal sistemaId, BigDecimal usuarioId, String nombreArchivo, String descArchivo, String tipo) {
+    public PpArchivosUso(BigDecimal archivoUsoId, BigDecimal archivoId, BigDecimal sistemaId, BigDecimal usuarioId, String nombreArchivo, String descArchivo, String tipo, String flagNoche) {
        this.archivoUsoId = archivoUsoId;
        this.archivoId = archivoId;
        this.sistemaId = sistemaId;
@@ -37,6 +38,7 @@ public class PpArchivosUso  implements java.io.Serializable {
        this.nombreArchivo = nombreArchivo;
        this.descArchivo = descArchivo;
        this.tipo = tipo;
+       this.flagNoche = flagNoche;
     }
    
     public BigDecimal getArchivoUsoId() {
@@ -87,6 +89,13 @@ public class PpArchivosUso  implements java.io.Serializable {
     
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+    public String getFlagNoche() {
+        return this.flagNoche;
+    }
+    
+    public void setFlagNoche(String flagNoche) {
+        this.flagNoche = flagNoche;
     }
 
 

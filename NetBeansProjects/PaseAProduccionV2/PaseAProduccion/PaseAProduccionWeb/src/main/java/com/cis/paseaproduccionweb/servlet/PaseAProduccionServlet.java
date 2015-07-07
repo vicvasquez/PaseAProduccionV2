@@ -7,33 +7,24 @@ package com.cis.paseaproduccionweb.servlet;
 
 import com.cis.paseaproduccionweb.dao.ArchivoAprobDao;
 import com.cis.paseaproduccionweb.dao.ArchivoPaseDao;
+import com.cis.paseaproduccionweb.dao.ArchivosUsoDao;
 import com.cis.paseaproduccionweb.dao.FormulariosDao;
 import com.cis.paseaproduccionweb.dao.HistorialesDao;
 import com.cis.paseaproduccionweb.dao.ModulosDao;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosAprob;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosPase;
+import com.cis.paseaproduccionweb.hibernate.PpArchivosUso;
 import com.cis.paseaproduccionweb.hibernate.PpFormularios;
 import com.cis.paseaproduccionweb.hibernate.PpHistoriales;
 import com.cis.paseaproduccionweb.hibernate.PpModulos;
-import java.awt.FlowLayout;
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.sql.Blob;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.swing.JFrame;
-import javax.swing.JProgressBar;
 
 /**
  *
@@ -77,77 +68,91 @@ public class PaseAProduccionServlet extends HttpServlet {
             
             Date date = new Date();          
             
-            if(archivoTipo.equals("REP"))
-            {
-                PpFormularios reporte = new PpFormularios();
-                reporte = dFormulario.getFormularioByFormularioId(archivoId);
-                PpArchivosPase archivoPase = new PpArchivosPase();
-                
-                archivoPase.setNombreArchivo(reporte.getNombreFormulario());
-                archivoPase.setArchivo(archivoBlob);
-                
-                dArchivoPase.insertarArchivoUso(archivoPase);
-                dArchivoPase.PasarProduccion();
-                dArchivoPase.TruncarTabla();
-                
-            /*    historial.setArchivo(archivoBlob);                
-                historial.setFecha(date);
-                historial.setPpFormularios(reporte);*/
-                
-                
-            }
+            ArchivosUsoDao dArchivosUso = new ArchivosUsoDao();
+            PpArchivosUso archivoUso = dArchivosUso.getArchivosUsoByArchivoIdYTipo(archivoId, archivoTipo);
+            
             if(archivoTipo.equals("FOR"))
-            {   
-                PpFormularios formulario = new PpFormularios();
-                formulario = dFormulario.getFormularioByFormularioId(archivoId);
-                switch(paseTipo){
-                    case 0:  //INTENTAR SIN BAJAR SERVICIOS
-                            archivoPaseForm.setNombreArchivo(formulario.getNombreFormulario());
-                            archivoPaseForm.setArchivo(archivoBlob);
-
-                            dArchivoPase.insertarArchivoUso(archivoPaseForm);
-                            dArchivoPase.PasarProduccion();
-                            dArchivoPase.TruncarTabla();
-
-/*                            historial.setArchivo(archivoBlob);
-                            historial.setFecha(date);
-                            historial.setPpFormularios(formulario);*/
-                        break;
-                            
-                    case 1:   //BAJANDO SERVICIOS
-                            archivoPaseForm.setNombreArchivo(formulario.getNombreFormulario());
-                            archivoPaseForm.setArchivo(archivoBlob);
-
-                            dArchivoPase.insertarArchivoUso(archivoPaseForm);
-                            dArchivoPase.PasarProduccionServicios();
-                            
-                          
-                            dArchivoPase.TruncarTabla();
-
-                           /* historial.setArchivo(archivoBlob);
-                            historial.setFecha(date);
-                            historial.setPpFormularios(formulario);
-                            
-                            dHistorial.insertarHistorial(historial);*/
-                        break;
-                        
-                    case 2:    //PASE NOCTURNO
-                            archivoAprob.setNombreArchivo(formulario.getNombreFormulario());
-                            archivoAprob.setArchivo(archivoBlob);
-                            
-                            dArchivoAprob.insertarArchivoUso(archivoAprob);
-                            
-                            /*historial.setArchivo(archivoBlob);
-                            historial.setFecha(date);
-                            historial.setPpFormularios(formulario);*/
-                        break;
-                        
-                }
-            }
-            if(archivoTipo.equals("MOD"))
             {
-                PpModulos modulo = new PpModulos();
-                modulo = dModulos.getModuloByModuloId(archivoId);
+                PpFormularios formulario = dFormulario.getFormularioByFormularioId(archivoId);
+                if(formulario.getFlagTipo().equals("R")){
+                    
+                    archivoPaseForm.setNombreArchivo(formulario.getNombreFormulario());
+                    archivoPaseForm.setArchivo(archivoBlob);
+                    
+                    dArchivoPase.insertarArchivoUso(archivoPaseForm);
+                    dArchivoPase.PasarProduccion();
+                    dArchivoPase.TruncarTabla();
+
+                    formulario.setFlagUso("N");
+
+                    if(archivoUso != null)
+                        dArchivosUso.eliminarArchivoUso(archivoUso);
+
+    /*              historial.setArchivo(archivoBlob);
+                    historial.setFecha(date);
+                    historial.setPpFormularios(formulario);*/
+                }
+                else{
+                    switch(paseTipo){
+                        case 0:  //INTENTAR SIN BAJAR SERVICIOS
+                                archivoPaseForm.setNombreArchivo(formulario.getNombreFormulario());
+                                archivoPaseForm.setArchivo(archivoBlob);
+
+                                dArchivoPase.insertarArchivoUso(archivoPaseForm);
+                                dArchivoPase.PasarProduccion();
+                                dArchivoPase.TruncarTabla();
+
+                                formulario.setFlagUso("N");
+
+                                if(archivoUso != null)
+                                    dArchivosUso.eliminarArchivoUso(archivoUso);
+
+    /*                          historial.setArchivo(archivoBlob);
+                                historial.setFecha(date);
+                                historial.setPpFormularios(formulario);*/
+                            break;
+
+                        case 1:   //BAJANDO SERVICIOS
+                                archivoPaseForm.setNombreArchivo(formulario.getNombreFormulario());
+                                archivoPaseForm.setArchivo(archivoBlob);
+
+                                dArchivoPase.insertarArchivoUso(archivoPaseForm);
+                                dArchivoPase.PasarProduccionServicios();
+
+                                dArchivoPase.TruncarTabla();
+
+                                formulario.setFlagUso("N");
+
+                                if(archivoUso != null)
+                                    dArchivosUso.eliminarArchivoUso(archivoUso);
+
+                               /* historial.setArchivo(archivoBlob);
+                                historial.setFecha(date);
+                                historial.setPpFormularios(formulario);
+
+                                dHistorial.insertarHistorial(historial);*/
+                            break;
+
+                        case 2:    //PASE NOCTURNO
+                                archivoAprob.setNombreArchivo(formulario.getNombreFormulario());
+                                archivoAprob.setArchivo(archivoBlob);
+
+                                dArchivoAprob.insertarArchivoUso(archivoAprob);
+
+                                formulario.setFlagUso("P");                
+
+                                /*historial.setArchivo(archivoBlob);
+                                historial.setFecha(date);
+                                historial.setPpFormularios(formulario);*/
+                            break;       
+                    }
+                }
+                formulario.setArchivo(archivoBlob);
+                dFormulario.updateFormularios(formulario);
+            }
+            else
+            {
+                PpModulos modulo = dModulos.getModuloByModuloId(archivoId);
                 switch(paseTipo){
                     case 0: //INTENTAR SIN BAJAR SERVICIOS
                             archivoPaseForm.setNombreArchivo(modulo.getNombreModulo());
@@ -156,6 +161,8 @@ public class PaseAProduccionServlet extends HttpServlet {
                             dArchivoPase.insertarArchivoUso(archivoPaseForm);
                             dArchivoPase.PasarProduccion();
                             dArchivoPase.TruncarTabla();
+                            
+                            modulo.setFlagUso("N");
 
                    /*         historial.setArchivo(archivoBlob);
                             historial.setFecha(date);
@@ -169,6 +176,8 @@ public class PaseAProduccionServlet extends HttpServlet {
                             dArchivoPase.insertarArchivoUso(archivoPaseForm);
                             dArchivoPase.PasarProduccionServicios();
                             dArchivoPase.TruncarTabla();
+                            
+                            modulo.setFlagUso("N");
 
                      /*       historial.setArchivo(archivoBlob);
                             historial.setFecha(date);
@@ -181,12 +190,16 @@ public class PaseAProduccionServlet extends HttpServlet {
                             
                             dArchivoAprob.insertarArchivoUso(archivoAprob);
                             
+                            modulo.setFlagUso("P");
+                            
                     /*        historial.setArchivo(archivoBlob);
                             historial.setFecha(date);
                             historial.setPpModulos(modulo);*/
                         break;
                         
                 }
+                modulo.setArchivo(archivoBlob);
+                dModulos.updateModulo(modulo);
             }
             response.getWriter().write("SUCCESS");
         }catch(Exception ex){

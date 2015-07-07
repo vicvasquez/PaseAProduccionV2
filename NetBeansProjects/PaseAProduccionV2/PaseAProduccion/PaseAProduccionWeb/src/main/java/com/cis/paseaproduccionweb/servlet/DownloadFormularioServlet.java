@@ -51,7 +51,7 @@ public class DownloadFormularioServlet extends HttpServlet {
                 formulario.setFlagUso("S");
                 formulario.setPpusuarioUsuarioId(usuario.getUsuarioId());
                 
-                dFormulario.actualizarEnUso(formulario);                
+                dFormulario.updateFormularios(formulario);                
             }
             
            /* InputStream is = formulario.getArchivo().getBinaryStream();

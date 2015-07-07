@@ -117,7 +117,7 @@ public class FormulariosDao {
         return formulario;
     }
     
-    public int actualizarEnUso(PpFormularios formularioAct){
+    public int updateFormularios(PpFormularios formularioAct){
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
