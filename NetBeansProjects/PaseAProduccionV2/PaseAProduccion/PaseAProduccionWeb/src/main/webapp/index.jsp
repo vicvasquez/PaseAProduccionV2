@@ -27,6 +27,16 @@
 %>
 <!DOCTYPE html>
 <html>
+    <div id="loading" name="loading" style="position: fixed; top: 0; left: 0px; width: 100%; height: 100%; z-index: 10; background-color: rgba(0,0,0,0.5)" hidden="" >
+       <div style="position: fixed; top: 20%; left: 35%">
+           <h1 style="color: white">CIS - Cloud Information Solution</h1>
+           <div class="col-sm-2"></div>
+           <div class="col-sm-5">
+               <img src="images/loading.gif" style="width: 250px; height: 250px;">
+           </div>
+           <h1 style="color: white">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Realizando cambios...</h1>
+       </div>
+   </div>
     <head>
         <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -214,6 +224,38 @@
                     
         <input type="hidden" name="archivoId" id="archivoId"/>
         <input type="hidden" name="archivoTipo" id="tipo"/>
+        <div class="modal fade hmodal-danger" id="modalMensajeFallo" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="color-line"></div>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Pase a Producción Fallado</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>El pase a producción <strong>NO SE PUDO COMPLETAR</strong> con exito</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">ACEPTAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade hmodal-success" id="modalMensajeRecibido" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="color-line"></div>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Pase a Producción Realizado</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>El pase a producción se <strong>REALIZÓ</strong> con exito</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">ACEPTAR</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div class="modal fade hmodal-danger" id="modalCancelar" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -243,13 +285,10 @@
                         <p><input type="file" class="form-control" name="archivo" id="archivo" value="" onchange="activarBotones();"></p>
                         <br>                           
                         <p>Elija el método por el cual desea pasar a producción el archivo seleccionado:</p>
-                        <p><button name="btnNocturno" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="pasarAProduccion(3);"disabled="true" >Pasar a producción en horario nocturno</button></p>
-                        <p><button name="btnSinBajar" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="pasarAProduccion(1);" disabled="true">Intentar pasar a producción sin bajar servicios</button></p>
+                        <p><button name="btnNocturno" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="pasarAProduccion(2);"disabled="true" >Pasar a producción en horario nocturno</button></p>
+                        <p><button name="btnSinBajar" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="pasarAProduccion(0);" disabled="true">Intentar pasar a producción sin bajar servicios</button></p>
                         <p><button name="btnBajar" type="button" class="btn btn-outline btn-danger" style="width: 500px;" disabled="true"
-                                   data-toggle="modal" data-target="#modalConfirmacion">Pasar a producción bajando servicios</button></p>
-                        <div id='loadingmessage' style='display:none' align='center'>
-                            <img src='images/ajax-loader.gif'/>
-                        </div>       
+                                   data-toggle="modal" data-target="#modalConfirmacion">Pasar a producción bajando servicios</button></p>      
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -395,13 +434,14 @@
         
         function pasarAProduccion(paseTipo){
             
-            $("#loadingmessage").show();
+            $("#loading").show();
+            $("#modalBajarServicios").hide();
+            $("#modalPasarAProduccion").hide();
             var fileInput = document.getElementById('archivo');
             var file = fileInput.files[0];
             var reader = new FileReader();
             reader.readAsText(file, "UTF-8"); 
             reader.onloadend = function () {                
-                alert("Se paso a produccion el formulario " + reader.result);
                 var data = "archivoId=" + $('input[name=archivoId]').val() + "&archivoTipo="+ $('input[name=archivoTipo]').val()
                         + "&archivo=" + reader.result + "&paseTipo=" + paseTipo;
                 $.ajax({
@@ -409,10 +449,12 @@
                     url:  "/PaseAProduccionWeb/PaseAProduccion",
                     data: data,
                     success: function (data) {
+                        $("#loading").hide();
                         if(data === "SUCCESS") {
-                           $("#loadingmessage").hide();
-                            //respuesta del servlet
-
+                           $("#modalMensajeRecibido").modal().show();
+                        }
+                        else{
+                           $("#modalMensajeFallo").modal().show(); 
                         }
 
                     }
@@ -463,7 +505,6 @@
         }
         
         function validar(){
-            
             var valorCaptcha = $('#valorCaptcha').val();
             var comentario = document.getElementById("comentario").value;
             
@@ -478,7 +519,7 @@
             else{
                 $('#mensaje').remove();
                 if($('#valorCaptcha').val() == $('#captcha').val())
-                    pasarAProduccion(2);
+                    pasarAProduccion(1);
                 else
                     $('p[name=mensajeLogin]').append("<label name=\"mensaje\" id=\"mensaje\">El codigo insertado es incorrecto</label>");
                 

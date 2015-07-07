@@ -90,9 +90,9 @@ public class PaseAProduccionServlet extends HttpServlet {
                 dArchivoPase.PasarProduccion();
                 dArchivoPase.TruncarTabla();
                 
-                historial.setArchivo(archivoBlob);                
+            /*    historial.setArchivo(archivoBlob);                
                 historial.setFecha(date);
-                historial.setPpformFormularioId(archivoId);
+                historial.setPpFormularios(reporte);*/
                 
                 
             }
@@ -109,9 +109,9 @@ public class PaseAProduccionServlet extends HttpServlet {
                             dArchivoPase.PasarProduccion();
                             dArchivoPase.TruncarTabla();
 
-                            historial.setArchivo(archivoBlob);
+/*                            historial.setArchivo(archivoBlob);
                             historial.setFecha(date);
-                            historial.setPpformFormularioId(archivoId);
+                            historial.setPpFormularios(formulario);*/
                         break;
                             
                     case 1:   //BAJANDO SERVICIOS
@@ -124,11 +124,11 @@ public class PaseAProduccionServlet extends HttpServlet {
                           
                             dArchivoPase.TruncarTabla();
 
-                            historial.setArchivo(archivoBlob);
+                           /* historial.setArchivo(archivoBlob);
                             historial.setFecha(date);
-                            historial.setPpformFormularioId(archivoId);
+                            historial.setPpFormularios(formulario);
                             
-                            dHistorial.insertarHistorial(historial);
+                            dHistorial.insertarHistorial(historial);*/
                         break;
                         
                     case 2:    //PASE NOCTURNO
@@ -137,9 +137,9 @@ public class PaseAProduccionServlet extends HttpServlet {
                             
                             dArchivoAprob.insertarArchivoUso(archivoAprob);
                             
-                            historial.setArchivo(archivoBlob);
+                            /*historial.setArchivo(archivoBlob);
                             historial.setFecha(date);
-                            historial.setPpformFormularioId(archivoId);
+                            historial.setPpFormularios(formulario);*/
                         break;
                         
                 }
@@ -157,9 +157,9 @@ public class PaseAProduccionServlet extends HttpServlet {
                             dArchivoPase.PasarProduccion();
                             dArchivoPase.TruncarTabla();
 
-                            historial.setArchivo(archivoBlob);
+                   /*         historial.setArchivo(archivoBlob);
                             historial.setFecha(date);
-                            historial.setModuloModuloId(archivoId);
+                            historial.setPpModulos(modulo);*/
                         break;
                     
                     case 1: //BAJANDO SERVICIOS
@@ -170,9 +170,9 @@ public class PaseAProduccionServlet extends HttpServlet {
                             dArchivoPase.PasarProduccionServicios();
                             dArchivoPase.TruncarTabla();
 
-                            historial.setArchivo(archivoBlob);
+                     /*       historial.setArchivo(archivoBlob);
                             historial.setFecha(date);
-                            historial.setModuloModuloId(archivoId);
+                            historial.setPpModulos(modulo);*/
                         break;
                         
                     case 2: //PASE NOCTURNO
@@ -181,16 +181,16 @@ public class PaseAProduccionServlet extends HttpServlet {
                             
                             dArchivoAprob.insertarArchivoUso(archivoAprob);
                             
-                            historial.setArchivo(archivoBlob);
+                    /*        historial.setArchivo(archivoBlob);
                             historial.setFecha(date);
-                            historial.setModuloModuloId(archivoId);
+                            historial.setPpModulos(modulo);*/
                         break;
                         
                 }
             }
             response.getWriter().write("SUCCESS");
         }catch(Exception ex){
-            response.getWriter().write("SUCCESS");
+            response.getWriter().write("FAIL");
         }
         
     }

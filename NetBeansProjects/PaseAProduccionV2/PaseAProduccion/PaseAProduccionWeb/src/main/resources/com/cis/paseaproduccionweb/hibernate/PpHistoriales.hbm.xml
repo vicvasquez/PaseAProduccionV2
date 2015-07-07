@@ -1,16 +1,22 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 02/07/2015 10:18:08 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated 07/07/2015 11:10:10 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.cis.paseaproduccionweb.hibernate.PpHistoriales" table="PP_HISTORIALES" schema="PROYECTO01">
+    <class name="com.cis.paseaproduccionweb.hibernate.PpHistoriales" table="PP_HISTORIALES" schema="PROYECTO01" optimistic-lock="version">
         <id name="historialId" type="big_decimal">
             <column name="HISTORIAL_ID" precision="22" scale="0" />
             <generator class="increment" />
         </id>
-        <property name="version" type="string">
-            <column name="VERSION" length="10" />
-        </property>
+        <many-to-one name="ppModulos" class="com.cis.paseaproduccionweb.hibernate.PpModulos" fetch="select">
+            <column name="MODULO_MODULO_ID" precision="22" scale="0" />
+        </many-to-one>
+        <many-to-one name="ppSubmenus" class="com.cis.paseaproduccionweb.hibernate.PpSubmenus" fetch="select">
+            <column name="PPSUBMENU_SUBMENU_ID" precision="22" scale="0" />
+        </many-to-one>
+        <many-to-one name="ppFormularios" class="com.cis.paseaproduccionweb.hibernate.PpFormularios" fetch="select">
+            <column name="PPFORM_FORMULARIO_ID" precision="22" scale="0" />
+        </many-to-one>
         <property name="aprobadorId" type="big_decimal">
             <column name="APROBADOR_ID" precision="22" scale="0" />
         </property>
@@ -20,14 +26,12 @@
         <property name="fecha" type="date">
             <column name="FECHA" length="7" />
         </property>
-        <property name="moduloModuloId" type="big_decimal">
-            <column name="MODULO_MODULO_ID" precision="22" scale="0" />
-        </property>
-        <property name="ppsubmenuSubmenuId" type="big_decimal">
-            <column name="PPSUBMENU_SUBMENU_ID" precision="22" scale="0" />
-        </property>
-        <property name="ppformFormularioId" type="big_decimal">
-            <column name="PPFORM_FORMULARIO_ID" precision="22" scale="0" />
-        </property>
+        <property name="nroVersion" type="java.lang.Long">
+            <column name="NRO_VERSION" precision="18" scale="0" />
+        </property>        
     </class>
+    <sql-query name="SP_ULTIMO_HISTORIAL" callable="true">
+        <return-scalar column="cnt" type="integer"/>
+        { ? = call ULTIMO_HISTORIAL(? , ?) }
+    </sql-query>
 </hibernate-mapping>

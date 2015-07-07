@@ -1,5 +1,5 @@
 package com.cis.paseaproduccionweb.hibernate;
-// Generated 02/07/2015 10:18:08 AM by Hibernate Tools 4.3.1
+// Generated 07/07/2015 11:10:09 AM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -13,13 +13,13 @@ public class PpHistoriales  implements java.io.Serializable {
 
 
      private BigDecimal historialId;
-     private String version;
+     private PpModulos ppModulos;
+     private PpSubmenus ppSubmenus;
+     private PpFormularios ppFormularios;
      private BigDecimal aprobadorId;
      private Blob archivo;
      private Date fecha;
-     private BigDecimal moduloModuloId;
-     private BigDecimal ppsubmenuSubmenuId;
-     private BigDecimal ppformFormularioId;
+     private Long nroVersion;
 
     public PpHistoriales() {
     }
@@ -28,14 +28,15 @@ public class PpHistoriales  implements java.io.Serializable {
     public PpHistoriales(BigDecimal historialId) {
         this.historialId = historialId;
     }
-    public PpHistoriales(BigDecimal historialId, BigDecimal aprobadorId, Blob archivo, Date fecha, BigDecimal moduloModuloId, BigDecimal ppsubmenuSubmenuId, BigDecimal ppformFormularioId) {
+    public PpHistoriales(BigDecimal historialId, PpModulos ppModulos, PpSubmenus ppSubmenus, PpFormularios ppFormularios, BigDecimal aprobadorId, Blob archivo, Date fecha, Long nroVersion) {
        this.historialId = historialId;
+       this.ppModulos = ppModulos;
+       this.ppSubmenus = ppSubmenus;
+       this.ppFormularios = ppFormularios;
        this.aprobadorId = aprobadorId;
        this.archivo = archivo;
        this.fecha = fecha;
-       this.moduloModuloId = moduloModuloId;
-       this.ppsubmenuSubmenuId = ppsubmenuSubmenuId;
-       this.ppformFormularioId = ppformFormularioId;
+       this.nroVersion = nroVersion;
     }
    
     public BigDecimal getHistorialId() {
@@ -45,12 +46,26 @@ public class PpHistoriales  implements java.io.Serializable {
     public void setHistorialId(BigDecimal historialId) {
         this.historialId = historialId;
     }
-    public String getVersion() {
-        return this.version;
+    public PpModulos getPpModulos() {
+        return this.ppModulos;
     }
     
-    public void setVersion(String version) {
-        this.version = version;
+    public void setPpModulos(PpModulos ppModulos) {
+        this.ppModulos = ppModulos;
+    }
+    public PpSubmenus getPpSubmenus() {
+        return this.ppSubmenus;
+    }
+    
+    public void setPpSubmenus(PpSubmenus ppSubmenus) {
+        this.ppSubmenus = ppSubmenus;
+    }
+    public PpFormularios getPpFormularios() {
+        return this.ppFormularios;
+    }
+    
+    public void setPpFormularios(PpFormularios ppFormularios) {
+        this.ppFormularios = ppFormularios;
     }
     public BigDecimal getAprobadorId() {
         return this.aprobadorId;
@@ -73,31 +88,13 @@ public class PpHistoriales  implements java.io.Serializable {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
-    public BigDecimal getModuloModuloId() {
-        return this.moduloModuloId;
+    public Long getNroVersion() {
+        return this.nroVersion;
     }
     
-    public void setModuloModuloId(BigDecimal moduloModuloId) {
-        this.moduloModuloId = moduloModuloId;
+    public void setNroVersion(Long nroVersion) {
+        this.nroVersion = nroVersion;
     }
-    public BigDecimal getPpsubmenuSubmenuId() {
-        return this.ppsubmenuSubmenuId;
-    }
-    
-    public void setPpsubmenuSubmenuId(BigDecimal ppsubmenuSubmenuId) {
-        this.ppsubmenuSubmenuId = ppsubmenuSubmenuId;
-    }
-    public BigDecimal getPpformFormularioId() {
-        return this.ppformFormularioId;
-    }
-    
-    public void setPpformFormularioId(BigDecimal ppformFormularioId) {
-        this.ppformFormularioId = ppformFormularioId;
-    }
-
-
-
-
 }
 
 
