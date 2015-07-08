@@ -51,6 +51,7 @@ public class DownloadModuloServlet extends HttpServlet {
                 archivoUso.setNombreArchivo(modulo.getNombreModulo());
                 archivoUso.setSistemaId(sistemaId);
                 archivoUso.setTipo("MOD");
+                archivoUso.setFlagNoche("N");
                 archivoUso.setUsuarioId(usuario.getUsuarioId());
 
                 dArchivoUso.insertarArchivoUso(archivoUso);

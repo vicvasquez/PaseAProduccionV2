@@ -17,7 +17,9 @@ import com.cis.paseaproduccionweb.hibernate.PpArchivosUso;
 import com.cis.paseaproduccionweb.hibernate.PpFormularios;
 import com.cis.paseaproduccionweb.hibernate.PpHistoriales;
 import com.cis.paseaproduccionweb.hibernate.PpModulos;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.Date;
@@ -25,6 +27,8 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.Part;
+import sun.misc.IOUtils;
 
 /**
  *
@@ -47,10 +51,19 @@ public class PaseAProduccionServlet extends HttpServlet {
             
             String archId = request.getParameter("archivoId");
             String archivoTipo = request.getParameter("archivoTipo");
+            
             BigDecimal archivoId = new BigDecimal(archId);
             
-            String archivoString = request.getParameter("archivo");
-            byte[] bytes = archivoString.getBytes();
+            Part filePart = request.getPart("archivo");
+            InputStream fileContent = filePart.getInputStream();
+            
+            ByteArrayOutputStream output = new ByteArrayOutputStream();
+            long tamaño = filePart.getSize();
+            
+            byte[] bytes = new byte[(int)tamaño];
+            for(int i = 0; (i = fileContent.read(bytes))>0;)
+                output.write(bytes, 0, i);
+            
             Blob archivoBlob = new javax.sql.rowset.serial.SerialBlob(bytes);
 
             String paseTip = request.getParameter("paseTipo");
@@ -84,6 +97,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                     dArchivoPase.TruncarTabla();
 
                     formulario.setFlagUso("N");
+                    formulario.setPpusuarioUsuarioId(null);
 
                     if(archivoUso != null)
                         dArchivosUso.eliminarArchivoUso(archivoUso);
@@ -103,6 +117,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                                 dArchivoPase.TruncarTabla();
 
                                 formulario.setFlagUso("N");
+                                formulario.setPpusuarioUsuarioId(null);
 
                                 if(archivoUso != null)
                                     dArchivosUso.eliminarArchivoUso(archivoUso);
@@ -122,6 +137,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                                 dArchivoPase.TruncarTabla();
 
                                 formulario.setFlagUso("N");
+                                formulario.setPpusuarioUsuarioId(null);
 
                                 if(archivoUso != null)
                                     dArchivosUso.eliminarArchivoUso(archivoUso);
@@ -139,7 +155,7 @@ public class PaseAProduccionServlet extends HttpServlet {
 
                                 dArchivoAprob.insertarArchivoUso(archivoAprob);
 
-                                formulario.setFlagUso("P");                
+                                archivoUso.setFlagNoche("S");
 
                                 /*historial.setArchivo(archivoBlob);
                                 historial.setFecha(date);
@@ -162,7 +178,11 @@ public class PaseAProduccionServlet extends HttpServlet {
                             dArchivoPase.PasarProduccion();
                             dArchivoPase.TruncarTabla();
                             
+                            if(archivoUso != null)
+                                dArchivosUso.eliminarArchivoUso(archivoUso);
+                            
                             modulo.setFlagUso("N");
+                            modulo.setPpusuarioUsuarioId(null);
 
                    /*         historial.setArchivo(archivoBlob);
                             historial.setFecha(date);
@@ -177,7 +197,11 @@ public class PaseAProduccionServlet extends HttpServlet {
                             dArchivoPase.PasarProduccionServicios();
                             dArchivoPase.TruncarTabla();
                             
+                            if(archivoUso != null)
+                                dArchivosUso.eliminarArchivoUso(archivoUso);
+                            
                             modulo.setFlagUso("N");
+                            modulo.setPpusuarioUsuarioId(null);
 
                      /*       historial.setArchivo(archivoBlob);
                             historial.setFecha(date);
@@ -190,7 +214,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                             
                             dArchivoAprob.insertarArchivoUso(archivoAprob);
                             
-                            modulo.setFlagUso("P");
+                            archivoUso.setFlagNoche("S");
                             
                     /*        historial.setArchivo(archivoBlob);
                             historial.setFecha(date);

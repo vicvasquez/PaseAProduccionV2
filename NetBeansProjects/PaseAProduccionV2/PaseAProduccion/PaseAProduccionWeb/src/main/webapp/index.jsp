@@ -46,6 +46,8 @@
      <link rel="stylesheet" href="vendor/metisMenu/dist/metisMenu.css" />
      <link rel="stylesheet" href="vendor/animate.css/animate.css" />
      <link rel="stylesheet" href="vendor/bootstrap/dist/css/bootstrap.css" />
+     <link rel="stylesheet" href="vendor/sweetalert/lib/sweet-alert.css">
+     <link rel="stylesheet" href="vendor/toastr/build/toastr.min.css">
 
      <!-- App styles -->
      <link rel="stylesheet" href="fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
@@ -229,9 +231,6 @@
             </div>
         </div>
         
-                    
-        <input type="hidden" name="archivoId" id="archivoId"/>
-        <input type="hidden" name="archivoTipo" id="tipo"/>
         <div class="modal fade hmodal-danger" id="modalMensajeFallo" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -306,14 +305,20 @@
                         <h4 class="modal-title">Pasar archivo a Producción</h4>
                     </div>
                     <div class="modal-body">
+                        <form id="paseForm" action="/PaseAProduccionWeb/PaseAProduccion" method="post" enctype="multipart/form-data">            
+                        <input type="hidden" name="archivoId" id="archivoId"/>
+                        <input type="hidden" name="archivoTipo" id="tipo"/>
+                        <input type="hidden" name="paseTipo" id="paseTipo"/>
+                        
                         <p>Elija el archivo que desea pasar a producción</p>
                         <p><input type="file" class="form-control" name="archivo" id="archivo" value="" onchange="activarBotones();"></p>
                         <br>                           
                         <p>Elija el método por el cual desea pasar a producción el archivo seleccionado:</p>
-                        <p><button name="btnNocturno" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="pasarAProduccion(2);"disabled="true" >Pasar a producción en horario nocturno</button></p>
-                        <p><button name="btnSinBajar" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="pasarAProduccion(0);" disabled="true">Intentar pasar a producción sin bajar servicios</button></p>
+                        <p><button name="btnNocturno" type="submit" class="btn btn-outline btn-primary" style="width: 500px;" onclick="setPaseTipo(2);"disabled="true" >Pasar a producción en horario nocturno</button></p>
+                        <p><button name="btnSinBajar" type="submit" class="btn btn-outline btn-primary" style="width: 500px;" onclick="setPaseTipo(0);" disabled="true">Intentar pasar a producción sin bajar servicios</button></p>
                         <p><button name="btnBajar" type="button" class="btn btn-outline btn-danger" style="width: 500px;" disabled="true"
                                    data-toggle="modal" data-target="#modalConfirmacion">Pasar a producción bajando servicios</button></p>      
+                        </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
@@ -385,8 +390,22 @@
     <script src="vendor/peity/jquery.peity.min.js"></script>
     <script src="scripts/homer.js"></script>
     <script src="vendor/sparkline/index.js"></script>
+    <script src="vendor/sweetalert/lib/sweet-alert.min.js"></script>
+    
+    <script src="scripts/homer.js"></script>
     
     <script type="text/javascript">
+
+    $(function () {
+
+        $('.success').click(function(){
+            swal({
+                title: "Pase a Producción realizado",
+                text: "El pase a Producción se realizo con EXITO",
+                type: "success"
+            });
+        });
+    });
 
         $(function () {
 
@@ -462,16 +481,12 @@
             $("#loading").show();
             $("#modalBajarServicios").hide();
             $("#modalPasarAProduccion").hide();
-            var fileInput = document.getElementById('archivo');
-            var file = fileInput.files[0];
-            var reader = new FileReader();
-
-            reader.onloadend = function () {
-                
-                var data = "archivoId=" + $('input[name=archivoId]').val() + "&archivoTipo="+ $('input[name=archivoTipo]').val()
-                        + "&archivo=" + arch + "&paseTipo=" + paseTipo;
+            
+            var data = "archivoId=" + $('input[name=archivoId]').val() + "&archivoTipo="+ $('input[name=archivoTipo]').val()
+                        + "&archivo=" + $('input[name=archivo]') + "&paseTipo=" + paseTipo;
                 $.ajax({
                     type: "POST",
+                    contentType: "multipart/form-data",
                     url:  "/PaseAProduccionWeb/PaseAProduccion",
                     data: data,
                     success: function (data) {
@@ -485,7 +500,6 @@
 
                     }
                 });
-            }
         }
         
         function _arrayBufferToBase64( buffer ) {
@@ -512,6 +526,16 @@
             $('button[name=btnSinBajar]').prop('disabled', true);
             $('button[name=btnNocturno]').prop('disabled', true);
             $('button[name=btnBajar]').prop('disabled', true);
+        }
+        
+        function setPaseTipo(paseTipo){
+            $('input[name=paseTipo]').val(paseTipo);
+            $("#loading").show();
+            $("#modalBajarServicios").hide();
+            $("#modalPasarAProduccion").hide();
+            $('#paseForm').submit(function(){
+                
+            });
         }
         
         function cancelarPaseAProduccion(tipoCancelacion){
@@ -556,13 +580,14 @@
             else{
                 $('#mensaje').remove();
                 if($('#valorCaptcha').val() == $('#captcha').val())
-                    pasarAProduccion(1);
+                    setPaseTipo(1);
                 else
                     $('p[name=mensajeLogin]').append("<label name=\"mensaje\" id=\"mensaje\">El codigo insertado es incorrecto</label>");
                 
             }
         }
     </script>
+    
     </body>
 </html>
 
