@@ -55,21 +55,22 @@ public class DownloadFormularioServlet extends HttpServlet {
                 dFormulario.updateFormularios(formulario);                
             }
             
-           InputStream is = formulario.getArchivo().getBinaryStream();
-           FileOutputStream fos = new FileOutputStream(usuario.getRutaLocal()+formulario.getNombreFormulario());
-            
-            //5 MEGAS
-            int bufferSize = 5096;
+            if(formulario.getArchivo() != null){
+                InputStream is = formulario.getArchivo().getBinaryStream();
+                FileOutputStream fos = new FileOutputStream(usuario.getRutaLocal()+formulario.getNombreFormulario());
 
-            byte[] b = new byte[bufferSize];
-            int noOfBytes = 0;
-            while( (noOfBytes = is.read(b)) != -1 )
-            {
-               fos.write(b, 0, noOfBytes);
+                 //5 MEGAS
+                 int bufferSize = 5096;
+
+                 byte[] b = new byte[bufferSize];
+                 int noOfBytes = 0;
+                 while( (noOfBytes = is.read(b)) != -1 )
+                 {
+                    fos.write(b, 0, noOfBytes);
+                 }
+                 fos.close();
+                 is.close();
             }
-            fos.close();
-            is.close();
-  
             
             request.setAttribute("tipoPadre", tipoPadre);
             request.setAttribute("tipoPadre", padreId);
@@ -80,6 +81,7 @@ public class DownloadFormularioServlet extends HttpServlet {
         }
         catch(Exception ex)
         {
+            
         }
         
         }

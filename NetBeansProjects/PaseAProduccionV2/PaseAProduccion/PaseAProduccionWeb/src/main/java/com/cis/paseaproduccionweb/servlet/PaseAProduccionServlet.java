@@ -20,6 +20,7 @@ import com.cis.paseaproduccionweb.hibernate.PpModulos;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.Date;
@@ -48,6 +49,11 @@ public class PaseAProduccionServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try{
+            
+            PrintWriter out = response.getWriter();
+            
+             out.println("<img src=\"images/loading.gif\" style=\"width: 250px; height: 250px;\">");
+            
             
             Part filePart = request.getPart("archivo");
             InputStream fileContent = filePart.getInputStream();

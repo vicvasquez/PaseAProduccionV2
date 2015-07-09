@@ -28,15 +28,15 @@
 <!DOCTYPE html>
 <html>
     <div id="loading" name="loading" style="position: fixed; top: 0; left: 0px; width: 100%; height: 100%; z-index: 10; background-color: rgba(0,0,0,0.5)" hidden="" >
-       <div style="position: fixed; top: 20%; left: 35%">
-           <h1 style="color: white">CIS - Cloud Information Solution</h1>
-           <div class="col-sm-2"></div>
-           <div class="col-sm-5">
-               <img src="images/loading.gif" style="width: 250px; height: 250px;">
-           </div>
-           <h1 style="color: white">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Realizando cambios...</h1>
-       </div>
-   </div>
+                            <div style="position: fixed; top: 20%; left: 35%">
+                                <h1 style="color: white">CIS - Cloud Information Solution</h1>
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-5">
+                                    <img src="images/loading.gif" style="width: 250px; height: 250px;">
+                                </div>
+                                <h1 style="color: white">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Realizando cambios...</h1>
+                            </div>
+    </div>
     <head>
         <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -305,7 +305,7 @@
                         <h4 class="modal-title">Pasar archivo a Producción</h4>
                     </div>
                     <div class="modal-body">
-                        <form id="paseForm" action="/PaseAProduccionWeb/PaseAProduccion" method="post" enctype="multipart/form-data">            
+                        <form id="paseForm" action="/PaseAProduccionWeb/PaseAProduccion" method="post" enctype="multipart/form-data" onsubmit="mostrarLoading();">
                         <input type="hidden" name="archivoId" id="archivoId"/>
                         <input type="hidden" name="archivoTipo" id="tipo"/>
                         <input type="hidden" name="paseTipo" id="paseTipo"/>
@@ -314,8 +314,8 @@
                         <p><input type="file" class="form-control" name="archivo" id="archivo" value="" onchange="activarBotones();"></p>
                         <br>                           
                         <p>Elija el método por el cual desea pasar a producción el archivo seleccionado:</p>
-                        <p><button name="btnNocturno" type="submit" class="btn btn-outline btn-primary" style="width: 500px;" onclick="setPaseTipo(2);"disabled="true" >Pasar a producción en horario nocturno</button></p>
-                        <p><button name="btnSinBajar" type="submit" class="btn btn-outline btn-primary" style="width: 500px;" onclick="setPaseTipo(0);" disabled="true">Intentar pasar a producción sin bajar servicios</button></p>
+                        <p><button name="btnNocturno" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="setPaseTipo(2);"disabled="true" >Pasar a producción en horario nocturno</button></p>
+                        <p><button name="btnSinBajar" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="setPaseTipo(0);" disabled="true">Intentar pasar a producción sin bajar servicios</button></p>
                         <p><button name="btnBajar" type="button" class="btn btn-outline btn-danger" style="width: 500px;" disabled="true"
                                    data-toggle="modal" data-target="#modalConfirmacion">Pasar a producción bajando servicios</button></p>      
                         </form>
@@ -370,7 +370,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">Cancelar</button>
-                        <button type="button" class="btn btn-primary" onclick="validar();">Aceptar</button>
+                        <button type="submit" class="btn btn-primary" onclick="validar();">Aceptar</button>
                     </div>
                 </div>
             </div>
@@ -395,17 +395,6 @@
     <script src="scripts/homer.js"></script>
     
     <script type="text/javascript">
-
-    $(function () {
-
-        $('.success').click(function(){
-            swal({
-                title: "Pase a Producción realizado",
-                text: "El pase a Producción se realizo con EXITO",
-                type: "success"
-            });
-        });
-    });
 
         $(function () {
 
@@ -532,10 +521,7 @@
             $("#modalBajarServicios").hide();
             $("#modalPasarAProduccion").hide();
             $('input[name=paseTipo]').val(paseTipo);
-            $("#loading").show();
-            $('#paseForm').submit(function(){
-                alert("submited");
-            });
+            $('#paseForm').submit();
         }
         
         function cancelarPaseAProduccion(tipoCancelacion){
@@ -545,6 +531,10 @@
             var archivoTipo = $('input[name=archivoTipo]').val();
             document.location.href = '/PaseAProduccionWeb/CancelarFormulario?archivoId='+archivoId.toString()+'&archivoTipo='+archivoTipo.toString()
                                     +'&tipoCancelacion='+tipoCancelacion;
+        }
+        
+        function mostrarLoading(){
+            $("#loading").show();
         }
         
         function resetearCampos(){
