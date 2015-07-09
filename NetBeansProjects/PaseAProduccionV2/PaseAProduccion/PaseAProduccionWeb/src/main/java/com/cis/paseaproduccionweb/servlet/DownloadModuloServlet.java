@@ -31,7 +31,7 @@ public class DownloadModuloServlet extends HttpServlet {
         
         try
         {
-            String formId = request.getParameter("formularioId");
+            String formId = request.getParameter("moduloId");
             String tipoDescarga = request.getParameter("tipoDescarga");
             String sisId = request.getParameter("sistemaId");
             BigDecimal sistemaId = new BigDecimal(sisId);
@@ -60,7 +60,7 @@ public class DownloadModuloServlet extends HttpServlet {
                 
                 dModulo.updateModulo(modulo);                
             }
-            
+            /*
             InputStream is = modulo.getArchivo().getBinaryStream();
              FileOutputStream fos = new FileOutputStream("/home/eyomona/"+modulo.getNombreModulo());
             
@@ -74,11 +74,11 @@ public class DownloadModuloServlet extends HttpServlet {
                fos.write(b, 0, noOfBytes);
             }
             fos.close();
-            is.close();
+            is.close();*/
   
             request.setAttribute("tipoPadre", sistemaId);
             
-            RequestDispatcher rDispatcher = getServletContext().getRequestDispatcher("/mostrarFormularios.jsp");
+            RequestDispatcher rDispatcher = getServletContext().getRequestDispatcher("/mostrarModulos.jsp");
             rDispatcher.forward(request, response);
         }
         catch(Exception ex)
