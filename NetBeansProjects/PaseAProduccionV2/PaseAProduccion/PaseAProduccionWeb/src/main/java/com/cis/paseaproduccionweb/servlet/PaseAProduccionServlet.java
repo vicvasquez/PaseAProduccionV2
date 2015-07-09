@@ -225,9 +225,9 @@ public class PaseAProduccionServlet extends HttpServlet {
                 modulo.setArchivo(archivoBlob);
                 dModulos.updateModulo(modulo);
             }
-            response.getWriter().write("SUCCESS");
+            response.sendRedirect("mensajePaseConfirmacion.jsp");
         }catch(Exception ex){
-            response.getWriter().write("FAIL");
+            response.sendRedirect("mensajePaseFalla.jsp");
         }
         
     }

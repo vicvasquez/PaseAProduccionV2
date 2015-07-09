@@ -529,12 +529,12 @@
         }
         
         function setPaseTipo(paseTipo){
-            $('input[name=paseTipo]').val(paseTipo);
-            $("#loading").show();
             $("#modalBajarServicios").hide();
             $("#modalPasarAProduccion").hide();
+            $('input[name=paseTipo]').val(paseTipo);
+            $("#loading").show();
             $('#paseForm').submit(function(){
-                
+                alert("submited");
             });
         }
         
