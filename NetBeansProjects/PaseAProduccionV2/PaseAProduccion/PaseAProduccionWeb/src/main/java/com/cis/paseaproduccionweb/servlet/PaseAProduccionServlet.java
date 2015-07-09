@@ -49,13 +49,13 @@ public class PaseAProduccionServlet extends HttpServlet {
             throws ServletException, IOException {
         try{
             
+            Part filePart = request.getPart("archivo");
+            InputStream fileContent = filePart.getInputStream();
+            
             String archId = request.getParameter("archivoId");
             String archivoTipo = request.getParameter("archivoTipo");
             
             BigDecimal archivoId = new BigDecimal(archId);
-            
-            Part filePart = request.getPart("archivo");
-            InputStream fileContent = filePart.getInputStream();
             
             ByteArrayOutputStream output = new ByteArrayOutputStream();
             long tamaño = filePart.getSize();

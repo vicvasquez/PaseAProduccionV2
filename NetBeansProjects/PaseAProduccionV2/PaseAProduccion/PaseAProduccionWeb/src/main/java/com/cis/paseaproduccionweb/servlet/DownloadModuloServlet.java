@@ -38,10 +38,10 @@ public class DownloadModuloServlet extends HttpServlet {
             ModulosDao dModulo = new ModulosDao();
             BigDecimal moduloId = new BigDecimal(formId);
             PpModulos modulo = dModulo.getModuloByModuloId(moduloId);
-            
+            PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
+
             if(tipoDescarga.equals("trabajo")){
                 
-                PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
                 
                 ArchivosUsoDao dArchivoUso = new ArchivosUsoDao();
                 PpArchivosUso archivoUso = new PpArchivosUso();
@@ -60,9 +60,9 @@ public class DownloadModuloServlet extends HttpServlet {
                 
                 dModulo.updateModulo(modulo);                
             }
-            /*
+            
             InputStream is = modulo.getArchivo().getBinaryStream();
-             FileOutputStream fos = new FileOutputStream("/home/eyomona/"+modulo.getNombreModulo());
+             FileOutputStream fos = new FileOutputStream(usuario.getRutaLocal()+modulo.getNombreModulo());
             
             //5 MEGAS
             int bufferSize = 5096;
@@ -74,7 +74,7 @@ public class DownloadModuloServlet extends HttpServlet {
                fos.write(b, 0, noOfBytes);
             }
             fos.close();
-            is.close();*/
+            is.close();
   
             request.setAttribute("tipoPadre", sistemaId);
             
