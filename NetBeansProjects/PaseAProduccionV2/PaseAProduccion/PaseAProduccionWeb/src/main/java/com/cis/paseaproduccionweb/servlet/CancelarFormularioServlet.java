@@ -1,5 +1,6 @@
 package com.cis.paseaproduccionweb.servlet;
 
+import com.cis.paseaproduccionweb.dao.ArchivoAprobDao;
 import com.cis.paseaproduccionweb.dao.ArchivosUsoDao;
 import com.cis.paseaproduccionweb.dao.FormulariosDao;
 import com.cis.paseaproduccionweb.dao.ModulosDao;
@@ -52,10 +53,13 @@ public class CancelarFormularioServlet extends HttpServlet {
                 }
 
                 else if(tipoCancelacion.equals("2")){
+                    
                     archivoUso.setFlagNoche("N");
                     dArchivosUso.updateArchivoUso(archivoUso);
                 }
                 
+                ArchivoAprobDao dArchivoAprobado = new ArchivoAprobDao();
+                dArchivoAprobado.eliminarArchivoAprobado(dArchivoAprobado.getArchivoAprobadoByNombre(archivoUso.getNombreArchivo()));   
         }
         
         response.sendRedirect("index.jsp");

@@ -7,6 +7,7 @@ package com.cis.paseaproduccionweb.dao;
 
 import com.cis.paseaproduccionweb.hibernate.HibernateUtil;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosAprob;
+import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 
@@ -31,6 +32,45 @@ public class ArchivoAprobDao {
         } finally{
             session.close();
         }
+    }
+    
+    public PpArchivosAprob getArchivoAprobadoByNombre(String nombreArchivo){
         
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        PpArchivosAprob archivoAprobado = null;
+       
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            Query query = session.createQuery("from PpArchivosAprob where nombreArchivo='" + nombreArchivo +"'");
+            archivoAprobado = (PpArchivosAprob)query.uniqueResult();
+            tx.commit();
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+        } finally{
+            session.close();
+        }
+        
+        return archivoAprobado;
+    }
+    
+    public void eliminarArchivoAprobado(PpArchivosAprob archivoAprobadoEliminar){
+        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            session.delete(archivoAprobadoEliminar);
+            tx.commit();
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+        } finally{
+            session.close();
+        }
     }
 }
