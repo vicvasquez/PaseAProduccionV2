@@ -32,10 +32,10 @@ public class DownloadFormularioServlet extends HttpServlet {
             FormulariosDao dFormulario = new FormulariosDao();
             BigDecimal formularioId = new BigDecimal(formId);
             PpFormularios formulario = dFormulario.getFormularioByFormularioId(formularioId);
+            PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
             
             if(tipoDescarga.equals("trabajo")){
                 
-                PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
                 
                 ArchivosUsoDao dArchivoUso = new ArchivosUsoDao();
                 PpArchivosUso archivoUso = new PpArchivosUso();
@@ -55,8 +55,8 @@ public class DownloadFormularioServlet extends HttpServlet {
                 dFormulario.updateFormularios(formulario);                
             }
             
-           /* InputStream is = formulario.getArchivo().getBinaryStream();
-            FileOutputStream fos = new FileOutputStream("/home/vvasquez/Descargas/"+formulario.getNombreFormulario());
+           InputStream is = formulario.getArchivo().getBinaryStream();
+           FileOutputStream fos = new FileOutputStream(usuario.getRutaLocal()+formulario.getNombreFormulario());
             
             //5 MEGAS
             int bufferSize = 5096;
@@ -68,7 +68,7 @@ public class DownloadFormularioServlet extends HttpServlet {
                fos.write(b, 0, noOfBytes);
             }
             fos.close();
-            is.close();*/
+            is.close();
   
             
             request.setAttribute("tipoPadre", tipoPadre);
