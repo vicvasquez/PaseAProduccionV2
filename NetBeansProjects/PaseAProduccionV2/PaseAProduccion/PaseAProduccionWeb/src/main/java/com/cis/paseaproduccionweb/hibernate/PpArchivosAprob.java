@@ -1,5 +1,5 @@
 package com.cis.paseaproduccionweb.hibernate;
-// Generated 07/07/2015 02:14:51 PM by Hibernate Tools 4.3.1
+// Generated 09/07/2015 06:17:05 PM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -14,6 +14,7 @@ public class PpArchivosAprob  implements java.io.Serializable {
      private BigDecimal aaprobId;
      private String nombreArchivo;
      private Blob archivo;
+     private String tipo;
 
     public PpArchivosAprob() {
     }
@@ -22,10 +23,11 @@ public class PpArchivosAprob  implements java.io.Serializable {
     public PpArchivosAprob(BigDecimal aaprobId) {
         this.aaprobId = aaprobId;
     }
-    public PpArchivosAprob(BigDecimal aaprobId, String nombreArchivo, Blob archivo) {
+    public PpArchivosAprob(BigDecimal aaprobId, String nombreArchivo, Blob archivo, String tipo) {
        this.aaprobId = aaprobId;
        this.nombreArchivo = nombreArchivo;
        this.archivo = archivo;
+       this.tipo = tipo;
     }
    
     public BigDecimal getAaprobId() {
@@ -48,6 +50,13 @@ public class PpArchivosAprob  implements java.io.Serializable {
     
     public void setArchivo(Blob archivo) {
         this.archivo = archivo;
+    }
+    public String getTipo() {
+        return this.tipo;
+    }
+    
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 
 

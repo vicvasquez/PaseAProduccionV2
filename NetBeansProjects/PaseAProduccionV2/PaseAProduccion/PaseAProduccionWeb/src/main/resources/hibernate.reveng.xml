@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE hibernate-reverse-engineering PUBLIC "-//Hibernate/Hibernate Reverse Engineering DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-reverse-engineering-3.0.dtd">
 <hibernate-reverse-engineering>
-  <schema-selection match-schema="PROYECTO01"/>
-  <table-filter match-name="PP_USUARIOS"/>
+  <schema-selection/>
+  <table-filter match-name="PP_ROL_PERMISOS"/>
+  <table-filter match-name="PP_PERMISOS"/>
+  <table-filter match-name="PP_SISTEMAS"/>
+  <table-filter match-name="PP_ARCHIVOS_USO"/>
   <table-filter match-name="PP_HISTORIALES"/>
+  <table-filter match-name="PP_HORAS_PASES"/>
   <table-filter match-name="PP_MODULOS"/>
+  <table-filter match-name="PP_USUARIOS"/>
+  <table-filter match-name="PP_ARCHIVOS_APROB"/>
   <table-filter match-name="PP_SUBMENUS"/>
   <table-filter match-name="PP_FORMULARIOS"/>
-  <table-filter match-name="PP_HORAS_PASES"/>
   <table-filter match-name="PP_ENTORNOS"/>
-  <table-filter match-name="PP_ROL_PERMISOS"/>
-  <table-filter match-name="PP_SISTEMAS"/>
-  <table-filter match-name="PP_PERMISOS"/>
   <table-filter match-name="PP_ARCHIVOS_PASE"/>
-  <table-filter match-name="PP_ARCHIVOS_USO"/>
-  <table-filter match-name="PP_ARCHIVOS_APROB"/>
   <table-filter match-name="PP_ROLES"/>
 </hibernate-reverse-engineering>

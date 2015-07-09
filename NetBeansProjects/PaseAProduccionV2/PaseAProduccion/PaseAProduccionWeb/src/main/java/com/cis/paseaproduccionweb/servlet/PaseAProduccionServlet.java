@@ -192,11 +192,9 @@ public class PaseAProduccionServlet extends HttpServlet {
                         case 2:    //PASE NOCTURNO
                                 archivoAprob.setNombreArchivo(formulario.getNombreFormulario());
                                 archivoAprob.setArchivo(archivoBlobFMX);
+                                archivoAprob.setTipo("FOR");
 
                                 dArchivoAprob.insertarArchivoUso(archivoAprob);
-                                
-                                formulario.setArchivo(archivoBlobFMB);
-                                dFormulario.updateFormularios(formulario);
                                 
                                 archivoUso.setFlagNoche("S");
                                 dArchivosUso.updateArchivoUso(archivoUso);
@@ -259,11 +257,9 @@ public class PaseAProduccionServlet extends HttpServlet {
                     case 2: //PASE NOCTURNO
                             archivoAprob.setNombreArchivo(modulo.getNombreModulo());
                             archivoAprob.setArchivo(archivoBlobFMX);
+                            archivoAprob.setTipo("MOD");
                             
                             dArchivoAprob.insertarArchivoUso(archivoAprob);
-                            
-                            modulo.setArchivo(archivoBlobFMB);
-                            dModulos.updateModulo(modulo);
                             
                             archivoUso.setFlagNoche("S");
                             dArchivosUso.updateArchivoUso(archivoUso);
