@@ -50,7 +50,7 @@ public class CancelarFormularioServlet extends HttpServlet {
             }
                 
             else if(tipoCancelacion.equals("2")){
-                archivoUso.setFlagNoche("S");
+                archivoUso.setFlagNoche("N");
                 dArchivosUso.updateArchivoUso(archivoUso);
             }
                 

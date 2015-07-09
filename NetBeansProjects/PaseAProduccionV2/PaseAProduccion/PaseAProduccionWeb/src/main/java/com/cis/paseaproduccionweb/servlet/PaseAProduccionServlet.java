@@ -123,13 +123,12 @@ public class PaseAProduccionServlet extends HttpServlet {
                     archivoPaseForm.setNombreArchivo(formulario.getNombreFormulario());
                     archivoPaseForm.setArchivo(archivoBlobRDF);
                     
-                    dArchivoPase.insertarArchivoUso(archivoPaseForm);
-                    dArchivoPase.PasarProduccion();
-                    dArchivoPase.TruncarTabla();
-
                     formulario.setFlagUso("N");
                     formulario.setPpusuarioUsuarioId(null);
 
+                    formulario.setArchivo(archivoBlobRDF);
+                    dFormulario.updateFormularios(formulario);
+                    
                     if(archivoUso != null)
                         dArchivosUso.eliminarArchivoUso(archivoUso);
 
@@ -137,8 +136,9 @@ public class PaseAProduccionServlet extends HttpServlet {
                     historial.setFecha(date);
                     historial.setPpFormularios(formulario);*/
                     
-                    formulario.setArchivo(archivoBlobRDF);
-                    dFormulario.updateFormularios(formulario);
+                    dArchivoPase.insertarArchivoUso(archivoPaseForm);
+                    dArchivoPase.PasarProduccion();
+                    dArchivoPase.TruncarTabla();
                 }
                 else{
                     switch(paseTipo){
@@ -153,6 +153,9 @@ public class PaseAProduccionServlet extends HttpServlet {
                                 formulario.setFlagUso("N");
                                 formulario.setPpusuarioUsuarioId(null);
 
+                                formulario.setArchivo(archivoBlobFMB);
+                                dFormulario.updateFormularios(formulario);
+                                
                                 if(archivoUso != null)
                                     dArchivosUso.eliminarArchivoUso(archivoUso);
 
@@ -172,7 +175,10 @@ public class PaseAProduccionServlet extends HttpServlet {
 
                                 formulario.setFlagUso("N");
                                 formulario.setPpusuarioUsuarioId(null);
-
+                                
+                                formulario.setArchivo(archivoBlobFMB);
+                                dFormulario.updateFormularios(formulario);
+                                
                                 if(archivoUso != null)
                                     dArchivosUso.eliminarArchivoUso(archivoUso);
 
@@ -188,16 +194,18 @@ public class PaseAProduccionServlet extends HttpServlet {
                                 archivoAprob.setArchivo(archivoBlobFMX);
 
                                 dArchivoAprob.insertarArchivoUso(archivoAprob);
-
+                                
+                                formulario.setArchivo(archivoBlobFMB);
+                                dFormulario.updateFormularios(formulario);
+                                
                                 archivoUso.setFlagNoche("S");
+                                dArchivosUso.updateArchivoUso(archivoUso);
 
                                 /*historial.setArchivo(archivoBlob);
                                 historial.setFecha(date);
                                 historial.setPpFormularios(formulario);*/
                             break;       
                     }
-                    formulario.setArchivo(archivoBlobFMB);
-                    dFormulario.updateFormularios(formulario);
                 }
             }
             else
@@ -211,6 +219,9 @@ public class PaseAProduccionServlet extends HttpServlet {
                             dArchivoPase.insertarArchivoUso(archivoPaseForm);
                             dArchivoPase.PasarProduccion();
                             dArchivoPase.TruncarTabla();
+                            
+                            modulo.setArchivo(archivoBlobFMB);
+                            dModulos.updateModulo(modulo);
                             
                             if(archivoUso != null)
                                 dArchivosUso.eliminarArchivoUso(archivoUso);
@@ -231,6 +242,9 @@ public class PaseAProduccionServlet extends HttpServlet {
                             dArchivoPase.PasarProduccionServicios();
                             dArchivoPase.TruncarTabla();
                             
+                            modulo.setArchivo(archivoBlobFMB);
+                            dModulos.updateModulo(modulo);
+                            
                             if(archivoUso != null)
                                 dArchivosUso.eliminarArchivoUso(archivoUso);
                             
@@ -248,7 +262,11 @@ public class PaseAProduccionServlet extends HttpServlet {
                             
                             dArchivoAprob.insertarArchivoUso(archivoAprob);
                             
+                            modulo.setArchivo(archivoBlobFMB);
+                            dModulos.updateModulo(modulo);
+                            
                             archivoUso.setFlagNoche("S");
+                            dArchivosUso.updateArchivoUso(archivoUso);
                             
                     /*        historial.setArchivo(archivoBlob);
                             historial.setFecha(date);
@@ -256,8 +274,6 @@ public class PaseAProduccionServlet extends HttpServlet {
                         break;
                         
                 }
-                modulo.setArchivo(archivoBlobFMB);
-                dModulos.updateModulo(modulo);
             }
             response.sendRedirect("mensajePaseConfirmacion.jsp");
         }catch(Exception ex){
