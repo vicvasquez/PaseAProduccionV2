@@ -50,27 +50,10 @@ public class PaseAProduccionServlet extends HttpServlet {
             throws ServletException, IOException {
         try{
             
-            PrintWriter out = response.getWriter();
-            
-             out.println("<img src=\"images/loading.gif\" style=\"width: 250px; height: 250px;\">");
-            
-            
-            Part filePart = request.getPart("archivo");
-            InputStream fileContent = filePart.getInputStream();
-            
             String archId = request.getParameter("archivoId");
             String archivoTipo = request.getParameter("archivoTipo");
             
             BigDecimal archivoId = new BigDecimal(archId);
-            
-            ByteArrayOutputStream output = new ByteArrayOutputStream();
-            long tamaño = filePart.getSize();
-            
-            byte[] bytes = new byte[(int)tamaño];
-            for(int i = 0; (i = fileContent.read(bytes))>0;)
-                output.write(bytes, 0, i);
-            
-            Blob archivoBlob = new javax.sql.rowset.serial.SerialBlob(bytes);
 
             String paseTip = request.getParameter("paseTipo");
             Integer paseTipo = new Integer(paseTip);
@@ -90,13 +73,55 @@ public class PaseAProduccionServlet extends HttpServlet {
             ArchivosUsoDao dArchivosUso = new ArchivosUsoDao();
             PpArchivosUso archivoUso = dArchivosUso.getArchivosUsoByArchivoIdYTipo(archivoId, archivoTipo);
             
+            Blob archivoBlobRDF = null;
+            Blob archivoBlobFMB = null;
+            Blob archivoBlobFMX = null;
+            
+            if(archivoTipo.equals("REP")){
+                //COPIAR RDF
+                Part filePartRDF = request.getPart("archivoRDF");
+                InputStream fileContentRDF = filePartRDF.getInputStream();
+                byte[] bytesRDF = new byte[(int)filePartRDF.getSize()];
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+
+                for(int i = 0; (i = fileContentRDF.read(bytesRDF))>0;)
+                    output.write(bytesRDF, 0, i);
+                
+                archivoBlobRDF = new javax.sql.rowset.serial.SerialBlob(bytesRDF);
+            }
+            else{
+                //COPIAR FMB
+                Part filePartFMB = request.getPart("archivoFMB");
+                InputStream fileContentFMB = filePartFMB.getInputStream();
+
+                byte[] bytesFMB = new byte[(int)filePartFMB.getSize()];
+                ByteArrayOutputStream outputFMB = new ByteArrayOutputStream();
+
+                for(int i = 0; (i = fileContentFMB.read(bytesFMB))>0;)
+                    outputFMB.write(bytesFMB, 0, i);
+
+                archivoBlobFMB = new javax.sql.rowset.serial.SerialBlob(bytesFMB);
+
+                //COPIAR FMB
+                Part filePartFMX = request.getPart("archivoFMX");
+                InputStream fileContentFMX = filePartFMX.getInputStream();
+
+                byte[] bytesFMX = new byte[(int)filePartFMX.getSize()];
+                ByteArrayOutputStream outputFMX = new ByteArrayOutputStream();
+
+                for(int i = 0; (i = fileContentFMX.read(bytesFMX))>0;)
+                    outputFMX.write(bytesFMX, 0, i);
+
+                archivoBlobFMX = new javax.sql.rowset.serial.SerialBlob(bytesFMX);
+            }
+            
             if(archivoTipo.equals("FOR"))
             {
                 PpFormularios formulario = dFormulario.getFormularioByFormularioId(archivoId);
                 if(formulario.getFlagTipo().equals("R")){
                     
                     archivoPaseForm.setNombreArchivo(formulario.getNombreFormulario());
-                    archivoPaseForm.setArchivo(archivoBlob);
+                    archivoPaseForm.setArchivo(archivoBlobRDF);
                     
                     dArchivoPase.insertarArchivoUso(archivoPaseForm);
                     dArchivoPase.PasarProduccion();
@@ -111,12 +136,15 @@ public class PaseAProduccionServlet extends HttpServlet {
     /*              historial.setArchivo(archivoBlob);
                     historial.setFecha(date);
                     historial.setPpFormularios(formulario);*/
+                    
+                    formulario.setArchivo(archivoBlobRDF);
+                    dFormulario.updateFormularios(formulario);
                 }
                 else{
                     switch(paseTipo){
                         case 0:  //INTENTAR SIN BAJAR SERVICIOS
                                 archivoPaseForm.setNombreArchivo(formulario.getNombreFormulario());
-                                archivoPaseForm.setArchivo(archivoBlob);
+                                archivoPaseForm.setArchivo(archivoBlobFMX);
 
                                 dArchivoPase.insertarArchivoUso(archivoPaseForm);
                                 dArchivoPase.PasarProduccion();
@@ -135,7 +163,7 @@ public class PaseAProduccionServlet extends HttpServlet {
 
                         case 1:   //BAJANDO SERVICIOS
                                 archivoPaseForm.setNombreArchivo(formulario.getNombreFormulario());
-                                archivoPaseForm.setArchivo(archivoBlob);
+                                archivoPaseForm.setArchivo(archivoBlobFMX);
 
                                 dArchivoPase.insertarArchivoUso(archivoPaseForm);
                                 dArchivoPase.PasarProduccionServicios();
@@ -157,7 +185,7 @@ public class PaseAProduccionServlet extends HttpServlet {
 
                         case 2:    //PASE NOCTURNO
                                 archivoAprob.setNombreArchivo(formulario.getNombreFormulario());
-                                archivoAprob.setArchivo(archivoBlob);
+                                archivoAprob.setArchivo(archivoBlobFMX);
 
                                 dArchivoAprob.insertarArchivoUso(archivoAprob);
 
@@ -168,9 +196,9 @@ public class PaseAProduccionServlet extends HttpServlet {
                                 historial.setPpFormularios(formulario);*/
                             break;       
                     }
+                    formulario.setArchivo(archivoBlobFMB);
+                    dFormulario.updateFormularios(formulario);
                 }
-                formulario.setArchivo(archivoBlob);
-                dFormulario.updateFormularios(formulario);
             }
             else
             {
@@ -178,7 +206,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                 switch(paseTipo){
                     case 0: //INTENTAR SIN BAJAR SERVICIOS
                             archivoPaseForm.setNombreArchivo(modulo.getNombreModulo());
-                            archivoPaseForm.setArchivo(archivoBlob);
+                            archivoPaseForm.setArchivo(archivoBlobFMX);
 
                             dArchivoPase.insertarArchivoUso(archivoPaseForm);
                             dArchivoPase.PasarProduccion();
@@ -197,7 +225,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                     
                     case 1: //BAJANDO SERVICIOS
                             archivoPaseForm.setNombreArchivo(modulo.getNombreModulo());
-                            archivoPaseForm.setArchivo(archivoBlob);
+                            archivoPaseForm.setArchivo(archivoBlobFMX);
 
                             dArchivoPase.insertarArchivoUso(archivoPaseForm);
                             dArchivoPase.PasarProduccionServicios();
@@ -216,7 +244,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                         
                     case 2: //PASE NOCTURNO
                             archivoAprob.setNombreArchivo(modulo.getNombreModulo());
-                            archivoAprob.setArchivo(archivoBlob);
+                            archivoAprob.setArchivo(archivoBlobFMX);
                             
                             dArchivoAprob.insertarArchivoUso(archivoAprob);
                             
@@ -228,7 +256,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                         break;
                         
                 }
-                modulo.setArchivo(archivoBlob);
+                modulo.setArchivo(archivoBlobFMB);
                 dModulos.updateModulo(modulo);
             }
             response.sendRedirect("mensajePaseConfirmacion.jsp");

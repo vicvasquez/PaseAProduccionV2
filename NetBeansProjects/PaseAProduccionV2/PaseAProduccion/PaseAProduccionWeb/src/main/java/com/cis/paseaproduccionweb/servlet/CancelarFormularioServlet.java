@@ -40,7 +40,7 @@ public class CancelarFormularioServlet extends HttpServlet {
                     dModulo.updateModulo(modulo);
                 }
 
-                else if(tipo.equals("FOR")){
+                else if(tipo.equals("FOR") || tipo.equals("REP")){
                     FormulariosDao dFormulario = new FormulariosDao();
                     PpFormularios formulario = dFormulario.getFormularioByFormularioId(archivoId);
                     formulario.setFlagUso("N");

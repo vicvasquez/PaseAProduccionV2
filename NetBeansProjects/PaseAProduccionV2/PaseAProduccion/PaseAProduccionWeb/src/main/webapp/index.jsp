@@ -27,16 +27,6 @@
 %>
 <!DOCTYPE html>
 <html>
-    <div id="loading" name="loading" style="position: fixed; top: 0; left: 0px; width: 100%; height: 100%; z-index: 10; background-color: rgba(0,0,0,0.5)" hidden="" >
-                            <div style="position: fixed; top: 20%; left: 35%">
-                                <h1 style="color: white">CIS - Cloud Information Solution</h1>
-                                <div class="col-sm-2"></div>
-                                <div class="col-sm-5">
-                                    <img src="images/loading.gif" style="width: 250px; height: 250px;">
-                                </div>
-                                <h1 style="color: white">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Realizando cambios...</h1>
-                            </div>
-    </div>
     <head>
         <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -57,6 +47,16 @@
     </head>
     
     <body>
+        <div id="loading" name="loading" style="position: fixed; top: 0; left: 0px; width: 100%; height: 100%; z-index: 10; background-color: rgba(0,0,0,0.5)" hidden="" >
+                            <div style="position: fixed; top: 20%; left: 35%">
+                                <h1 style="color: white">CIS - Cloud Information Solution</h1>
+                                <div class="col-sm-2"></div>
+                                <div class="col-sm-5">
+                                    <img src="images/loading.gif" style="width: 250px; height: 250px;">
+                                </div>
+                                <h1 style="color: white">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Realizando cambios...</h1>
+                            </div>
+    </div>
         <div class="splash">
             <div class="color-line"></div>
             <div class="splash-title">
@@ -146,6 +146,7 @@
                                                 <th>Formulario</th>
                                             </tr>
                                         </thead>
+                                        <tbody>
                                             <%
                                             for(int i=0; i<misFormsEnUso.size(); i++){
                                                 out.print("<tr>");
@@ -310,14 +311,15 @@
                         <input type="hidden" name="archivoTipo" id="tipo"/>
                         <input type="hidden" name="paseTipo" id="paseTipo"/>
                         
-                        <p>Elija el archivo que desea pasar a producción</p>
-                        <p><input type="file" class="form-control" name="archivo" id="archivo" value="" onchange="activarBotones();"></p>
+                        <div id="FMB" hidden=""><p>Seleccione el archivo FMB<input type="file" class="form-control" name="archivoFMB" id="archivoFMB" value="" onchange="activarBotones();" ></p></div>
+                        <div id="FMX" hidden=""><p>Seleccione el archivo FMX<input type="file" class="form-control" name="archivoFMX" id="archivoFMX" value="" onchange="activarBotones();" ></p></div>
+                        <div id="RDF" hidden=""><p>Seleccione el reporte<input type="file" class="form-control" name="archivoRDF" id="archivoRDF" value="" onchange="activarBotones();"></p></div>
                         <br>                           
                         <p>Elija el método por el cual desea pasar a producción el archivo seleccionado:</p>
-                        <p><button name="btnNocturno" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="setPaseTipo(2);"disabled="true" >Pasar a producción en horario nocturno</button></p>
-                        <p><button name="btnSinBajar" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="setPaseTipo(0);" disabled="true">Intentar pasar a producción sin bajar servicios</button></p>
-                        <p><button name="btnBajar" type="button" class="btn btn-outline btn-danger" style="width: 500px;" disabled="true"
-                                   data-toggle="modal" data-target="#modalConfirmacion">Pasar a producción bajando servicios</button></p>      
+                        <div id="botones" hidden=""><p><button name="btnNocturno" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="setPaseTipo(2);">Pasar a producción en horario nocturno</button></p>
+                        <p><button name="btnSinBajar" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="setPaseTipo(0);">Intentar pasar a producción sin bajar servicios</button></p>
+                        <p><button name="btnBajar" type="button" class="btn btn-outline btn-danger" style="width: 500px;"
+                                   data-toggle="modal" data-target="#modalConfirmacion">Pasar a producción bajando servicios</button></p></div>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -502,19 +504,33 @@
         }
         
         function activarBotones(){
-            $('button[name=btnSinBajar]').removeAttr("disabled");
-            $('button[name=btnNocturno]').removeAttr("disabled");
-            $('button[name=btnBajar]').removeAttr("disabled");
+            if($('input[name=archivoTipo]').val() === "REP")
+            {
+                if($('input[name=archivoRDF]').val() !== "")
+                    $('#botones').show();
+            }
+            else{
+                if($('input[name=archivoFMB]').val() !== "" && $('input[name=archivoFMX]').val() !== "")
+                        $('#botones').show();
+            }
         }
         
         function setValues(archivoId, tipo){
             
             $('input[name=archivoId]').val(archivoId.toString());
             $('input[name=archivoTipo]').val(tipo.toString());
-            $('input[name=archivo]').val("");
-            $('button[name=btnSinBajar]').prop('disabled', true);
-            $('button[name=btnNocturno]').prop('disabled', true);
-            $('button[name=btnBajar]').prop('disabled', true);
+            $('input[name=archivoFMB]').val("");
+            $('input[name=archivoFMX]').val("");
+            $('input[name=archivoRDF]').val("");
+            if($('input[name=archivoTipo]').val() === "REP")
+            {
+                $('#RDF').show();
+            }
+            else{
+                $('#FMB').show();
+                $('#FMX').show();
+            }
+            $('#botones').hide();
         }
         
         function setPaseTipo(paseTipo){

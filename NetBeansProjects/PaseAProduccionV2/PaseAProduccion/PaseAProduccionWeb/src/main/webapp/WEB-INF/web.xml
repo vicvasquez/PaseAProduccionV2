@@ -17,10 +17,6 @@
         <servlet-class>com.cis.paseaproduccionweb.servlet.FormulariosServlet</servlet-class>
     </servlet>
     <servlet>
-        <servlet-name>UploadServlet</servlet-name>
-        <servlet-class>com.cis.paseaproduccionweb.servlet.UploadServlet</servlet-class>
-    </servlet>
-    <servlet>
         <servlet-name>DownloadFormularioServlet</servlet-name>
         <servlet-class>com.cis.paseaproduccionweb.servlet.DownloadFormularioServlet</servlet-class>
     </servlet>
@@ -61,10 +57,6 @@
     <servlet-mapping>
         <servlet-name>FormulariosServlet</servlet-name>
         <url-pattern>/Formularios</url-pattern>
-    </servlet-mapping>
-    <servlet-mapping>
-        <servlet-name>UploadServlet</servlet-name>
-        <url-pattern>/Upload</url-pattern>
     </servlet-mapping>
     <servlet-mapping>
         <servlet-name>DownloadFormularioServlet</servlet-name>
