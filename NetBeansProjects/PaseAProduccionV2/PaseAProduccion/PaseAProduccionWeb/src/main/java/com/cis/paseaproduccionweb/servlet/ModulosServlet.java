@@ -14,10 +14,16 @@ public class ModulosServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String sistemaId = request.getParameter("sistemaId");
-        request.setAttribute("sistemaId", sistemaId);
-        RequestDispatcher rDispatcher = getServletContext().getRequestDispatcher("/mostrarModulos.jsp");
-        rDispatcher.forward(request, response);
+        try {
+            String sistemaId = request.getParameter("sistemaId");
+            request.setAttribute("sistemaId", sistemaId);
+            RequestDispatcher rDispatcher = getServletContext().getRequestDispatcher("/mostrarModulos.jsp");
+            rDispatcher.forward(request, response);
+            
+        } catch (Exception e) {
+            response.sendRedirect("mensajeError.jsp");
+        }
+        
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">

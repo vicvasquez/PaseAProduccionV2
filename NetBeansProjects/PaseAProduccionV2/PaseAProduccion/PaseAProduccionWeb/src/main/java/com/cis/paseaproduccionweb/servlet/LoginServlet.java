@@ -38,7 +38,7 @@ public class LoginServlet extends HttpServlet {
             response.sendRedirect("login.jsp");
         try {
         } catch (Exception e) {
-            e.printStackTrace();
+            response.sendRedirect("mensajeError.jsp");
         }
     }
 

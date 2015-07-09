@@ -83,6 +83,7 @@ public class DownloadModuloServlet extends HttpServlet {
         }
         catch(Exception ex)
         {
+            response.sendRedirect("mensajeError.jsp");
         }
     }
 

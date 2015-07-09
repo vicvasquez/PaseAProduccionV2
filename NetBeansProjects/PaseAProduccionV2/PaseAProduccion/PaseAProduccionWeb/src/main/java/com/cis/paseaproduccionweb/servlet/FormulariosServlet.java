@@ -14,18 +14,23 @@ public class FormulariosServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         
-        String padreId = request.getParameter("padreId");
-        String tipoPadre = request.getParameter("tipoPadre");
-        String sistemaId = request.getParameter("sistemaId");
-        String filtro = request.getParameter("filtro");
-        String filtroEstado = request.getParameter("filtroEstado");
-        request.setAttribute("padreId", padreId);
-        request.setAttribute("tipoPadre", tipoPadre);
-        request.setAttribute("sistemaId", sistemaId);
-        request.setAttribute("filtro", filtro);
-        request.setAttribute("filtroEstado", filtroEstado);
-        RequestDispatcher rDispatcher = getServletContext().getRequestDispatcher("/mostrarFormularios.jsp");
-        rDispatcher.forward(request, response);
+        try {
+            String padreId = request.getParameter("padreId");
+            String tipoPadre = request.getParameter("tipoPadre");
+            String sistemaId = request.getParameter("sistemaId");
+            String filtro = request.getParameter("filtro");
+            String filtroEstado = request.getParameter("filtroEstado");
+            request.setAttribute("padreId", padreId);
+            request.setAttribute("tipoPadre", tipoPadre);
+            request.setAttribute("sistemaId", sistemaId);
+            request.setAttribute("filtro", filtro);
+            request.setAttribute("filtroEstado", filtroEstado);
+            RequestDispatcher rDispatcher = getServletContext().getRequestDispatcher("/mostrarFormularios.jsp");
+            rDispatcher.forward(request, response);
+        } catch (Exception e) {
+            response.sendRedirect("mensajeError.jsp");
+        }
+        
 
     }
 

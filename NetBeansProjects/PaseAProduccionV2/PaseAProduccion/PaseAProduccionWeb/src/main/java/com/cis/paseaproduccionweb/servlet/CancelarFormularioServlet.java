@@ -18,45 +18,51 @@ public class CancelarFormularioServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
 
-        String archId = request.getParameter("archivoId");
-        String tipo = request.getParameter("archivoTipo");
-        String tipoCancelacion = request.getParameter("tipoCancelacion");
-        PpArchivosUso archivoUso = null;
-        
-        ArchivosUsoDao dArchivosUso = new ArchivosUsoDao();
-        BigDecimal archivoId = new BigDecimal(archId);
-        
-        archivoUso = dArchivosUso.getArchivosUsoByArchivoIdYTipo(archivoId, tipo);
-        
-        if(archivoUso != null)
-        {
-            if(tipoCancelacion.equals("1")){
-                dArchivosUso.eliminarArchivoUso(archivoUso);
-                if(tipo.equals("MOD")){
-                    ModulosDao dModulo = new ModulosDao();
-                    PpModulos modulo = dModulo.getModuloByModuloId(archivoId);
-                    modulo.setFlagUso("N");
-                    modulo.setPpusuarioUsuarioId(null);
-                    dModulo.updateModulo(modulo);
+        try {
+ 
+            String archId = request.getParameter("archivoId");
+            String tipo = request.getParameter("archivoTipo");
+            String tipoCancelacion = request.getParameter("tipoCancelacion");
+            PpArchivosUso archivoUso = null;
+
+            ArchivosUsoDao dArchivosUso = new ArchivosUsoDao();
+            BigDecimal archivoId = new BigDecimal(archId);
+
+            archivoUso = dArchivosUso.getArchivosUsoByArchivoIdYTipo(archivoId, tipo);
+
+            if(archivoUso != null)
+            {
+                if(tipoCancelacion.equals("1")){
+                    dArchivosUso.eliminarArchivoUso(archivoUso);
+                    if(tipo.equals("MOD")){
+                        ModulosDao dModulo = new ModulosDao();
+                        PpModulos modulo = dModulo.getModuloByModuloId(archivoId);
+                        modulo.setFlagUso("N");
+                        modulo.setPpusuarioUsuarioId(null);
+                        dModulo.updateModulo(modulo);
+                    }
+
+                    else if(tipo.equals("FOR") || tipo.equals("REP")){
+                        FormulariosDao dFormulario = new FormulariosDao();
+                        PpFormularios formulario = dFormulario.getFormularioByFormularioId(archivoId);
+                        formulario.setFlagUso("N");
+                        formulario.setPpusuarioUsuarioId(null);
+                        dFormulario.updateFormularios(formulario);
+                    }
                 }
 
-                else if(tipo.equals("FOR") || tipo.equals("REP")){
-                    FormulariosDao dFormulario = new FormulariosDao();
-                    PpFormularios formulario = dFormulario.getFormularioByFormularioId(archivoId);
-                    formulario.setFlagUso("N");
-                    formulario.setPpusuarioUsuarioId(null);
-                    dFormulario.updateFormularios(formulario);
+                else if(tipoCancelacion.equals("2")){
+                    archivoUso.setFlagNoche("N");
+                    dArchivosUso.updateArchivoUso(archivoUso);
                 }
-            }
-                
-            else if(tipoCancelacion.equals("2")){
-                archivoUso.setFlagNoche("N");
-                dArchivosUso.updateArchivoUso(archivoUso);
-            }
                 
         }
         
         response.sendRedirect("index.jsp");
+            
+        } catch (Exception e) {
+            response.sendRedirect("mensajeError.jsp");
+        }
         
     }
 

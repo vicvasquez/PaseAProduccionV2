@@ -84,7 +84,7 @@ public class DownloadFormularioServlet extends HttpServlet {
         }
         catch(Exception ex)
         {
-            
+            response.sendRedirect("mensajeError.jsp");
         }
         
         }

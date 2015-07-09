@@ -17,26 +17,32 @@ public class ActualizarPerfilServlet extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException{
         
-        String nombre = request.getParameter("nombre");
-        String email = request.getParameter("email");
-        String rutaLocal = request.getParameter("rutaLocal");
-        String password = request.getParameter("password1");
-        
-        BigDecimal usuarioId = new BigDecimal(request.getParameter("usuarioId"));
-        
-        UsuariosDao dUsuario = new UsuariosDao();
-        
-        PpUsuarios usuario =  dUsuario.getUsuarioById(usuarioId);
-        
-        usuario.setNombre(nombre);
-        usuario.setEmail(email);
-        usuario.setRutaLocal(rutaLocal);
-        usuario.setClave(password);
-        
-        dUsuario.updateUsuario(usuario);
-        request.setAttribute("user", usuario);
-        request.getSession().setAttribute("user", usuario);
-        response.sendRedirect("perfil.jsp");
+        try {
+            String nombre = request.getParameter("nombre");
+            String email = request.getParameter("email");
+            String rutaLocal = request.getParameter("rutaLocal");
+            String password = request.getParameter("password1");
+
+            BigDecimal usuarioId = new BigDecimal(request.getParameter("usuarioId"));
+
+            UsuariosDao dUsuario = new UsuariosDao();
+
+            PpUsuarios usuario =  dUsuario.getUsuarioById(usuarioId);
+
+            usuario.setNombre(nombre);
+            usuario.setEmail(email);
+            usuario.setRutaLocal(rutaLocal);
+            usuario.setClave(password);
+
+            dUsuario.updateUsuario(usuario);
+            request.setAttribute("user", usuario);
+            request.getSession().setAttribute("user", usuario);
+            response.sendRedirect("perfil.jsp");
+            
+        } catch (Exception e) {
+            response.sendRedirect("mensajeError.jsp");
+            
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
