@@ -75,7 +75,7 @@ public class ArchivosUsoDao {
         return archivoUso;
     }
     
-    public void eliminarArchivoUso(PpArchivosUso archivosUsoDelete){
+    public void eliminarArchivoUso(BigDecimal archivoUsoId, String flagLiberar){
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
@@ -83,7 +83,10 @@ public class ArchivosUsoDao {
         try {
             tx = session.getTransaction();
             tx.begin();
-            session.delete(archivosUsoDelete);
+            Query q = session.getNamedQuery("SP_ELIMINAR_ARCHIVO_USO");
+            q.setBigDecimal(0, archivoUsoId);
+            q.setString(1, flagLiberar);
+            Integer resultado = (Integer) q.uniqueResult();
             tx.commit();
         } catch (Exception e) {
             if(tx != null)

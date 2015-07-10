@@ -34,7 +34,7 @@ public class CancelarFormularioServlet extends HttpServlet {
             if(archivoUso != null)
             {
                 if(tipoCancelacion.equals("1")){
-                    dArchivosUso.eliminarArchivoUso(archivoUso);
+                    dArchivosUso.eliminarArchivoUso(archivoUso.getArchivoUsoId(), "S");
                     if(tipo.equals("MOD")){
                         ModulosDao dModulo = new ModulosDao();
                         PpModulos modulo = dModulo.getModuloByModuloId(archivoId);

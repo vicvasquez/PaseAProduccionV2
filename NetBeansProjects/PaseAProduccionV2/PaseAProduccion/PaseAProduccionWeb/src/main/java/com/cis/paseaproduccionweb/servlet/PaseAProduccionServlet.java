@@ -130,7 +130,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                     dFormulario.updateFormularios(formulario);
                     
                     if(archivoUso != null)
-                        dArchivosUso.eliminarArchivoUso(archivoUso);
+                        dArchivosUso.eliminarArchivoUso(archivoUso.getArchivoUsoId(), "N");
 
     /*              historial.setArchivo(archivoBlob);
                     historial.setFecha(date);
@@ -157,7 +157,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                                 dFormulario.updateFormularios(formulario);
                                 
                                 if(archivoUso != null)
-                                    dArchivosUso.eliminarArchivoUso(archivoUso);
+                                    dArchivosUso.eliminarArchivoUso(archivoUso.getArchivoUsoId(), "N");
 
     /*                          historial.setArchivo(archivoBlob);
                                 historial.setFecha(date);
@@ -180,7 +180,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                                 dFormulario.updateFormularios(formulario);
                                 
                                 if(archivoUso != null)
-                                    dArchivosUso.eliminarArchivoUso(archivoUso);
+                                    dArchivosUso.eliminarArchivoUso(archivoUso.getArchivoUsoId(), "N");
 
                                /* historial.setArchivo(archivoBlob);
                                 historial.setFecha(date);
@@ -222,7 +222,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                             dModulos.updateModulo(modulo);
                             
                             if(archivoUso != null)
-                                dArchivosUso.eliminarArchivoUso(archivoUso);
+                                dArchivosUso.eliminarArchivoUso(archivoUso.getArchivoUsoId(), "N");
                             
                             modulo.setFlagUso("N");
                             modulo.setPpusuarioUsuarioId(null);
@@ -244,7 +244,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                             dModulos.updateModulo(modulo);
                             
                             if(archivoUso != null)
-                                dArchivosUso.eliminarArchivoUso(archivoUso);
+                                dArchivosUso.eliminarArchivoUso(archivoUso.getArchivoUsoId(), "N");
                             
                             modulo.setFlagUso("N");
                             modulo.setPpusuarioUsuarioId(null);

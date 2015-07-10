@@ -51,11 +51,12 @@ public class DownloadFormularioServlet extends HttpServlet {
                 archivoUso.setFlagNoche("N");
                 archivoUso.setUsuarioId(usuario.getUsuarioId());
 
-                dArchivoUso.insertarArchivoUso(archivoUso);
                 formulario.setFlagUso("S");
-                formulario.setPpusuarioUsuarioId(usuario.getUsuarioId());
+                formulario.setPpusuarioUsuarioId(usuario.getUsuarioId());                
+                dFormulario.updateFormularios(formulario); 
                 
-                dFormulario.updateFormularios(formulario);                
+                dArchivoUso.insertarArchivoUso(archivoUso);
+                               
             }
             
             if(formulario.getArchivo() != null){
