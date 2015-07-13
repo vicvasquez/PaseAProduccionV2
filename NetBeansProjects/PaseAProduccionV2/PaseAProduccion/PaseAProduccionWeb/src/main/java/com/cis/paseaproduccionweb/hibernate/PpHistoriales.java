@@ -1,5 +1,5 @@
 package com.cis.paseaproduccionweb.hibernate;
-// Generated 09/07/2015 06:17:05 PM by Hibernate Tools 4.3.1
+// Generated 13/07/2015 10:15:35 AM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -16,10 +16,12 @@ public class PpHistoriales  implements java.io.Serializable {
      private PpModulos ppModulos;
      private PpSubmenus ppSubmenus;
      private PpFormularios ppFormularios;
-     private BigDecimal aprobadorId;
      private Blob archivo;
      private Date fecha;
      private Long nroVersion;
+     private String comentarioPase;
+     private String comentarioServicios;
+     private BigDecimal usuarioId;
 
     public PpHistoriales() {
     }
@@ -28,15 +30,17 @@ public class PpHistoriales  implements java.io.Serializable {
     public PpHistoriales(BigDecimal historialId) {
         this.historialId = historialId;
     }
-    public PpHistoriales(BigDecimal historialId, PpModulos ppModulos, PpSubmenus ppSubmenus, PpFormularios ppFormularios, BigDecimal aprobadorId, Blob archivo, Date fecha, Long nroVersion) {
+    public PpHistoriales(BigDecimal historialId, PpModulos ppModulos, PpSubmenus ppSubmenus, PpFormularios ppFormularios, Blob archivo, Date fecha, Long nroVersion, String comentarioPase, String comentarioServicios, BigDecimal usuarioId) {
        this.historialId = historialId;
        this.ppModulos = ppModulos;
        this.ppSubmenus = ppSubmenus;
        this.ppFormularios = ppFormularios;
-       this.aprobadorId = aprobadorId;
        this.archivo = archivo;
        this.fecha = fecha;
        this.nroVersion = nroVersion;
+       this.comentarioPase = comentarioPase;
+       this.comentarioServicios = comentarioServicios;
+       this.usuarioId = usuarioId;
     }
    
     public BigDecimal getHistorialId() {
@@ -67,13 +71,6 @@ public class PpHistoriales  implements java.io.Serializable {
     public void setPpFormularios(PpFormularios ppFormularios) {
         this.ppFormularios = ppFormularios;
     }
-    public BigDecimal getAprobadorId() {
-        return this.aprobadorId;
-    }
-    
-    public void setAprobadorId(BigDecimal aprobadorId) {
-        this.aprobadorId = aprobadorId;
-    }
     public Blob getArchivo() {
         return this.archivo;
     }
@@ -94,6 +91,27 @@ public class PpHistoriales  implements java.io.Serializable {
     
     public void setNroVersion(Long nroVersion) {
         this.nroVersion = nroVersion;
+    }
+    public String getComentarioPase() {
+        return this.comentarioPase;
+    }
+    
+    public void setComentarioPase(String comentarioPase) {
+        this.comentarioPase = comentarioPase;
+    }
+    public String getComentarioServicios() {
+        return this.comentarioServicios;
+    }
+    
+    public void setComentarioServicios(String comentarioServicios) {
+        this.comentarioServicios = comentarioServicios;
+    }
+    public BigDecimal getUsuarioId() {
+        return this.usuarioId;
+    }
+    
+    public void setUsuarioId(BigDecimal usuarioId) {
+        this.usuarioId = usuarioId;
     }
 
 

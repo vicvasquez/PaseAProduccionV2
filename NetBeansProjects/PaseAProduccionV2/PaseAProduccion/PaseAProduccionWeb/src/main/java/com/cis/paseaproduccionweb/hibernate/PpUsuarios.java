@@ -1,5 +1,5 @@
 package com.cis.paseaproduccionweb.hibernate;
-// Generated 09/07/2015 06:17:05 PM by Hibernate Tools 4.3.1
+// Generated 13/07/2015 10:15:35 AM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -12,6 +12,7 @@ public class PpUsuarios  implements java.io.Serializable {
 
 
      private BigDecimal usuarioId;
+     private PpRoles ppRoles;
      private String email;
      private String rutaLocal;
      private String clave;
@@ -19,20 +20,18 @@ public class PpUsuarios  implements java.io.Serializable {
      private String nombre;
      private Date dateModified;
      private String flagEstado;
-     private BigDecimal pprolRolId;
-     private String credUsuario;
-     private String credPassword;
 
     public PpUsuarios() {
     }
 
 	
-    public PpUsuarios(BigDecimal usuarioId, BigDecimal pprolRolId) {
+    public PpUsuarios(BigDecimal usuarioId, PpRoles ppRoles) {
         this.usuarioId = usuarioId;
-        this.pprolRolId = pprolRolId;
+        this.ppRoles = ppRoles;
     }
-    public PpUsuarios(BigDecimal usuarioId, String email, String rutaLocal, String clave, String nombreUsuario, String nombre, Date dateModified, String flagEstado, BigDecimal pprolRolId, String credUsuario, String credPassword) {
+    public PpUsuarios(BigDecimal usuarioId, PpRoles ppRoles, String email, String rutaLocal, String clave, String nombreUsuario, String nombre, Date dateModified, String flagEstado) {
        this.usuarioId = usuarioId;
+       this.ppRoles = ppRoles;
        this.email = email;
        this.rutaLocal = rutaLocal;
        this.clave = clave;
@@ -40,9 +39,6 @@ public class PpUsuarios  implements java.io.Serializable {
        this.nombre = nombre;
        this.dateModified = dateModified;
        this.flagEstado = flagEstado;
-       this.pprolRolId = pprolRolId;
-       this.credUsuario = credUsuario;
-       this.credPassword = credPassword;
     }
    
     public BigDecimal getUsuarioId() {
@@ -51,6 +47,13 @@ public class PpUsuarios  implements java.io.Serializable {
     
     public void setUsuarioId(BigDecimal usuarioId) {
         this.usuarioId = usuarioId;
+    }
+    public PpRoles getPpRoles() {
+        return this.ppRoles;
+    }
+    
+    public void setPpRoles(PpRoles ppRoles) {
+        this.ppRoles = ppRoles;
     }
     public String getEmail() {
         return this.email;
@@ -100,27 +103,6 @@ public class PpUsuarios  implements java.io.Serializable {
     
     public void setFlagEstado(String flagEstado) {
         this.flagEstado = flagEstado;
-    }
-    public BigDecimal getPprolRolId() {
-        return this.pprolRolId;
-    }
-    
-    public void setPprolRolId(BigDecimal pprolRolId) {
-        this.pprolRolId = pprolRolId;
-    }
-    public String getCredUsuario() {
-        return this.credUsuario;
-    }
-    
-    public void setCredUsuario(String credUsuario) {
-        this.credUsuario = credUsuario;
-    }
-    public String getCredPassword() {
-        return this.credPassword;
-    }
-    
-    public void setCredPassword(String credPassword) {
-        this.credPassword = credPassword;
     }
 
 

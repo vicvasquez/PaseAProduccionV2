@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 09/07/2015 06:17:05 PM by Hibernate Tools 4.3.1 -->
+<!-- Generated 13/07/2015 10:15:35 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.cis.paseaproduccionweb.hibernate.PpArchivosAprob" table="PP_ARCHIVOS_APROB" schema="PROYECTO01" optimistic-lock="version">
         <id name="aaprobId" type="big_decimal">
             <column name="AAPROB_ID" precision="22" scale="0" />
-            <generator class="increment" />
+            <generator class="increment " />
         </id>
         <property name="nombreArchivo" type="string">
             <column name="NOMBRE_ARCHIVO" length="100" />

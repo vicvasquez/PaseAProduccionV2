@@ -1,5 +1,5 @@
 package com.cis.paseaproduccionweb.hibernate;
-// Generated 09/07/2015 06:17:05 PM by Hibernate Tools 4.3.1
+// Generated 13/07/2015 10:15:35 AM by Hibernate Tools 4.3.1
 
 
 import java.sql.Blob;
