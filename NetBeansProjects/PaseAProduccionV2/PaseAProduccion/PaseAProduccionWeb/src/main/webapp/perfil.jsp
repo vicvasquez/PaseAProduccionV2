@@ -4,6 +4,8 @@
     Author     : vvasquez
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
 <%@page import="com.cis.paseaproduccionweb.dao.RolDao"%>
 <%@page import="java.util.AbstractList"%>
 <%@page import="java.math.BigDecimal"%>
@@ -194,7 +196,8 @@
                                         <div class="form-group">
                                             <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Ultima modificación</label>
                                             <div class="col-sm-5">
-                                                <% out.print("<input type=\"text\" class=\"form-control\" value=\""+ usuario.getDateModified() +"\" "
+                                                <% DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss");
+                                                out.print("<input type=\"text\" class=\"form-control\" value=\""+ dateFormat.format(usuario.getDateModified()) +"\" "
                                                             + "disabled=\"\">");  %>
                                             </div>  
                                         </div>

@@ -5,6 +5,10 @@ import com.cis.paseaproduccionweb.hibernate.PpUsuarios;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.SimpleFormatter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -33,6 +37,8 @@ public class ActualizarPerfilServlet extends HttpServlet {
             usuario.setEmail(email);
             usuario.setRutaLocal(rutaLocal);
             usuario.setClave(password);
+            Date date = new Date();
+            usuario.setDateModified(date);
 
             dUsuario.updateUsuario(usuario);
             request.setAttribute("user", usuario);
