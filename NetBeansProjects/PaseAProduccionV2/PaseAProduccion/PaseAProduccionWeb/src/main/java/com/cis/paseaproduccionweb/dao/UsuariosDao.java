@@ -12,11 +12,12 @@ public class UsuariosDao {
     
     public PpUsuarios getUsuarioByUsername(String username)
     {
-        Session session = HibernateUtil.getSessionFactory().openSession();
+        Session session = null; 
         Transaction tx = null;
         PpUsuarios usuario = null;
         
         try {
+            session = HibernateUtil.getSessionFactory().openSession();
             tx = session.getTransaction();
             tx.begin();
             Query query = session.createQuery("from PpUsuarios where nombreUsuario='"+username+"'");

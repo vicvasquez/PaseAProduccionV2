@@ -4,6 +4,7 @@
     Author     : vvasquez
 --%>
 
+<%@page import="com.cis.paseaproduccionweb.hibernate.PpRoles"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="com.cis.paseaproduccionweb.dao.RolDao"%>
@@ -136,7 +137,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Rol</label>
                                             <div class="col-sm-5">
-                                            <% out.print("<input type=\"text\" class=\"form-control\" value=\""+ dRol.getRolByRolId(usuario.getPprolRolId()).getNombreRol() +"\" "
+                                                <% out.print("<input type=\"text\" class=\"form-control\" value=\""+ dRol.getRolByRolId(usuario.getPpRoles().getRolId()).getNombreRol() +"\" "
                                                         + " disabled=\"\">");  %>
                                             </div>
                                         </div>
