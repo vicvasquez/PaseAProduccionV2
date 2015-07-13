@@ -92,6 +92,9 @@
                     <li>
                         <a href="mostrarEntornos.jsp"> <span class="nav-label">Reservar Formulario</span> </a>
                     </li>
+                    <li>
+                        <a href="historial.jsp"> <span class="nav-label">Historial</span> </a>
+                    </li>
                     <li class="active">
                         <a href="perfil.jsp"> <span class="nav-label">Perfil</span> </a>
                     </li>

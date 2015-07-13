@@ -1,46 +1,28 @@
 <%-- 
-    Document   : mostrarFormularios
-    Created on : 17/06/2015, 12:49:57 PM
+    Document   : historial
+    Created on : 13/07/2015, 11:21:37 AM
     Author     : vvasquez
 --%>
 
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="java.text.DateFormat"%>
+<%@page import="com.cis.paseaproduccionweb.dao.FormulariosDao"%>
 <%@page import="com.cis.paseaproduccionweb.dao.UsuariosDao"%>
 <%@page import="java.util.List"%>
-<%@page import="com.cis.paseaproduccionweb.hibernate.PpFormularios"%>
-<%@page import="com.cis.paseaproduccionweb.dao.FormulariosDao"%>
-<%@page import="java.math.BigDecimal"%>
+<%@page import="com.cis.paseaproduccionweb.dao.HistorialesDao"%>
+<%@page import="com.cis.paseaproduccionweb.hibernate.PpHistoriales"%>
 <%@page import="com.cis.paseaproduccionweb.hibernate.PpUsuarios"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<!DOCTYPE html>
 <%
     PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
     if(usuario==null)
         response.sendRedirect("login.jsp");
     
-    String tipoPadre = request.getParameter("tipoPadre");
-    BigDecimal padreId = new BigDecimal(request.getParameter("padreId"));
-    String sistemaId = request.getParameter("sistemaId");
-    String filtro = request.getParameter("filtro");
-    String filtroEstado = request.getParameter("filtroEstado");
-    List<PpFormularios> lstFormularios = null;
-    
-    FormulariosDao dFormularios = new FormulariosDao();
+    HistorialesDao dHistorial = new HistorialesDao();
+    List<PpHistoriales> lstHistorial = dHistorial.getHistorial();
     UsuariosDao dUsuario = new UsuariosDao();
-    
-    if(tipoPadre.equals("modulo"))
-        lstFormularios = dFormularios.getFormulariosByModuloId(padreId);
-    else if(tipoPadre.equals("submenu"))
-        lstFormularios = dFormularios.getFormulariosBySubmenuId(padreId);
-    else
-        lstFormularios = null;
-    
-    if(filtro!=null){
-        lstFormularios = dFormularios.filtrarFormularios(lstFormularios, filtro, filtroEstado);
-    }
-    
-    
-    PpFormularios frm = null;
+    FormulariosDao dFormulario = new FormulariosDao();
         
 %>
 
@@ -109,17 +91,17 @@
                     <li>
                         <a href="index.jsp"> <span class="nav-label">Inicio</span>  </a>
                     </li>
-                    <li class="active">
-                        <a href="mostrarEntornos.jsp"> <span class="nav-label">Reservar Formulario</span> </a>
-                    </li>
                     <li>
-                        <a href="historial.jsp"> <span class="nav-label">Historial</span> </a>
+                        <a href="mostrarEntornos.jsp"> <span class="nav-label">Reservar Formulario</span> </a>
                     </li>
                     <li>
                         <a href="perfil.jsp"> <span class="nav-label">Perfil</span> </a>
                     </li>
                     <li>
                         <a href="#"> <span class="nav-label">Mantenimiento</span> </a>
+                    </li>
+                    <li class="active">
+                        <a href="historial.jsp"> <span class="nav-label">Historial</span> </a>
                     </li>
                 </ul>
             </div>
@@ -129,14 +111,12 @@
                 <div class="hpanel">
                     <div class="panel-body">
                         <h2 class="font-light m-b-xs">
-                            Seleccione el elemento deseado
+                            Historial
                         </h2>
-                        <small>Estos son los formularios y reportes</small>
+                        <small>Se visualiza el historial de los formularios y reportes pasados a produccion</small>
                         <br><br><br>
                         <ol class="hbreadcrumb breadcrumb">
-                            <li><a href="mostrarEntornos.jsp" style="font-weight: bold">Entorno</a></li>
-                            <li><a href="Modulos?sistemaId=<% out.print(sistemaId); %>" style="font-weight: bold">Módulos</a></li>
-                            <li><label style="color: green">Formularios</label></li>
+                            <li><label style="color: green">Historial</label></li>
                         </ol>
                     </div>
                 </div>
@@ -145,66 +125,105 @@
                 <div class="row">
                     <form class="form-horizontal" action="/PaseAProduccionWeb/Formularios" method="post">
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">BUSCAR</label>
+                            <label class="col-sm-3 control-label">Nombre Formulario</label>
                             <div class="col-sm-3">
-                                <input type="text" class="form-control" name="filtro" id="filtro">
+                                <input type="text" class="form-control" name="filtroNombre" id="filtroNombre">
                             </div>
                             <button class="btn btn-primary" type="submit">
                                 <i class="fa fa-search"></i>
                             </button>
                             <div class="col-sm-2">
-                                <select class="form-control m-b" name="filtroEstado">
-                                    <option value="Todos">Todos</option>
-                                    <option value="Disponibles">Disponibles</option>
-                                    <option value="Ocupados">Ocupados</option>
-                                </select>
+                                <input type="date" class="form-control" name="filtroFecha" id="filtroFecha">
                             </div>
                         </div>
-                        <input type="hidden" value="<% out.print(tipoPadre); %>" name="tipoPadre"/>
-                        <input type="hidden" value="<% out.print(padreId); %>" name="padreId"/>
-                        <input type="hidden" value="<% out.print(sistemaId); %>" name="sistemaId"/>
                     </form>
                 </div>
                 <div class="row">
+                    <% for(int i=0; i<lstHistorial.size(); i++){
+                        String nombreFormulario = dFormulario.getFormularioByFormularioId(lstHistorial.get(i).getPpFormularios().getFormularioId()).getNombreFormulario();
+                        String nombreFormularioAnterior = "";
+                        if(i>0)
+                            nombreFormularioAnterior = dFormulario.getFormularioByFormularioId(lstHistorial.get(i-1).getPpFormularios().getFormularioId()).getNombreFormulario();
+                        if(i==0){
+                            out.print("<div class=\"panel-group\" id=\"accordion\" role=\"tablist\" aria-multiselectable=\"true\">");
+                            out.print("<div class=\"panel panel-default\">");
+                            out.print("<div class=\"panel-heading\" role=\"tab\" id=\"headingOne\">");
+                            out.print("<h4 class=\"panel-title\">");
+                            out.print("<h4 class=\"panel-title\">");
+                            out.print("<a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseOne\" aria-expanded=\"false\" aria-controls=\"collapseOne\" class=\"collapsed\">");
+                            out.print(nombreFormulario);
+                            out.print("</a>");
+                            out.print("</h4>");
+                            out.print("</div>");
+                            out.print("<div id=\"collapseOne\" class=\"panel-collapse collapse\" role=\"tabpanel\" aria-labelledby=\"headingOne\" aria-expanded=\"false\" style=\"height: 0px;\">");
+                            out.print("<div class=\"panel-body\">");
+                        }
+                        else{
+                            if(!nombreFormulario.equals(nombreFormularioAnterior))
+                            {
+                                out.print("<div class=\"panel-group\" id=\"accordion\" role=\"tablist\" aria-multiselectable=\"true\">");
+                                out.print("<div class=\"panel panel-default\">");
+                                out.print("<div class=\"panel-heading\" role=\"tab\" id=\"headingOne\">");
+                                out.print("<h4 class=\"panel-title\">");
+                                out.print("<h4 class=\"panel-title\">");
+                                out.print("<a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseOne\" aria-expanded=\"false\" aria-controls=\"collapseOne\" class=\"collapsed\">");
+                                out.print(nombreFormulario);
+                                out.print("</a>");
+                                out.print("</h4>");
+                                out.print("</div>");
+                            }
+                        }
+                        if(i==0 || !nombreFormulario.equals(nombreFormularioAnterior)){
+                    %>
                     <div class="hpanel">
                         <div class="panel-body">
                             <div class="table-responsive">
                                 <table cellpadding="1" cellspacing="1" class="table table-bordered table-striped">
                                     <thead>
                                         <tr>
-                                            <th>Nombre</th>
-                                            <th>Descripcion</th>
-                                            <th>Estado</th>
-                                            <th>Reservar para trabajar</th>
-                                            <th>Descargar para consultar</th>
+                                            <th style="text-align: center">Nombre</th>
+                                            <th style="text-align: center">Ultimo usuario</th>
+                                            <th style="text-align: center">Fecha</th>
+                                            <th style="text-align: center">Version</th>
+                                            <th style="text-align: center">Comentario</th>
+                                            <th style="text-align: center">Motivo de Baja de servicios</th>
+                                            <th style="text-align: center">Descargar</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                    <%
-                                        for(int i=0; i<lstFormularios.size(); i++){
-                                            out.print("<tr>");
-                                            out.print("<td>"+ lstFormularios.get(i).getNombreFormulario() +"</td>");
-                                            out.print("<td>"+ lstFormularios.get(i).getDescFormulario()+"</td>");
-                                            if(lstFormularios.get(i).getFlagUso().equals("N")){
-                                                out.print("<td class=\"font-bold text-success\">DISPONIBLE</td>");
-                                                out.print("<td style=\"text-align: center\"><button class=\"btn btn-success\" data-toggle=\"modal\" data-target=\"#modalDescargar\" type=\"button\" "
-                                                        + "onclick=\"setValues(\'"+ lstFormularios.get(i).getFormularioId() +"\', \'trabajo\');\"><i class=\"fa fa-download\"></i>&nbsp;&nbsp;<span class=\"bold\">Reservar para trabajar</span></button></td>");
-                                            }
-                                            else{
-                                                out.print("<td class=\"font-bold text-danger\">EN USO POR "+ 
-                                                        dUsuario.getUsuarioById(lstFormularios.get(i).getPpusuarioUsuarioId()).getNombre().toUpperCase() +"</td>");
-                                                out.print("<td style=\"text-align: center\"><i class=\"fa fa-lock fa-2x\"></i></td>");
-                                            }
-                                            out.print("<td style=\"text-align: center\"><button class=\"btn btn-info btn-sm\" data-toggle=\"modal\" data-target=\"#modalDescargar\" type=\"button\" "
-                                                + "onclick=\"setValues(\'"+ lstFormularios.get(i).getFormularioId() +"\', \'consulta\');\"><i class=\"fa fa-download\"></i>&nbsp;&nbsp;<span class=\"bold\">Descargar para consultar</span></button></td>");
-                                            out.print("</tr>");
-                                        }
+                                    <% }
+                                        DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss");
+                                        out.print("<tr>");
+                                        out.print("<td>"+ dFormulario.getFormularioByFormularioId(lstHistorial.get(i).getPpFormularios().getFormularioId()).getNombreFormulario()+"</td>");
+                                        out.print("<td>"+ dUsuario.getUsuarioById(lstHistorial.get(i).getUsuarioId()).getNombre() +"</td>");
+                                        out.print("<td>"+ dateFormat.format(lstHistorial.get(i).getFecha()) +"</td>");
+                                        out.print("<td style=\"text-align: center\">"+ lstHistorial.get(i).getNroVersion() +"</td>");
+                                        if(lstHistorial.get(i).getComentarioPase() == null)
+                                            out.print("<td>No hay comentarios del Pase a Producción</td>");
+                                        else
+                                            out.print("<td>"+ lstHistorial.get(i).getComentarioPase()+"</td>");
+                                        if(lstHistorial.get(i).getComentarioServicios() == null)
+                                            out.print("<td>No se bajaron los servicios para este pase a producción</td>");
+                                        else
+                                            out.print("<td>"+ lstHistorial.get(i).getComentarioServicios()+"</td>");
+                                        out.print("<td style=\"text-align: center\"><button class=\"btn btn-success\" data-toggle=\"modal\" data-target=\"#modalDescargar\" type=\"button\" "
+                                                    + "onclick=\"setValues(\'"+ lstHistorial.get(i).getPpFormularios().getFormularioId() +"\', \'trabajo\');\"><i class=\"fa fa-download\"></i>&nbsp;&nbsp;<span class=\"bold\">Descargar</span></button></td>");
+                                        out.print("</tr>");
+                                        
+                                        if(i>0 && !nombreFormulario.equals(nombreFormularioAnterior)){
                                     %>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                    </div>
+                    </div>                 
+                    <%
+                    }}
+                    out.print("</div>");
+                    out.print("</div>");
+                    out.print("</div>");
+                    out.print("</div>");
+                    %>
                 </div>
             </div>
         </div>

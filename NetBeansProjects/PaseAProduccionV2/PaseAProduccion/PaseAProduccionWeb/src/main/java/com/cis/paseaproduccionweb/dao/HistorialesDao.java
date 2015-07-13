@@ -8,6 +8,7 @@ package com.cis.paseaproduccionweb.dao;
 import com.cis.paseaproduccionweb.hibernate.HibernateUtil;
 import com.cis.paseaproduccionweb.hibernate.PpHistoriales;
 import java.math.BigDecimal;
+import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
@@ -56,5 +57,25 @@ public class HistorialesDao {
         } finally{
             session.close();
         }
+    }
+    
+    public List<PpHistoriales> getHistorial(){
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        List<PpHistoriales> lstHistorial = null;
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            Query query = session.createQuery("from PpHistoriales h order by h.nroVersion DESC");
+            lstHistorial = query.list();
+            tx.commit();
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+        } finally{
+            session.close();
+        }
+        
+        return lstHistorial;
     }
 }
