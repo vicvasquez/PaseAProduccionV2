@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 13/07/2015 10:15:35 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated 14/07/2015 09:25:57 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.cis.paseaproduccionweb.hibernate.PpArchivosAprob" table="PP_ARCHIVOS_APROB" schema="PROYECTO01" optimistic-lock="version">
         <id name="aaprobId" type="big_decimal">
@@ -18,4 +18,11 @@
             <column name="TIPO" length="3" />
         </property>
     </class>
+    <sql-query name="SP_PASE_PRODUCCION" callable="true"><return-scalar column="cnt" type="integer"/>
+                { ? = call PASE_A_PRODUCCION }
+    </sql-query><sql-query name="SP_PASE_PRODUCCION_SERVICIOS" callable="true"><return-scalar column="cnt" type="integer"/>
+                { ? = call PASE_PRODUCCION_SERVICIOS }
+    </sql-query><sql-query name="SP_ELIMINAR_ARCHIVO_USO" callable="true"><return-scalar column="cnt" type="integer"/>
+                { ? = call ELIMINAR_ARCHIVO_USO( ? , ?) }
+    </sql-query>
 </hibernate-mapping>

@@ -22,8 +22,27 @@
     HistorialesDao dHistorial = new HistorialesDao();
     List<PpHistoriales> lstHistorial = dHistorial.getHistorial();
     UsuariosDao dUsuario = new UsuariosDao();
-    FormulariosDao dFormulario = new FormulariosDao();
-        
+    
+    String filtroNombreArchivo = request.getParameter("filtroNombreArchivo");
+    String filtroNombreUsuario = request.getParameter("filtroNombreUsuario");
+    String filtroFechaInicio = request.getParameter("filtroFechaInicio");
+    String filtroFechaFin = request.getParameter("filtroFechaFin");
+    
+    if(filtroFechaInicio == null || filtroFechaInicio.equals(""))
+        filtroFechaInicio = null;
+    
+    if(filtroFechaFin == null || filtroFechaFin.equals(""))
+        filtroFechaFin = null;
+    
+    if(filtroNombreArchivo != null)
+        filtroNombreArchivo = filtroNombreArchivo.toUpperCase();
+    
+    if(filtroNombreUsuario != null)
+        filtroNombreUsuario = filtroNombreUsuario.toUpperCase();
+    
+    lstHistorial = dHistorial.FiltrarHistorial(lstHistorial, filtroNombreArchivo, filtroNombreUsuario, filtroFechaInicio, filtroFechaFin);
+    
+    
 %>
 
 <!DOCTYPE html>
@@ -94,14 +113,14 @@
                     <li>
                         <a href="mostrarEntornos.jsp"> <span class="nav-label">Reservar Formulario</span> </a>
                     </li>
+                    <li class="active">
+                        <a href="historial.jsp"> <span class="nav-label">Historial</span> </a>
+                    </li>
                     <li>
                         <a href="perfil.jsp"> <span class="nav-label">Perfil</span> </a>
                     </li>
                     <li>
                         <a href="#"> <span class="nav-label">Mantenimiento</span> </a>
-                    </li>
-                    <li class="active">
-                        <a href="historial.jsp"> <span class="nav-label">Historial</span> </a>
                     </li>
                 </ul>
             </div>
@@ -123,39 +142,57 @@
             </div>
             <div class="content animate-panel">    
                 <div class="row">
-                    <form class="form-horizontal" action="/PaseAProduccionWeb/Formularios" method="post">
+                    <form class="form-horizontal" action="/PaseAProduccionWeb/Historial" method="post">
                         <div class="form-group">
-                            <label class="col-sm-3 control-label">Nombre Formulario</label>
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" name="filtroNombre" id="filtroNombre">
+                            <div class="col-lg-1"></div>
+                            <label class="col-lg-2 control-label">Nombre del Formulario o Reporte</label>
+                            <div class="col-lg-2">
+                                <input type="text" class="form-control" name="filtroNombreArchivo" id="filtroNombreArchivo">
                             </div>
-                            <button class="btn btn-primary" type="submit">
-                                <i class="fa fa-search"></i>
+                            <label class="col-lg-2 control-label">Nombre del usuario</label>
+                            <div class="col-lg-2">
+                                <input type="text" class="form-control" name="filtroNombreUsuario" id="filtroNombreUsuario">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-1"></div>
+                            <label class="col-lg-2 control-label">Fecha Inicial</label>
+                            <div class="col-lg-2">
+                                <input type="date" class="form-control" name="filtroFechaInicio" id="filtroFechaInicio"
+                                       value="<% out.print(filtroFechaInicio); %> ">
+                            </div>
+                            <label class="col-lg-2 control-label">Fecha Final</label>
+                            <div class="col-lg-2">
+                                <input type="date" class="form-control" name="filtroFechaFin" id="filtroFechaFin"
+                                       value="<% out.print(filtroFechaFin); %> ">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-lg-5"></div>
+                            <button class="btn btn-primary btn-lg" type="submit">
+                                BUSCAR &nbsp;&nbsp;<i class="fa fa-search"></i>
                             </button>
-                            <div class="col-sm-2">
-                                <input type="date" class="form-control" name="filtroFecha" id="filtroFecha">
-                            </div>
                         </div>
                     </form>
                 </div>
                 <div class="row">
                     <% for(int i=0; i<lstHistorial.size(); i++){
-                        String nombreFormulario = dFormulario.getFormularioByFormularioId(lstHistorial.get(i).getPpFormularios().getFormularioId()).getNombreFormulario();
+                        String nombreFormulario = lstHistorial.get(i).getNombre();
                         String nombreFormularioAnterior = "";
                         if(i>0)
-                            nombreFormularioAnterior = dFormulario.getFormularioByFormularioId(lstHistorial.get(i-1).getPpFormularios().getFormularioId()).getNombreFormulario();
+                            nombreFormularioAnterior = lstHistorial.get(i-1).getNombre();
                         if(i==0){
                             out.print("<div class=\"panel-group\" id=\"accordion\" role=\"tablist\" aria-multiselectable=\"true\">");
                             out.print("<div class=\"panel panel-default\">");
-                            out.print("<div class=\"panel-heading\" role=\"tab\" id=\"headingOne\">");
+                            out.print("<div class=\"panel-heading\" role=\"tab\" id=\"heading"+ i +"\">");
                             out.print("<h4 class=\"panel-title\">");
                             out.print("<h4 class=\"panel-title\">");
-                            out.print("<a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseOne\" aria-expanded=\"false\" aria-controls=\"collapseOne\" class=\"collapsed\">");
+                            out.print("<a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse"+ i +"\" aria-expanded=\"false\" aria-controls=\"collapse"+ i +"\" class=\"collapsed\">");
                             out.print(nombreFormulario);
                             out.print("</a>");
                             out.print("</h4>");
                             out.print("</div>");
-                            out.print("<div id=\"collapseOne\" class=\"panel-collapse collapse\" role=\"tabpanel\" aria-labelledby=\"headingOne\" aria-expanded=\"false\" style=\"height: 0px;\">");
+                            out.print("<div id=\"collapse"+ i +"\" class=\"panel-collapse collapse\" role=\"tabpanel\" aria-labelledby=\"heading"+ i +"\" aria-expanded=\"false\" style=\"height: 0px;\">");
                             out.print("<div class=\"panel-body\">");
                         }
                         else{
@@ -163,14 +200,16 @@
                             {
                                 out.print("<div class=\"panel-group\" id=\"accordion\" role=\"tablist\" aria-multiselectable=\"true\">");
                                 out.print("<div class=\"panel panel-default\">");
-                                out.print("<div class=\"panel-heading\" role=\"tab\" id=\"headingOne\">");
+                                out.print("<div class=\"panel-heading\" role=\"tab\" id=\"heading"+ i +"\">");
                                 out.print("<h4 class=\"panel-title\">");
                                 out.print("<h4 class=\"panel-title\">");
-                                out.print("<a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapseOne\" aria-expanded=\"false\" aria-controls=\"collapseOne\" class=\"collapsed\">");
+                                out.print("<a data-toggle=\"collapse\" data-parent=\"#accordion\" href=\"#collapse"+ i +"\" aria-expanded=\"false\" aria-controls=\"collapse"+ i +"\" class=\"collapsed\">");
                                 out.print(nombreFormulario);
                                 out.print("</a>");
                                 out.print("</h4>");
                                 out.print("</div>");
+                                out.print("<div id=\"collapse"+ i +"\" class=\"panel-collapse collapse\" role=\"tabpanel\" aria-labelledby=\"heading"+ i +"\" aria-expanded=\"false\" style=\"height: 0px;\">");
+                                out.print("<div class=\"panel-body\">");
                             }
                         }
                         if(i==0 || !nombreFormulario.equals(nombreFormularioAnterior)){
@@ -192,9 +231,9 @@
                                     </thead>
                                     <tbody>
                                     <% }
-                                        DateFormat dateFormat = new SimpleDateFormat("dd/mm/yyyy HH:mm:ss");
+                                        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
                                         out.print("<tr>");
-                                        out.print("<td>"+ dFormulario.getFormularioByFormularioId(lstHistorial.get(i).getPpFormularios().getFormularioId()).getNombreFormulario()+"</td>");
+                                        out.print("<td>"+ nombreFormulario +"</td>");
                                         out.print("<td>"+ dUsuario.getUsuarioById(lstHistorial.get(i).getUsuarioId()).getNombre() +"</td>");
                                         out.print("<td>"+ dateFormat.format(lstHistorial.get(i).getFecha()) +"</td>");
                                         out.print("<td style=\"text-align: center\">"+ lstHistorial.get(i).getNroVersion() +"</td>");
@@ -207,31 +246,41 @@
                                         else
                                             out.print("<td>"+ lstHistorial.get(i).getComentarioServicios()+"</td>");
                                         out.print("<td style=\"text-align: center\"><button class=\"btn btn-success\" data-toggle=\"modal\" data-target=\"#modalDescargar\" type=\"button\" "
-                                                    + "onclick=\"setValues(\'"+ lstHistorial.get(i).getPpFormularios().getFormularioId() +"\', \'trabajo\');\"><i class=\"fa fa-download\"></i>&nbsp;&nbsp;<span class=\"bold\">Descargar</span></button></td>");
+                                                    + "onclick=\"setValues(\'"+ lstHistorial.get(i).getHistorialId()+"\');\"><i class=\"fa fa-download\"></i>&nbsp;&nbsp;<span class=\"bold\">Descargar</span></button></td>");
                                         out.print("</tr>");
                                         
-                                        if(i>0 && !nombreFormulario.equals(nombreFormularioAnterior)){
+                                        if(i<lstHistorial.size()-1){
+                                            if(!nombreFormulario.equals(lstHistorial.get(i+1).getNombre())){
+                                                
+                                            
                                     %>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>                 
-                    <%
-                    }}
+                    <%                  }}
+                                        if(i==lstHistorial.size()){
+                    %>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>                 
+                    <% }
                     out.print("</div>");
                     out.print("</div>");
                     out.print("</div>");
                     out.print("</div>");
+                    }
                     %>
                 </div>
             </div>
         </div>
     </body>
     
-    <form action="/PaseAProduccionWeb/Download" method="post">
-        <input type="hidden" name="formularioId" id="formularioId"/>
-        <input type="hidden" name="tipoDescarga" id="tipoDescarga"/>
+    <form action="/PaseAProduccionWeb/DownloadHistorial" method="post">
+        <input type="hidden" name="historialId" id="historialId"/>
         <div class="modal fade" id="modalDescargar" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
@@ -244,7 +293,7 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
-                        <button type="button" class="btn btn-primary" onclick="descargar();">Si</button>
+                        <button type="submit" class="btn btn-primary">Si</button>
                     </div>
                 </div>
             </div>
@@ -332,23 +381,8 @@
         ga('create', 'UA-4625583-2', 'webapplayers.com');
         ga('send', 'pageview');
         
-        function setValues(formularioId, tipoDescarga){
-            $('input[name=formularioId]').val(formularioId.toString());
-            $('input[name=tipoDescarga]').val(tipoDescarga.toString());
+        function setValues(historialId){
+            $('input[name=historialId]').val(historialId.toString());
         }
-        
-        function descargar()
-        {
-            $('#modalDescargar').hide();
-            var formularioId = $('input[name=formularioId]').val();
-            var tipoPadre = $('input[name=tipoPadre]').val();
-            var padreId = $('input[name=padreId]').val();
-            var sistemaId = $('input[name=sistemaId]').val();
-            var tipoDescarga = $('input[name=tipoDescarga]').val();
-            
-            document.location.href = '/PaseAProduccionWeb/DownloadFormulario?formularioId='+formularioId.toString() + '&tipoDescarga=' + tipoDescarga.toString()
-                    +'&tipoPadre=' + tipoPadre.toString() + '&padreId='+padreId.toString() +'&sistemaId='+sistemaId.toString();
-        }
-        
     </script>
 </html>

@@ -8,6 +8,10 @@ package com.cis.paseaproduccionweb.dao;
 import com.cis.paseaproduccionweb.hibernate.HibernateUtil;
 import com.cis.paseaproduccionweb.hibernate.PpHistoriales;
 import java.math.BigDecimal;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -66,7 +70,7 @@ public class HistorialesDao {
         try {
             tx = session.getTransaction();
             tx.begin();
-            Query query = session.createQuery("from PpHistoriales h order by h.nroVersion DESC");
+            Query query = session.createQuery("from PpHistoriales h order by h.nombre ASC, h.nroVersion ASC");
             lstHistorial = query.list();
             tx.commit();
         } catch (Exception e) {
@@ -77,5 +81,72 @@ public class HistorialesDao {
         }
         
         return lstHistorial;
+    }
+    
+    public List<PpHistoriales> FiltrarHistorial(List<PpHistoriales> lstLista, String filtroNombreArchivo, 
+            String filtroNombreUsuario, String filtroFechaInicio, String filtroFechaFin){
+        
+        ArrayList<PpHistoriales> lstHistorial = new ArrayList<>();
+            UsuariosDao dUsuaio = new UsuariosDao();
+        
+        try {
+            if(lstLista != null){
+                for(PpHistoriales historial : lstLista){
+                    String nombreUsuario = dUsuaio.getUsuarioById(historial.getUsuarioId()).getNombre();
+                    DateFormat formatDate = new SimpleDateFormat("yyyy-MM-dd");
+                    Date fechaInicio = new Date("01/01/1900");
+                    Date fechaFin = new Date("12/31/9999");
+                    if(filtroFechaInicio != null){
+                        fechaInicio = formatDate.parse(filtroFechaInicio);
+                        fechaInicio.setHours(23);
+                        fechaInicio.setMinutes(59);
+                        fechaInicio.setSeconds(59);
+                    }
+                    if(filtroFechaFin != null){
+                        fechaFin = formatDate.parse(filtroFechaFin);
+                        fechaFin.setHours(23);
+                        fechaFin.setMinutes(59);
+                        fechaFin.setSeconds(59);
+                    }
+                    if(filtroNombreArchivo == null)
+                        filtroNombreArchivo = "";
+                    if(filtroNombreUsuario == null)
+                        filtroNombreUsuario = "";
+                    
+                    if(historial.getNombre().contains(filtroNombreArchivo) && nombreUsuario.contains(filtroNombreUsuario) 
+                            && (historial.getFecha().after(fechaInicio) || historial.getFecha().equals(fechaInicio)) 
+                            && (historial.getFecha().equals(fechaFin) || historial.getFecha().before(fechaFin))) 
+                        lstHistorial.add(historial);
+                }
+                
+            }
+            
+        } catch (Exception e) {
+            return null;
+            
+        }
+        return lstHistorial;
+        
+    }
+    
+    public PpHistoriales getHistorialByHistorialId(BigDecimal historialId){
+        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        PpHistoriales historial = null;
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            Query query = session.createQuery("from PpHistoriales where historialId = '" + historialId +"'");
+            historial = (PpHistoriales)query.uniqueResult();
+            tx.commit();
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+        } finally{
+            session.close();
+        }
+        
+        return historial;
     }
 }
