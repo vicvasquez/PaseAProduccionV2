@@ -41,26 +41,26 @@ public class HistorialesDao {
         
     }
     
-    public Integer getLastVersion(String tipoArchivo,BigDecimal idArchivo ){
+    public Integer getLastVersion(String nombre){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
+        Integer resultado = 0;
         
         try {
             tx = session.getTransaction();
             tx.begin();
-            Query q = session.getNamedQuery("SP_ULTIMO_HISTORIAL");
-            q.setString(0, tipoArchivo);
-            q.setBigDecimal(1, idArchivo);
-            Integer resultado = (Integer) q.uniqueResult();
+            Query q = session.getNamedQuery("SP_ULTIMA_VERSION_HISTORIAL");
+            q.setString(0, nombre);
+            resultado = (Integer) q.uniqueResult();
             tx.commit();
             return resultado;
         } catch (Exception e) {
             if(tx != null)
                 tx.rollback();
-            return 0;
         } finally{
             session.close();
         }
+        return resultado;
     }
     
     public List<PpHistoriales> getHistorial(){

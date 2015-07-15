@@ -318,11 +318,16 @@
                         <div id="FMX" hidden=""><p>Seleccione el archivo FMX<input type="file" class="form-control" name="archivoFMX" id="archivoFMX" value="" onchange="activarBotones();" ></p></div>
                         <div id="RDF" hidden=""><p>Seleccione el reporte<input type="file" class="form-control" name="archivoRDF" id="archivoRDF" value="" onchange="activarBotones();"></p></div>
                         <br>                           
-                        <p>Elija el método por el cual desea pasar a producción el archivo seleccionado:</p>
-                        <div id="botones" hidden=""><p><button name="btnNocturno" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="setPaseTipo(2);">Pasar a producción en horario nocturno</button></p>
-                        <p><button name="btnSinBajar" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="setPaseTipo(0);">Intentar pasar a producción sin bajar servicios</button></p>
-                        <p><button name="btnBajar" type="button" class="btn btn-outline btn-danger" style="width: 500px;"
-                                   data-toggle="modal" data-target="#modalConfirmacion">Pasar a producción bajando servicios</button></p></div>
+                        
+                        <div id="botones" hidden="">
+                            <p>Escriba un comentario acerca de los cambios realizados:</p>
+                            <p><textarea class="form-control" required="" name="comentarioPase" id="comentarioPase" style="resize: none;" rows="4"></textarea></p>
+                            <p>Elija el método por el cual desea pasar a producción el archivo seleccionado:</p>
+                            <p><button name="btnNocturno" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="setPaseTipo(2);">Pasar a producción en horario nocturno</button></p>
+                            <p><button name="btnSinBajar" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="setPaseTipo(0);">Intentar pasar a producción sin bajar servicios</button></p>
+                            <p><button name="btnBajar" type="button" class="btn btn-outline btn-danger" style="width: 500px;"
+                                       data-toggle="modal" data-target="#modalConfirmacion">Pasar a producción bajando servicios</button></p>
+                        </div>
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -359,7 +364,7 @@
                         <p>Para confirmar la bajada de servicios es necesario que confirme el siguiente código</p>
                         <p name="mensajeLogin" id="mensajeLogin" class="font-bold text-danger"></p>
                         <div class="form-group" >
-                            <input type="text" value="" name="captcha" id="captcha" disabled="" class="col-sm-8" style="padding-top: 6px; padding-bottom: 6px; font-weight: bold">
+                            <input type="text" value="" name="captcha" id="captcha" disabled="" class="col-sm-8" style="padding-top: 6px; padding-bottom: 6px; font-weight: bold;">
                             <button type="button" class="btn btn-outline btn-primary" style="padding-top: 6px; padding-bottom: 6px; padding-left: 15px; padding-right: 15px;" onclick="generarCaptcha();">
                                 <i class="fa fa-refresh"></i>
                             </button>
@@ -370,7 +375,7 @@
                         </div>
                         <div class="form-group">
                             <label class="control-label">Comentario</label>
-                            <textarea type="text" placeholder="comentario" title="Por favor ingrese su comentario" required="" value="" name="comentario" id="comentario" class="form-control"></textarea>
+                            <textarea required="" name="comentarioServicios" id="comentarioServicios" class="form-control" style="resize: none" rows="4"></textarea>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -511,10 +516,15 @@
             {
                 if($('input[name=archivoRDF]').val() !== "")
                     $('#botones').show();
+                else
+                    $('#botones').hide();
             }
             else{
                 if($('input[name=archivoFMB]').val() !== "" && $('input[name=archivoFMX]').val() !== "")
                         $('#botones').show();
+                else
+                        $('#botones').hide();
+                        
             }
         }
         
@@ -576,19 +586,19 @@
         
         function validar(){
             var valorCaptcha = $('#valorCaptcha').val();
-            var comentario = document.getElementById("comentario").value;
+            var comentario = document.getElementById("comentarioServicios").value;
             
-            if($('#mensaje').text()!="")
+            if($('#mensaje').text()!=="")
             {
                 $('#mensaje').remove();
             }
                 
-            if(valorCaptcha == "" || comentario == ""){
+            if(valorCaptcha === "" || comentario === ""){
                 $('p[name=mensajeLogin]').append("<label name=\"mensaje\" id=\"mensaje\">Debe llenar todos los campos</label>");
             }
             else{
                 $('#mensaje').remove();
-                if($('#valorCaptcha').val() == $('#captcha').val())
+                if($('#valorCaptcha').val() === $('#captcha').val())
                     setPaseTipo(1);
                 else
                     $('p[name=mensajeLogin]').append("<label name=\"mensaje\" id=\"mensaje\">El codigo insertado es incorrecto</label>");

@@ -36,7 +36,7 @@
             <column name="NOMBRE" length="100" />
         </property>
     </class>
-    <sql-query name="SP_ULTIMO_HISTORIAL" callable="true"><return-scalar column="cnt" type="integer"/>
-        { ? = call ULTIMO_HISTORIAL(? , ?) }
+    <sql-query name="SP_ULTIMA_VERSION_HISTORIAL" callable="true"><return-scalar column="cnt" type="integer"/>
+        { ? = call ULTIMA_VERSION_HISTORIAL(?)) }
     </sql-query>
 </hibernate-mapping>

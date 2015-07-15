@@ -17,6 +17,7 @@ import com.cis.paseaproduccionweb.hibernate.PpArchivosUso;
 import com.cis.paseaproduccionweb.hibernate.PpFormularios;
 import com.cis.paseaproduccionweb.hibernate.PpHistoriales;
 import com.cis.paseaproduccionweb.hibernate.PpModulos;
+import com.cis.paseaproduccionweb.hibernate.PpUsuarios;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,27 +32,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
 import sun.misc.IOUtils;
 
-/**
- *
- * @author eyomona
- */
+
 public class PaseAProduccionServlet extends HttpServlet {
 
-    /**
-     * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
-     * methods.
-     *
-     * @param request servlet request
-     * @param response servlet response
-     * @throws ServletException if a servlet-specific error occurs
-     * @throws IOException if an I/O error occurs
-     */
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         try{
             
             String archId = request.getParameter("archivoId");
             String archivoTipo = request.getParameter("archivoTipo");
+            String comentarioPase = request.getParameter("comentarioPase");
+            String comentarioServicios = request.getParameter("comentarioServicios");
+            PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
             
             BigDecimal archivoId = new BigDecimal(archId);
 
@@ -132,9 +124,17 @@ public class PaseAProduccionServlet extends HttpServlet {
                     if(archivoUso != null)
                         dArchivosUso.eliminarArchivoUso(archivoUso.getArchivoUsoId(), "N");
 
-    /*              historial.setArchivo(archivoBlob);
+                    historial.setArchivo(archivoBlobRDF);
                     historial.setFecha(date);
-                    historial.setPpFormularios(formulario);*/
+                    historial.setPpFormularios(formulario);
+                    historial.setComentarioPase(comentarioPase);
+                    historial.setComentarioServicios(comentarioServicios);
+                    historial.setUsuarioId(usuario.getUsuarioId());
+                    historial.setNombre(formulario.getNombreFormulario());
+                    historial.setNroVersion((long)dHistorial.getLastVersion(formulario.getNombreFormulario()));
+                    
+                    dHistorial.insertarHistorial(historial);
+                    
                     
                     dArchivoPase.insertarArchivoUso(archivoPaseForm);
                     dArchivoPase.PasarProduccion();
@@ -158,10 +158,17 @@ public class PaseAProduccionServlet extends HttpServlet {
                                 
                                 if(archivoUso != null)
                                     dArchivosUso.eliminarArchivoUso(archivoUso.getArchivoUsoId(), "N");
-
-    /*                          historial.setArchivo(archivoBlob);
+                                
+                                historial.setArchivo(archivoBlobFMB);
                                 historial.setFecha(date);
-                                historial.setPpFormularios(formulario);*/
+                                historial.setPpFormularios(formulario);
+                                historial.setComentarioPase(comentarioPase);
+                                historial.setComentarioServicios(comentarioServicios);
+                                historial.setUsuarioId(usuario.getUsuarioId());
+                                historial.setNombre(formulario.getNombreFormulario());
+                                historial.setNroVersion((long)dHistorial.getLastVersion(formulario.getNombreFormulario()));
+
+                                dHistorial.insertarHistorial(historial);
                             break;
 
                         case 1:   //BAJANDO SERVICIOS
@@ -182,11 +189,16 @@ public class PaseAProduccionServlet extends HttpServlet {
                                 if(archivoUso != null)
                                     dArchivosUso.eliminarArchivoUso(archivoUso.getArchivoUsoId(), "N");
 
-                               /* historial.setArchivo(archivoBlob);
+                                historial.setArchivo(archivoBlobFMB);
                                 historial.setFecha(date);
                                 historial.setPpFormularios(formulario);
+                                historial.setComentarioPase(comentarioPase);
+                                historial.setComentarioServicios(comentarioServicios);
+                                historial.setUsuarioId(usuario.getUsuarioId());
+                                historial.setNombre(formulario.getNombreFormulario());
+                                historial.setNroVersion((long)dHistorial.getLastVersion(formulario.getNombreFormulario()));
 
-                                dHistorial.insertarHistorial(historial);*/
+                                dHistorial.insertarHistorial(historial);
                             break;
 
                         case 2:    //PASE NOCTURNO
@@ -198,10 +210,6 @@ public class PaseAProduccionServlet extends HttpServlet {
                                 
                                 archivoUso.setFlagNoche("S");
                                 dArchivosUso.updateArchivoUso(archivoUso);
-
-                                /*historial.setArchivo(archivoBlob);
-                                historial.setFecha(date);
-                                historial.setPpFormularios(formulario);*/
                             break;       
                     }
                 }
@@ -227,9 +235,16 @@ public class PaseAProduccionServlet extends HttpServlet {
                             modulo.setFlagUso("N");
                             modulo.setPpusuarioUsuarioId(null);
 
-                   /*         historial.setArchivo(archivoBlob);
+                            historial.setArchivo(archivoBlobFMB);
                             historial.setFecha(date);
-                            historial.setPpModulos(modulo);*/
+                            historial.setPpModulos(modulo);
+                            historial.setComentarioPase(comentarioPase);
+                            historial.setComentarioServicios(comentarioServicios);
+                            historial.setUsuarioId(usuario.getUsuarioId());
+                            historial.setNombre(modulo.getNombreModulo());
+                            historial.setNroVersion((long)dHistorial.getLastVersion(modulo.getNombreModulo()));
+
+                            dHistorial.insertarHistorial(historial);
                         break;
                     
                     case 1: //BAJANDO SERVICIOS
@@ -248,10 +263,17 @@ public class PaseAProduccionServlet extends HttpServlet {
                             
                             modulo.setFlagUso("N");
                             modulo.setPpusuarioUsuarioId(null);
-
-                     /*       historial.setArchivo(archivoBlob);
+                            
+                            historial.setArchivo(archivoBlobFMB);
                             historial.setFecha(date);
-                            historial.setPpModulos(modulo);*/
+                            historial.setPpModulos(modulo);
+                            historial.setComentarioPase(comentarioPase);
+                            historial.setComentarioServicios(comentarioServicios);
+                            historial.setUsuarioId(usuario.getUsuarioId());
+                            historial.setNombre(modulo.getNombreModulo());
+                            historial.setNroVersion((long)dHistorial.getLastVersion(modulo.getNombreModulo()));
+
+                            dHistorial.insertarHistorial(historial);
                         break;
                         
                     case 2: //PASE NOCTURNO
@@ -263,10 +285,6 @@ public class PaseAProduccionServlet extends HttpServlet {
                             
                             archivoUso.setFlagNoche("S");
                             dArchivosUso.updateArchivoUso(archivoUso);
-                            
-                    /*        historial.setArchivo(archivoBlob);
-                            historial.setFecha(date);
-                            historial.setPpModulos(modulo);*/
                         break;
                         
                 }

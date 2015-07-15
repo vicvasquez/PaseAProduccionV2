@@ -45,7 +45,10 @@ public class DownloadHistorialServlet extends HttpServlet {
                  fos.close();
                  is.close();
             }
+            
+            response.sendRedirect("Historial");
                
+            
         } catch (Exception e) {
             response.sendRedirect("mensajeError.jsp");
         }

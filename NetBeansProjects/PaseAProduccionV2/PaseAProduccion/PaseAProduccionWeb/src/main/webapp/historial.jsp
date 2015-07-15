@@ -279,9 +279,9 @@
         </div>
     </body>
     
-    <form action="/PaseAProduccionWeb/DownloadHistorial" method="post">
-        <input type="hidden" name="historialId" id="historialId"/>
-        <div class="modal fade" id="modalDescargar" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+    <div class="modal fade" id="modalDescargar" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+        <form action="/PaseAProduccionWeb/DownloadHistorial" method="post">
+            <input type="hidden" name="historialId" id="historialId"/>
             <div class="modal-dialog modal-sm">
                 <div class="modal-content">
                     <div class="color-line"></div>
@@ -297,8 +297,8 @@
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
     
     <script src="vendor/jquery/dist/jquery.min.js"></script>
     <script src="vendor/jquery-ui/jquery-ui.min.js"></script>
