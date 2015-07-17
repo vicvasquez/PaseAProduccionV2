@@ -136,4 +136,23 @@ public class FormulariosDao {
         }
         return result;
     }
+    
+    public void insertarFormulario(PpFormularios formularioIns){
+        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        int result = 0;
+        
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            session.save(formularioIns);
+            tx.commit();
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+        } finally{
+            session.close();
+        }
+    }
 }

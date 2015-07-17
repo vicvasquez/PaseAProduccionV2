@@ -93,7 +93,7 @@ public class MantenimientoModulosServlet extends HttpServlet {
                 historial.setArchivo(archivoBlobFMB);
                 historial.setFecha(date);
                 historial.setPpModulos(modulo);
-                historial.setComentarioPase("Primera versión del formulario generado con su creación");
+                historial.setComentarioPase("Primera versión del modulo generado con su creación");
                 historial.setUsuarioId(usuario.getUsuarioId());
                 historial.setNombre(nombre);
                 historial.setNroVersion((long)1);

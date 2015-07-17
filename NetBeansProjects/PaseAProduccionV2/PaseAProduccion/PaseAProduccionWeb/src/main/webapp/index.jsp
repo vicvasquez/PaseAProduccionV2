@@ -43,7 +43,6 @@
      <link rel="stylesheet" href="fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
      <link rel="stylesheet" href="fonts/pe-icon-7-stroke/css/helper.css" />
      <link rel="stylesheet" href="styles/style.css">
-     <link rel="stylesheet" href="styles/static_custom.css">
     </head>
     
     <body>
@@ -385,6 +384,8 @@
                 </div>
             </div>
         </div>
+                            
+    </body>
                     
     <script src="vendor/jquery/dist/jquery.min.js"></script>
     <script src="vendor/jquery-ui/jquery-ui.min.js"></script>
@@ -394,17 +395,18 @@
     <script src="vendor/jquery-flot/jquery.flot.resize.js"></script>
     <script src="vendor/jquery-flot/jquery.flot.pie.js"></script>
     <script src="vendor/flot.curvedlines/curvedLines.js"></script>
+    <script src="vendor/sparkline/index.js"></script>
     <script src="vendor/jquery.flot.spline/index.js"></script>
     <script src="vendor/metisMenu/dist/metisMenu.min.js"></script>
     <script src="vendor/iCheck/icheck.min.js"></script>
     <script src="vendor/peity/jquery.peity.min.js"></script>
+    <script src="vendor/bootstrap-star-rating/js/star-rating.min.js"></script>
     <script src="scripts/homer.js"></script>
-    <script src="vendor/sparkline/index.js"></script>
-    <script src="vendor/sweetalert/lib/sweet-alert.min.js"></script>
+    <script src="scripts/charts.js"></script>
     
     <script src="scripts/homer.js"></script>
     
-    <script type="text/javascript">
+    <script>
 
         $(function () {
 
@@ -474,42 +476,6 @@
 
         ga('create', 'UA-4625583-2', 'webapplayers.com');
         ga('send', 'pageview');
-        
-        function pasarAProduccion(paseTipo){
-            
-            $("#loading").show();
-            $("#modalBajarServicios").hide();
-            $("#modalPasarAProduccion").hide();
-            
-            var data = "archivoId=" + $('input[name=archivoId]').val() + "&archivoTipo="+ $('input[name=archivoTipo]').val()
-                        + "&archivo=" + $('input[name=archivo]') + "&paseTipo=" + paseTipo;
-                $.ajax({
-                    type: "POST",
-                    contentType: "multipart/form-data",
-                    url:  "/PaseAProduccionWeb/PaseAProduccion",
-                    data: data,
-                    success: function (data) {
-                        $("#loading").hide();
-                        if(data === "SUCCESS") {
-                           $("#modalMensajeRecibido").modal().show();
-                        }
-                        else{
-                           $("#modalMensajeFallo").modal().show(); 
-                        }
-
-                    }
-                });
-        }
-        
-        function _arrayBufferToBase64( buffer ) {
-            var binary = '';
-            var bytes = new Uint8Array( buffer );
-            var len = bytes.byteLength;
-            for (var i = 0; i < len; i++) {
-                binary += String.fromCharCode( bytes[ i ] );
-            }
-            return window.btoa( binary );
-        }
         
         function activarBotones(){
             if($('input[name=archivoTipo]').val() === "REP")
@@ -607,7 +573,6 @@
         }
     </script>
     
-    </body>
 </html>
 
 <!-- 192.168.185.25   intra   PROYECTO01  PROYECTO01-->

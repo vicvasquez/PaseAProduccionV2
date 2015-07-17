@@ -1,33 +1,35 @@
 <%-- 
-    Document   : mantenimientoSubmenu
-    Created on : 17/07/2015, 12:21:14 PM
+    Document   : insertarFormulario
+    Created on : 17/07/2015, 03:35:51 PM
     Author     : vvasquez
 --%>
-<%@page import="java.util.List"%>
-<%@page import="com.cis.paseaproduccionweb.dao.SubMenusDao"%>
-<%@page import="com.cis.paseaproduccionweb.hibernate.PpSubmenus"%>
+
 <%@page import="com.cis.paseaproduccionweb.dao.ModulosDao"%>
+<%@page import="com.cis.paseaproduccionweb.dao.FormulariosDao"%>
 <%@page import="java.math.BigDecimal"%>
+<%@page import="com.cis.paseaproduccionweb.dao.SubMenusDao"%>
 <%@page import="com.cis.paseaproduccionweb.hibernate.PpUsuarios"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%
+<% 
     PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
     if(usuario==null)
         response.sendRedirect("login.jsp");
     
-    String modId = request.getParameter("moduloId");
+    String submId = request.getParameter("submenuId");
     
-    BigDecimal moduloId = new BigDecimal(modId);
+    BigDecimal submenuId = new BigDecimal(submId);
     
-    ModulosDao dModulo = new ModulosDao();
+    FormulariosDao dFormulario = new FormulariosDao();
     SubMenusDao dSubmenu = new SubMenusDao();
     
-    List<PpSubmenus> lstSubmenus = dSubmenu.getSubMenuByModuloId(moduloId);
+    BigDecimal moduloId = dSubmenu.getSubMenuBySubMenuId(submenuId).getModuloModuloId();
     
-
+    ModulosDao dModulo = new ModulosDao();
+    
+    
 %>
-<!DOCTYPE html>
+
 <html>
     <head>
         <meta charset="utf-8">
@@ -95,10 +97,10 @@
                     <li>
                         <a href="historial.jsp"> <span class="nav-label">Historial</span> </a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="perfil.jsp"> <span class="nav-label">Perfil</span> </a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="mantenimiento.jsp"> <span class="nav-label">Mantenimiento</span> </a>
                     </li>
                 </ul>
@@ -109,74 +111,97 @@
                 <div class="hpanel">
                     <div class="panel-body">
                         <h2 class="font-light m-b-xs">
-                            Mantenimiento de Submenus
+                            Insertar un Módulo
                         </h2>
-                        <small>En esa sección se realizará el mantenimiento de los submenus del modulo <% out.print(dModulo.getModuloByModuloId(moduloId).getNombreModulo()); %></small>
+                        <small>En esta sección se insertará un formulario o reporte en el submenu <% out.print(dSubmenu.getSubMenuBySubMenuId(submenuId)); %> </small>
                         <br><br><br>
                         <ol class="hbreadcrumb breadcrumb">
                             <li><a href="mantenimiento.jsp" style="font-weight: bold">Mantenimiento Modulos</a></li>                            
-                            <li><label style="color: green">Modulo <% out.print(dModulo.getModuloByModuloId(moduloId).getNombreModulo()); %></label></li>
+                            <li><a href="mantenimientoSubmenu.jsp?moduloId=<% out.print(moduloId); %>" style="font-weight: bold">Modulo <% out.print(dModulo.getModuloByModuloId(moduloId).getNombreModulo()); %></a></li>
+                            <li><a href="mantenimientoFormulario.jsp?submenuId=<% out.print(submenuId); %>" style="font-weight: bold">Submenu <% out.print(dSubmenu.getSubMenuBySubMenuId(submenuId).getNombreSubmenu()); %></a></li>
+                            <li><label style="color: green">Insertar Formulario o Reporte</label></li>                            
                         </ol>
                     </div>
                 </div>
             </div>
             <div class="content animate-panel">
                 <div class="row">
-                    <div class="col-lg-1"></div>
-                        <div class="col-lg-10 animated-panel zoomIn" style="-webkit-animation: 0.5s;">
-                            <div class="hpanel">
-                                <form method="POST" action="/PaseAProduccionWeb/MantenimientoSubmenus">
-                                    <input type="hidden" value="<% out.print(moduloId); %>" name="moduloId" id="moduloId">
-                                    <div class="panel-heading">
-                                        <label style="font-size: 25px; margin: 0px;"><% out.print(dModulo.getModuloByModuloId(moduloId).getNombreModulo()); %> &nbsp;</label>
-                                        <button type="submit" class="btn btn-primary btn-xs" style="margin-bottom: 10px;"><i class="fa fa-plus fa-2x"></i></button>
+                    <div class="col-sm-12 animated-panel zoomIn" style="-webkit-animation: 0.1s 0.1s;">
+                        <div class="hpanel">
+                            <div class="panel-body">
+                                <form method="POST" action="/PaseAProduccionWeb/MantenimientoFormularios" enctype="multipart/form-data">
+                                    <input type="hidden" name="submenuId" value="<% out.print(submenuId); %>">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Nombre</label>
+                                            <div class="col-sm-5">
+                                                <input name="nombre" id="nombre" class="form-control" required="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Descripcion</label>
+                                            <div class="col-sm-5">
+                                                <input name="descripcion" id="descripcion" class="form-control" required="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Tipo</label>
+                                            <div class="col-sm-5">
+                                                <select class="form-control" required="" name="tipo" id="tipo" onchange="mostrarFiles();">
+                                                    <option value="F">Formulario</option>
+                                                    <option value="R">Reporte</option>
+                                                </select>
+                                            </div>
+                                        </div>     
+                                    </div>
+                                    <br>
+                                    <div id="archivosReporte" hidden="">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Archivo RDF</label>
+                                            <div class="col-sm-5">
+                                                <input type="file" name="archivoRDF" id="archivoFMB" class="form-control" required="">
+                                            </div>
+                                        </div>     
+                                    </div>
+                                    <br>
+                                    </div>
+                                    <div id="archivosFormularios">
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Archivo FMB</label>
+                                            <div class="col-sm-5">
+                                                <input type="file" name="archivoFMB" id="archivoFMB" class="form-control" required="">
+                                            </div>
+                                        </div>     
+                                    </div>
+                                    <br>
+                                    <div class="row">
+                                        <div class="form-group">
+                                            <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Archivo FMX</label>
+                                            <div class="col-sm-5">
+                                                <input type="file" name="archivoFMX" id="archivoFMX" class="form-control" required="">
+                                            </div>
+                                        </div>
+                                    </div>
+                                    </div>
+                                    <br>
+                                    <br>
+                                    <div class="col-sm-4"></div>
+                                    <div class="col-sm-5" style="text-align: right">
+                                        <button type="submit" class="btn w-xs btn-primary">Guardar</button>
+                                        <button type="button" class="btn w-xs btn-danger" onclick="window.location.href='/PaseAProduccionWeb/mantenimiento.jsp'">Cancelar</button>
                                     </div>
                                 </form>
-                                <form method="POST" action="/PaseAProduccionWeb/mantenimientoFormulario.jsp">
-                                    <input type="hidden" name="submenuId" id="submenuId">
-                                <div class="panel-body">
-                                    <div class="table-responsive">
-                                        <table cellpadd  ing="1" cellspacing="1" class="table table-condensed table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th>Nombre</th>
-                                                    <th>Descripcion</th>
-                                                    <th>Estado</th>
-                                                    <th></th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <%
-                                                for(int i=0; i<lstSubmenus.size(); i++){
-                                                    out.print("<tr>");
-                                                    out.print("<td>");
-                                                    out.print(lstSubmenus.get(i).getNombreSubmenu());
-                                                    out.print("</td>");
-                                                    out.print("<td>");
-                                                    out.print(lstSubmenus.get(i).getDescSubmenu());
-                                                    out.print("</td>");
-                                                    out.print("<td>");
-                                                    if(lstSubmenus.get(i).getFlagEstado().equals("A"))
-                                                        out.print("Activo");
-                                                    else if(lstSubmenus.get(i).getFlagEstado().equals("I"))
-                                                        out.print("Inactivo");
-                                                    out.print("</td>");
-                                                    out.print("<td>");
-                                                    out.print("<button class=\"btn btn-primary btn-xs\" onclick=\"setSubmenuId("+ lstSubmenus.get(i).getSubmenuId()+");\">Formularios y Reportes</button>");
-                                                    out.print("</td>");
-                                                    out.print("</tr>");
-                                                }
-                                                %>
-                                            </tbody>
-                                        </table>
-                                    </div> 
-                                </div>
-                                </form>
-                                <div class="panel-footer">
-                                    El modulo <% out.print(dModulo.getModuloByModuloId(moduloId).getNombreModulo()); %> tiene <% out.print(lstSubmenus.size());  %> modulos
-                                </div>
                             </div>
                         </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -272,9 +297,17 @@
         ga('create', 'UA-4625583-2', 'webapplayers.com');
         ga('send', 'pageview');
         
-        function setSubmenuId(submenuId){
-            $("#submenuId").val(submenuId);
+        function mostrarFiles(){
+            var tipo = $("#tipo").val();
+            
+            if(tipo === "F"){
+                $("#archivosFormularios").show();
+                $("#archivosReporte").hide();
+            }
+            else if(tipo === "R"){
+                $("#archivosFormularios").hide();
+                $("#archivosReporte").show();
+            }
         }
-        
     </script>
 </html>

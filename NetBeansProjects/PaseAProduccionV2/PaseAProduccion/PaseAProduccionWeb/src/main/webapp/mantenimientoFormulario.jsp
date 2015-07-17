@@ -1,12 +1,14 @@
 <%-- 
-    Document   : mantenimientoSubmenu
-    Created on : 17/07/2015, 12:21:14 PM
+    Document   : mantenimientoFormulario
+    Created on : 17/07/2015, 02:36:26 PM
     Author     : vvasquez
 --%>
-<%@page import="java.util.List"%>
-<%@page import="com.cis.paseaproduccionweb.dao.SubMenusDao"%>
-<%@page import="com.cis.paseaproduccionweb.hibernate.PpSubmenus"%>
+
 <%@page import="com.cis.paseaproduccionweb.dao.ModulosDao"%>
+<%@page import="com.cis.paseaproduccionweb.dao.FormulariosDao"%>
+<%@page import="com.cis.paseaproduccionweb.dao.SubMenusDao"%>
+<%@page import="java.util.List"%>
+<%@page import="com.cis.paseaproduccionweb.hibernate.PpFormularios"%>
 <%@page import="java.math.BigDecimal"%>
 <%@page import="com.cis.paseaproduccionweb.hibernate.PpUsuarios"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -16,14 +18,18 @@
     if(usuario==null)
         response.sendRedirect("login.jsp");
     
-    String modId = request.getParameter("moduloId");
+    String submId = request.getParameter("submenuId");
     
-    BigDecimal moduloId = new BigDecimal(modId);
+    BigDecimal submenuId = new BigDecimal(submId);
     
-    ModulosDao dModulo = new ModulosDao();
+    FormulariosDao dFormulario = new FormulariosDao();
     SubMenusDao dSubmenu = new SubMenusDao();
     
-    List<PpSubmenus> lstSubmenus = dSubmenu.getSubMenuByModuloId(moduloId);
+    BigDecimal moduloId = dSubmenu.getSubMenuBySubMenuId(submenuId).getModuloModuloId();
+    
+    ModulosDao dModulo = new ModulosDao();
+    
+    List<PpFormularios> lstFormularios = dFormulario.getFormulariosBySubmenuId(submenuId);
     
 
 %>
@@ -109,13 +115,14 @@
                 <div class="hpanel">
                     <div class="panel-body">
                         <h2 class="font-light m-b-xs">
-                            Mantenimiento de Submenus
+                            Mantenimiento de Formularios y Reportes
                         </h2>
-                        <small>En esa sección se realizará el mantenimiento de los submenus del modulo <% out.print(dModulo.getModuloByModuloId(moduloId).getNombreModulo()); %></small>
+                        <small>En esa sección se realizará el mantenimiento de los formularios y reportes del submodulo <% out.print(dSubmenu.getSubMenuBySubMenuId(submenuId).getNombreSubmenu()); %></small>
                         <br><br><br>
                         <ol class="hbreadcrumb breadcrumb">
                             <li><a href="mantenimiento.jsp" style="font-weight: bold">Mantenimiento Modulos</a></li>                            
-                            <li><label style="color: green">Modulo <% out.print(dModulo.getModuloByModuloId(moduloId).getNombreModulo()); %></label></li>
+                            <li><a href="mantenimientoSubmenu.jsp?moduloId=<% out.print(moduloId); %>" style="font-weight: bold">Modulo <% out.print(dSubmenu.getSubMenuBySubMenuId(submenuId).getNombreSubmenu()); %></a></li>
+                            <li><label style="color: green">Submenu <% out.print(dSubmenu.getSubMenuBySubMenuId(submenuId).getNombreSubmenu()); %></label></li>
                         </ol>
                     </div>
                 </div>
@@ -125,15 +132,13 @@
                     <div class="col-lg-1"></div>
                         <div class="col-lg-10 animated-panel zoomIn" style="-webkit-animation: 0.5s;">
                             <div class="hpanel">
-                                <form method="POST" action="/PaseAProduccionWeb/MantenimientoSubmenus">
-                                    <input type="hidden" value="<% out.print(moduloId); %>" name="moduloId" id="moduloId">
+                                <form method="POST" action="/PaseAProduccionWeb/MantenimientoFormularios">
+                                    <input type="hidden" value="<% out.print(submenuId); %>" name="submenuId" id="submenuId">
                                     <div class="panel-heading">
-                                        <label style="font-size: 25px; margin: 0px;"><% out.print(dModulo.getModuloByModuloId(moduloId).getNombreModulo()); %> &nbsp;</label>
+                                        <label style="font-size: 25px; margin: 0px;"><% out.print(dSubmenu.getSubMenuBySubMenuId(submenuId).getNombreSubmenu()); %> &nbsp;</label>
                                         <button type="submit" class="btn btn-primary btn-xs" style="margin-bottom: 10px;"><i class="fa fa-plus fa-2x"></i></button>
                                     </div>
                                 </form>
-                                <form method="POST" action="/PaseAProduccionWeb/mantenimientoFormulario.jsp">
-                                    <input type="hidden" name="submenuId" id="submenuId">
                                 <div class="panel-body">
                                     <div class="table-responsive">
                                         <table cellpadd  ing="1" cellspacing="1" class="table table-condensed table-striped">
@@ -142,27 +147,30 @@
                                                     <th>Nombre</th>
                                                     <th>Descripcion</th>
                                                     <th>Estado</th>
-                                                    <th></th>
+                                                    <th>Tipo</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 <%
-                                                for(int i=0; i<lstSubmenus.size(); i++){
+                                                for(int i=0; i<lstFormularios.size(); i++){
                                                     out.print("<tr>");
                                                     out.print("<td>");
-                                                    out.print(lstSubmenus.get(i).getNombreSubmenu());
+                                                    out.print(lstFormularios.get(i).getNombreFormulario());
                                                     out.print("</td>");
                                                     out.print("<td>");
-                                                    out.print(lstSubmenus.get(i).getDescSubmenu());
+                                                    out.print(lstFormularios.get(i).getDescFormulario());
                                                     out.print("</td>");
                                                     out.print("<td>");
-                                                    if(lstSubmenus.get(i).getFlagEstado().equals("A"))
+                                                    if(lstFormularios.get(i).getFlagEstado().equals("A"))
                                                         out.print("Activo");
-                                                    else if(lstSubmenus.get(i).getFlagEstado().equals("I"))
+                                                    else if(lstFormularios.get(i).getFlagEstado().equals("I"))
                                                         out.print("Inactivo");
                                                     out.print("</td>");
                                                     out.print("<td>");
-                                                    out.print("<button class=\"btn btn-primary btn-xs\" onclick=\"setSubmenuId("+ lstSubmenus.get(i).getSubmenuId()+");\">Formularios y Reportes</button>");
+                                                    if(lstFormularios.get(i).getFlagTipo().equals("R"))
+                                                        out.print("Reporte");
+                                                    else if(lstFormularios.get(i).getFlagTipo().equals("F"))
+                                                        out.print("Formulario");
                                                     out.print("</td>");
                                                     out.print("</tr>");
                                                 }
@@ -171,9 +179,8 @@
                                         </table>
                                     </div> 
                                 </div>
-                                </form>
                                 <div class="panel-footer">
-                                    El modulo <% out.print(dModulo.getModuloByModuloId(moduloId).getNombreModulo()); %> tiene <% out.print(lstSubmenus.size());  %> modulos
+                                    El submenu <% out.print(dSubmenu.getSubMenuBySubMenuId(submenuId).getNombreSubmenu()); %> tiene <% out.print(lstFormularios.size());  %> modulos
                                 </div>
                             </div>
                         </div>
@@ -271,10 +278,6 @@
 
         ga('create', 'UA-4625583-2', 'webapplayers.com');
         ga('send', 'pageview');
-        
-        function setSubmenuId(submenuId){
-            $("#submenuId").val(submenuId);
-        }
         
     </script>
 </html>
