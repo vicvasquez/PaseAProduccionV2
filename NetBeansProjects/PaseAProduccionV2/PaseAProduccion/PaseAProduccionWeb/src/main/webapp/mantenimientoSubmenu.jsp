@@ -1,31 +1,32 @@
 <%-- 
-    Document   : mantenimiento
-    Created on : 16/07/2015, 12:02:39 PM
+    Document   : mantenimientoSubmenu
+    Created on : 17/07/2015, 12:21:14 PM
     Author     : vvasquez
 --%>
-
-<%@page import="java.math.BigDecimal"%>
 <%@page import="java.util.List"%>
-<%@page import="com.cis.paseaproduccionweb.hibernate.PpModulos"%>
+<%@page import="com.cis.paseaproduccionweb.dao.SubMenusDao"%>
+<%@page import="com.cis.paseaproduccionweb.hibernate.PpSubmenus"%>
 <%@page import="com.cis.paseaproduccionweb.dao.ModulosDao"%>
+<%@page import="java.math.BigDecimal"%>
 <%@page import="com.cis.paseaproduccionweb.hibernate.PpUsuarios"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<% 
+<%
     PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
     if(usuario==null)
         response.sendRedirect("login.jsp");
     
+    String modId = request.getParameter("moduloId");
+    
+    BigDecimal moduloId = new BigDecimal(modId);
+    
     ModulosDao dModulo = new ModulosDao();
+    SubMenusDao dSubmenu = new SubMenusDao();
     
-    BigDecimal sistemaIdSaas = new BigDecimal("1");
-    BigDecimal sistemaIdTdm = new BigDecimal("2");
+    List<PpSubmenus> lstSubmenus = dSubmenu.getSubMenuByModuloId(moduloId);
     
-    List<PpModulos> lstModulosSaas = dModulo.getModulosBySistemaId(sistemaIdSaas);
-    List<PpModulos> lstModulosTdm = dModulo.getModulosBySistemaId(sistemaIdTdm);
-    
-%>
 
+%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -108,29 +109,30 @@
                 <div class="hpanel">
                     <div class="panel-body">
                         <h2 class="font-light m-b-xs">
-                            Mantenimiento de Módulos
+                            Mantenimiento de Submenus
                         </h2>
-                        <small>En esa sección se realizará el mantenimiento de los modulos del sistema</small>
+                        <small>En esa sección se realizará el mantenimiento de los submenus del modulo <% out.print(dModulo.getModuloByModuloId(moduloId).getNombreModulo()); %></small>
                         <br><br><br>
                         <ol class="hbreadcrumb breadcrumb">
-                            <li><label style="color: green">Mantenimiento Modulos</label></li>                            
+                            <li><a href="mantenimiento.jsp" style="font-weight: bold">Mantenimiento Modulos</a></li>                            
+                            <li><label style="color: green">Submenu <% out.print(dModulo.getModuloByModuloId(moduloId).getNombreModulo()); %></label></li>
                         </ol>
                     </div>
                 </div>
             </div>
             <div class="content animate-panel">
                 <div class="row">
-                        <div class="col-lg-6 animated-panel zoomIn" style="-webkit-animation: 0.5s;">
-                            <div class="hpanel hgreen">
-                                <form method="POST" action="/PaseAProduccionWeb/MantenimientoModulos">
-                                    <input type="hidden" value="1" name="sistemaId" id="entornoId">
+                    <div class="col-lg-1"></div>
+                        <div class="col-lg-10 animated-panel zoomIn" style="-webkit-animation: 0.5s;">
+                            <div class="hpanel">
+                                <form method="POST" action="/PaseAProduccionWeb/MantenimientoSubmenus">
+                                    <input type="hidden" value="<% out.print(moduloId); %>" name="moduloId" id="moduloId">
                                     <div class="panel-heading">
-                                        <label style="font-size: 25px; margin: 0px;">SAAS &nbsp;</label>
-                                        <button type="submit" class="btn btn-success btn-xs" style="margin-bottom: 10px;"><i class="fa fa-plus fa-2x"></i></button>
+                                        <label style="font-size: 25px; margin: 0px;"><% out.print(dModulo.getModuloByModuloId(moduloId).getNombreModulo()); %> &nbsp;</label>
+                                        <button type="submit" class="btn btn-primary btn-xs" style="margin-bottom: 10px;"><i class="fa fa-plus fa-2x"></i></button>
                                     </div>
                                 </form>
-                                <form method="POST" action="/PaseAProduccionWeb/mantenimientoSubmenu.jsp">
-                                <input type="hidden" name="moduloId" id="moduloIdSAAS">
+                                <form method="POST" action="/PaseAProduccionWeb/MantenimientoFormulario">
                                 <div class="panel-body">
                                     <div class="table-responsive">
                                         <table cellpadd  ing="1" cellspacing="1" class="table table-condensed table-striped">
@@ -144,22 +146,22 @@
                                             </thead>
                                             <tbody>
                                                 <%
-                                                for(int i=0; i<lstModulosSaas.size(); i++){
+                                                for(int i=0; i<lstSubmenus.size(); i++){
                                                     out.print("<tr>");
                                                     out.print("<td>");
-                                                    out.print(lstModulosSaas.get(i).getNombreModulo());
+                                                    out.print(lstSubmenus.get(i).getNombreSubmenu());
                                                     out.print("</td>");
                                                     out.print("<td>");
-                                                    out.print(lstModulosSaas.get(i).getDescModulo());
+                                                    out.print(lstSubmenus.get(i).getDescSubmenu());
                                                     out.print("</td>");
                                                     out.print("<td>");
-                                                    if(lstModulosSaas.get(i).getFlagEstado().equals("A"))
+                                                    if(lstSubmenus.get(i).getFlagEstado().equals("A"))
                                                         out.print("Activo");
-                                                    else if(lstModulosSaas.get(i).getFlagEstado().equals("I"))
+                                                    else if(lstSubmenus.get(i).getFlagEstado().equals("I"))
                                                         out.print("Inactivo");
                                                     out.print("</td>");
                                                     out.print("<td>");
-                                                    out.print("<button class=\"btn btn-success btn-xs\" onclick=\"setModuloId("+ lstModulosSaas.get(i).getModuloId() +");\">Submenus</button>");
+                                                    out.print("<button class=\"btn btn-primary btn-xs\">Formularios y Reportes</button>");
                                                     out.print("</td>");
                                                     out.print("</tr>");
                                                 }
@@ -170,61 +172,7 @@
                                 </div>
                                 </form>
                                 <div class="panel-footer">
-                                    El sistema tiene <% out.print(lstModulosSaas.size());  %> modulos
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-lg-6 animated-panel zoomIn" style="-webkit-animation: 0.5s;">
-                            <div class="hpanel hblue">
-                                <form method="POST" action="/PaseAProduccionWeb/MantenimientoModulos">
-                                    <input type="hidden" value="2" name="sistemaId" id="entornoId">
-                                <div class="panel-heading">
-                                    <label style="font-size: 25px; margin: 0px;">TDM &nbsp;</label>
-                                    <button class="btn btn-info btn-xs" style="margin-bottom: 10px;"><i class="fa fa-plus fa-2x"></i></button>
-                                </div>
-                                </form>
-                                <form method="POST" action="/PaseAProduccionWeb/mantenimientoSubmenu.jsp">
-                                <input type="hidden" name="moduloId" id="moduloIdTDM">
-                                <div class="panel-body">
-                                        <div class="table-responsive">
-                                            <table cellpadd  ing="1" cellspacing="1" class="table table-condensed table-striped">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Nombre</th>
-                                                        <th>Descripcion</th>
-                                                        <th>Estado</th>
-                                                        <th></th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    <%
-                                                    for(int i=0; i<lstModulosTdm.size(); i++){
-                                                        out.print("<tr>");
-                                                        out.print("<td>");
-                                                        out.print(lstModulosTdm.get(i).getNombreModulo());
-                                                        out.print("</td>");
-                                                        out.print("<td>");
-                                                        out.print(lstModulosTdm.get(i).getDescModulo());
-                                                        out.print("</td>");
-                                                        out.print("<td>");
-                                                        if(lstModulosTdm.get(i).getFlagEstado().equals("A"))
-                                                            out.print("Activo");
-                                                        else if(lstModulosTdm.get(i).getFlagEstado().equals("I"))
-                                                            out.print("Inactivo");
-                                                        out.print("</td>");
-                                                        out.print("<td>");
-                                                        out.print("<button class=\"btn btn-info btn-xs\" onclick=\"setModuloId("+ lstModulosTdm.get(i).getModuloId() +");\">Submenus</button>");
-                                                        out.print("</td>");
-                                                        out.print("</tr>");
-                                                    }
-                                                    %>
-                                                </tbody>
-                                            </table>
-                                        </div> 
-                                </div>
-                                </form>
-                                <div class="panel-footer">
-                                    El sistema tiene <% out.print(lstModulosTdm.size());  %> modulos
+                                    El modulo <% out.print(dModulo.getModuloByModuloId(moduloId).getNombreModulo()); %> tiene <% out.print(lstSubmenus.size());  %> modulos
                                 </div>
                             </div>
                         </div>
@@ -322,11 +270,6 @@
 
         ga('create', 'UA-4625583-2', 'webapplayers.com');
         ga('send', 'pageview');
-        
-        function setModuloId(moduloId){
-            $("#moduloIdSAAS").val(moduloId)
-            $("#moduloIdTDM").val(moduloId)
-        }
         
     </script>
 </html>

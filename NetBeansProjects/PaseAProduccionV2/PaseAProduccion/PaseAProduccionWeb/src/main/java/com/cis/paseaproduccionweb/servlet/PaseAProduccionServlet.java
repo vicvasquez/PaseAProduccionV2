@@ -94,7 +94,7 @@ public class PaseAProduccionServlet extends HttpServlet {
 
                 archivoBlobFMB = new javax.sql.rowset.serial.SerialBlob(bytesFMB);
 
-                //COPIAR FMB
+                //COPIAR FMX
                 Part filePartFMX = request.getPart("archivoFMX");
                 InputStream fileContentFMX = filePartFMX.getInputStream();
 

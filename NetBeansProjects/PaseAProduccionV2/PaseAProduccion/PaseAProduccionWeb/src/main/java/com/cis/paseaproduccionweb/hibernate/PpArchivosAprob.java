@@ -1,5 +1,5 @@
 package com.cis.paseaproduccionweb.hibernate;
-// Generated 14/07/2015 09:25:56 AM by Hibernate Tools 4.3.1
+// Generated 17/07/2015 09:55:05 AM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -15,6 +15,10 @@ public class PpArchivosAprob  implements java.io.Serializable {
      private String nombreArchivo;
      private Blob archivo;
      private String tipo;
+     private String comentarioPase;
+     private String comentarioServicios;
+     private BigDecimal usuarioId;
+     private BigDecimal archivoId;
 
     public PpArchivosAprob() {
     }
@@ -23,11 +27,15 @@ public class PpArchivosAprob  implements java.io.Serializable {
     public PpArchivosAprob(BigDecimal aaprobId) {
         this.aaprobId = aaprobId;
     }
-    public PpArchivosAprob(BigDecimal aaprobId, String nombreArchivo, Blob archivo, String tipo) {
+    public PpArchivosAprob(BigDecimal aaprobId, String nombreArchivo, Blob archivo, String tipo, String comentarioPase, String comentarioServicios, BigDecimal usuarioId, BigDecimal archivoId) {
        this.aaprobId = aaprobId;
        this.nombreArchivo = nombreArchivo;
        this.archivo = archivo;
        this.tipo = tipo;
+       this.comentarioPase = comentarioPase;
+       this.comentarioServicios = comentarioServicios;
+       this.usuarioId = usuarioId;
+       this.archivoId = archivoId;
     }
    
     public BigDecimal getAaprobId() {
@@ -57,6 +65,34 @@ public class PpArchivosAprob  implements java.io.Serializable {
     
     public void setTipo(String tipo) {
         this.tipo = tipo;
+    }
+    public String getComentarioPase() {
+        return this.comentarioPase;
+    }
+    
+    public void setComentarioPase(String comentarioPase) {
+        this.comentarioPase = comentarioPase;
+    }
+    public String getComentarioServicios() {
+        return this.comentarioServicios;
+    }
+    
+    public void setComentarioServicios(String comentarioServicios) {
+        this.comentarioServicios = comentarioServicios;
+    }
+    public BigDecimal getUsuarioId() {
+        return this.usuarioId;
+    }
+    
+    public void setUsuarioId(BigDecimal usuarioId) {
+        this.usuarioId = usuarioId;
+    }
+    public BigDecimal getArchivoId() {
+        return this.archivoId;
+    }
+    
+    public void setArchivoId(BigDecimal archivoId) {
+        this.archivoId = archivoId;
     }
 
 

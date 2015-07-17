@@ -53,6 +53,22 @@
     <servlet>
         <servlet-name>MantenimientoModulosServlet</servlet-name>
         <servlet-class>com.cis.paseaproduccionweb.servlet.MantenimientoModulosServlet</servlet-class>
+        <multipart-config>
+            <location>/tmp</location>
+            <max-file-size>20848820</max-file-size>
+            <max-request-size>418018841</max-request-size>
+            <file-size-threshold>1048576</file-size-threshold>
+        </multipart-config>
+    </servlet>
+    <servlet>
+        <servlet-name>MantenimientoSubmenusServlet</servlet-name>
+        <servlet-class>com.cis.paseaproduccionweb.servlet.MantenimientoSubmenusServlet</servlet-class>
+        <multipart-config>
+            <location>/tmp</location>
+            <max-file-size>20848820</max-file-size>
+            <max-request-size>418018841</max-request-size>
+            <file-size-threshold>1048576</file-size-threshold>
+        </multipart-config>
     </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
@@ -101,6 +117,10 @@
     <servlet-mapping>
         <servlet-name>MantenimientoModulosServlet</servlet-name>
         <url-pattern>/MantenimientoModulos</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MantenimientoSubmenusServlet</servlet-name>
+        <url-pattern>/MantenimientoSubmenus</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

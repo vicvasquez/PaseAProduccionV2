@@ -56,4 +56,22 @@ public class SubMenusDao {
         return submenu;
     }
     
+    public void insertarSubMenu(PpSubmenus submenuInsert){
+        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            session.save(submenuInsert);
+            tx.commit();
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+        } finally{
+            session.close();
+        }
+    }
+    
 }

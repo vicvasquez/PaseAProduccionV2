@@ -84,4 +84,22 @@ public class ModulosDao {
         return result;
     }
     
+    public void insertarModulo(PpModulos moduloInsert){
+        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            session.save(moduloInsert);
+            tx.commit();
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+        } finally{
+            session.close();
+        }
+    }
+    
 }
