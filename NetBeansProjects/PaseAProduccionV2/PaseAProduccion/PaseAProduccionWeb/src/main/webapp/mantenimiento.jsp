@@ -1,26 +1,29 @@
 <%-- 
-    Document   : mostrarEntornos
-    Created on : 17/06/2015, 04:24:12 PM
+    Document   : mantenimiento
+    Created on : 16/07/2015, 12:02:39 PM
     Author     : vvasquez
 --%>
 
-<%@page import="java.util.AbstractList"%>
 <%@page import="java.math.BigDecimal"%>
-<%@page import="javax.persistence.Convert"%>
-<%@page import="com.cis.paseaproduccionweb.hibernate.PpEntornos"%>
 <%@page import="java.util.List"%>
-<%@page import="com.cis.paseaproduccionweb.dao.EntornoDao"%>
+<%@page import="com.cis.paseaproduccionweb.hibernate.PpModulos"%>
+<%@page import="com.cis.paseaproduccionweb.dao.ModulosDao"%>
 <%@page import="com.cis.paseaproduccionweb.hibernate.PpUsuarios"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@page import="java.util.Random"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <% 
     PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
     if(usuario==null)
         response.sendRedirect("login.jsp");
-   
-   EntornoDao entDao = new EntornoDao();
+    
+    ModulosDao dModulo = new ModulosDao();
+    
+    BigDecimal sistemaIdSaas = new BigDecimal("1");
+    BigDecimal sistemaIdTdm = new BigDecimal("2");
+    
+    List<PpModulos> lstModulosSaas = dModulo.getModulosBySistemaId(sistemaIdSaas);
+    List<PpModulos> lstModulosTdm = dModulo.getModulosBySistemaId(sistemaIdTdm);
+    
 %>
 
 <!DOCTYPE html>
@@ -85,7 +88,7 @@
                     <li>
                         <a href="index.jsp"> <span class="nav-label">Inicio</span>  </a>
                     </li>
-                    <li class="active">
+                    <li>
                         <a href="mostrarEntornos.jsp"> <span class="nav-label">Reservar Formulario</span> </a>
                     </li>
                     <li>
@@ -94,7 +97,7 @@
                     <li>
                         <a href="perfil.jsp"> <span class="nav-label">Perfil</span> </a>
                     </li>
-                    <li>
+                    <li class="active">
                         <a href="mantenimiento.jsp"> <span class="nav-label">Mantenimiento</span> </a>
                     </li>
                 </ul>
@@ -105,61 +108,112 @@
                 <div class="hpanel">
                     <div class="panel-body">
                         <h2 class="font-light m-b-xs">
-                            Sistemas
+                            Mantenimiento de Módulos
                         </h2>
-                        <small>Seleccione el sistema del cual desea descargar un formulario o reporte</small>
+                        <small>En esa sección se realizará el mantenimiento de los modulos del sistema</small>
                         <br><br><br>
                         <ol class="hbreadcrumb breadcrumb">
-                            <li><label style="color: green">Sistemas</label></li>                            
+                            <li><label style="color: green">Mantenimiento Modulos</label></li>                            
                         </ol>
                     </div>
                 </div>
             </div>
-            <div class="content animate-panel">    
-                
-                <div class="col-lg-12 animated-panel zoomIn" style="-webkit-animation: 0.5s;">
-                    <div class="hpanel">
-                        <form action="/PaseAProduccionWeb/Modulos" method="post" id="entornosForm">
-                            <input type="hidden" name="sistemaId" id="sistemaId"/>
-                        <div class="col-lg-2"></div>
-                        <div>
-                            <div class="col-lg-4">
-                                <div class="col-lg-12 animated-panel zoomIn" style="-webkit-animation: 0.1s;">
-                                    <div class="panel-body">
-                                        <div class="text-center">
-                                            <h2 class="m-b-xs">SAAS</h2>
-                                            <div class="m">
-                                                <i class="pe-7s-server" style="font-size: 40px;"></i>
-                                            </div>
-                                            <p class="small">Ambiente designado para el sistema SAAS y sus 3 entornos</p>
-                                            <button class="btn btn-success btn-sm" value="1" onclick="setModuloId(this);">Mostrar Modulos &nbsp;&nbsp;&nbsp;
-                                                <i class="fa fa-arrow-right"></i>
-                                            </button>
-                                        </div>
-                                    </div>
+            <div class="content animate-panel">
+                <div class="row">
+                    <form method="POST" action="/PaseAProduccionWeb/MantenimientoModulos">
+                        <input type="hidden" value="1" name="sistemaId" id="entornoId">
+                        <div class="col-lg-6 animated-panel zoomIn" style="-webkit-animation: 0.5s;">
+                            <div class="hpanel hgreen">
+                                <div class="panel-heading">
+                                    <label style="font-size: 25px; margin: 0px;">SAAS &nbsp;</label>
+                                    <button class="btn btn-success btn-xs" style="margin-bottom: 10px;"><i class="fa fa-plus fa-2x"></i></button>
+                                </div>
+                                <div class="panel-body">
+                                    <div class="table-responsive">
+                                        <table cellpadd  ing="1" cellspacing="1" class="table table-condensed table-striped">
+                                            <thead>
+                                                <tr>
+                                                    <th>Nombre</th>
+                                                    <th>Descripcion</th>
+                                                    <th>Estado</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <%
+                                                for(int i=0; i<lstModulosSaas.size(); i++){
+                                                    out.print("<tr>");
+                                                    out.print("<td>");
+                                                    out.print(lstModulosSaas.get(i).getNombreModulo());
+                                                    out.print("</td>");
+                                                    out.print("<td>");
+                                                    out.print(lstModulosSaas.get(i).getDescModulo());
+                                                    out.print("</td>");
+                                                    out.print("<td>");
+                                                    if(lstModulosSaas.get(i).getFlagEstado().equals("A"))
+                                                        out.print("Activo");
+                                                    else if(lstModulosSaas.get(i).getFlagEstado().equals("I"))
+                                                        out.print("Inactivo");
+                                                    out.print("</td>");
+                                                    out.print("</tr>");
+                                                }
+                                                %>
+                                            </tbody>
+                                        </table>
+                                    </div> 
+                                </div>
+                                <div class="panel-footer">
+                                    El sistema tiene <% out.print(lstModulosSaas.size());  %> modulos
                                 </div>
                             </div>
                         </div>
-                        <div>
-                            <div class="col-lg-4">
-                                <div class="col-lg-12 animated-panel zoomIn" style="-webkit-animation: 0.1s;">
-                                    <div class="panel-body">
-                                        <div class="text-center">
-                                            <h2 class="m-b-xs">TDM</h2>
-                                            <div class="m">
-                                                <i class="pe-7s-server" style="font-size: 40px;"></i>
-                                            </div>
-                                            <p class="small">Ambiente designado para el sistema TDM y sus 3 entornos</p>
-                                            <button class="btn btn-info btn-sm" value="2" onclick="setModuloId(this);">Mostrar Modulos &nbsp;&nbsp;&nbsp;
-                                                <i class="fa fa-arrow-right"></i>
-                                            </button>
-                                        </div>
-                                    </div>
+                    </form>
+                    <form method="POST" action="/PaseAProduccionWeb/MantenimientoModulos">
+                        <input type="hidden" value="2" name="sistemaId" id="entornoId">
+                        <div class="col-lg-6 animated-panel zoomIn" style="-webkit-animation: 0.5s;">
+                            <div class="hpanel hblue">
+                                <div class="panel-heading">
+                                    <label style="font-size: 25px; margin: 0px;">TDM &nbsp;</label>
+                                    <button class="btn btn-info btn-xs" style="margin-bottom: 10px;"><i class="fa fa-plus fa-2x"></i></button>
+                                </div>
+                                <div class="panel-body">
+                                        <div class="table-responsive">
+                                            <table cellpadd  ing="1" cellspacing="1" class="table table-condensed table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Nombre</th>
+                                                        <th>Descripcion</th>
+                                                        <th>Estado</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <%
+                                                    for(int i=0; i<lstModulosTdm.size(); i++){
+                                                        out.print("<tr>");
+                                                        out.print("<td>");
+                                                        out.print(lstModulosSaas.get(i).getNombreModulo());
+                                                        out.print("</td>");
+                                                        out.print("<td>");
+                                                        out.print(lstModulosSaas.get(i).getDescModulo());
+                                                        out.print("</td>");
+                                                        out.print("<td>");
+                                                        if(lstModulosSaas.get(i).getFlagEstado().equals("A"))
+                                                            out.print("Activo");
+                                                        else if(lstModulosSaas.get(i).getFlagEstado().equals("I"))
+                                                            out.print("Inactivo");
+                                                        out.print("</td>");
+                                                        out.print("</tr>");
+                                                    }
+                                                    %>
+                                                </tbody>
+                                            </table>
+                                        </div> 
+                                </div>
+                                <div class="panel-footer">
+                                    El sistema tiene <% out.print(lstModulosTdm.size());  %> modulos
                                 </div>
                             </div>
                         </div>
-                        </form>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>

@@ -119,7 +119,7 @@
                         <a href="perfil.jsp"> <span class="nav-label">Perfil</span> </a>
                     </li>
                     <li>
-                        <a href="#"> <span class="nav-label">Mantenimiento</span> </a>
+                        <a href="mantenimiento.jsp"> <span class="nav-label">Mantenimiento</span> </a>
                     </li>
                 </ul>
             </div>

@@ -18,15 +18,4 @@
             <column name="TIPO" length="3" />
         </property>
     </class>
-    <sql-query name="SP_PASE_PRODUCCION" callable="true"><return-scalar column="cnt" type="integer"/>
-                { ? = call PASE_A_PRODUCCION }
-    </sql-query>
-    <sql-query name="SP_PASE_PRODUCCION_SERVICIOS" callable="true">
-        <return-scalar column="cnt" type="integer"/>
-                { ? = call PASE_PRODUCCION_SERVICIOS }
-    </sql-query>
-    <sql-query name="SP_ELIMINAR_ARCHIVO_USO" callable="true">
-        <return-scalar column="cnt" type="integer"/>
-                { ? = call ELIMINAR_ARCHIVO_USO( ? , ?) }
-    </sql-query>
 </hibernate-mapping>

@@ -50,6 +50,10 @@
         <servlet-name>DownloadHistorialServlet</servlet-name>
         <servlet-class>com.cis.paseaproduccionweb.servlet.DownloadHistorialServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>MantenimientoModulosServlet</servlet-name>
+        <servlet-class>com.cis.paseaproduccionweb.servlet.MantenimientoModulosServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -93,6 +97,10 @@
     <servlet-mapping>
         <servlet-name>DownloadHistorialServlet</servlet-name>
         <url-pattern>/DownloadHistorial</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>MantenimientoModulosServlet</servlet-name>
+        <url-pattern>/MantenimientoModulos</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

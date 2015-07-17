@@ -44,23 +44,23 @@ public class HistorialesDao {
     public Integer getLastVersion(String nombre){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
-        Integer resultado = 0;
+        Object resultado;
         
         try {
             tx = session.getTransaction();
             tx.begin();
             Query q = session.getNamedQuery("SP_ULTIMA_VERSION_HISTORIAL");
             q.setString(0, nombre);
-            resultado = (Integer) q.uniqueResult();
+            resultado = q.uniqueResult();
             tx.commit();
-            return resultado;
+            return (Integer)resultado;
         } catch (Exception e) {
             if(tx != null)
                 tx.rollback();
         } finally{
             session.close();
         }
-        return resultado;
+        return 0;
     }
     
     public List<PpHistoriales> getHistorial(){
