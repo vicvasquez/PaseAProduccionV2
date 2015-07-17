@@ -43,6 +43,7 @@
      <link rel="stylesheet" href="fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
      <link rel="stylesheet" href="fonts/pe-icon-7-stroke/css/helper.css" />
      <link rel="stylesheet" href="styles/style.css">
+     <!-- <link rel="stylesheet" href="styles/static_custom.css"> -->
     </head>
     
     <body>
@@ -404,8 +405,6 @@
     <script src="scripts/homer.js"></script>
     <script src="scripts/charts.js"></script>
     
-    <script src="scripts/homer.js"></script>
-    
     <script>
 
         $(function () {
@@ -467,6 +466,8 @@
 
             $.plot($("#flot-income-chart"), chartIncomeData, chartIncomeOptions);
 
+
+
         });
 
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
@@ -476,6 +477,7 @@
 
         ga('create', 'UA-4625583-2', 'webapplayers.com');
         ga('send', 'pageview');
+        
         
         function activarBotones(){
             if($('input[name=archivoTipo]').val() === "REP")
