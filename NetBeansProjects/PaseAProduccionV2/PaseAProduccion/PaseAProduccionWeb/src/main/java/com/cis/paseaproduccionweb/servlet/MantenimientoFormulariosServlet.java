@@ -11,12 +11,10 @@ import com.cis.paseaproduccionweb.dao.HistorialesDao;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosPase;
 import com.cis.paseaproduccionweb.hibernate.PpFormularios;
 import com.cis.paseaproduccionweb.hibernate.PpHistoriales;
-import com.cis.paseaproduccionweb.hibernate.PpModulos;
 import com.cis.paseaproduccionweb.hibernate.PpUsuarios;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.Date;
@@ -57,7 +55,7 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
                 BigDecimal submenuId = new BigDecimal(submId);
                 PpFormularios reporte = new PpFormularios();
                 
-                if(tipo.equals("Reporte")){
+                if(tipo.equals("R")){
                     
                     
                     //COPIAR RDF
@@ -74,7 +72,17 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
 
                         archivoBlobRDF = new javax.sql.rowset.serial.SerialBlob(bytesRDF);
                         
-                        //---------------------------------------------------------------------------
+                        //--------------------------------------------------------------
+                        reporte.setNombreFormulario(nombre);
+                        reporte.setDescFormulario(descripcion);
+                        reporte.setArchivo(archivoBlobRDF);
+                        reporte.setPpsubmenuSubmenuId(submenuId);
+                        reporte.setFlagEstado("A");
+                        reporte.setFlagUso("N");
+                        reporte.setFlagTipo("R");
+
+                        dFormulario.insertarFormulario(reporte);
+                        
                         PpHistoriales historial = new PpHistoriales();
                         Date date = new Date();          
                         historial.setArchivo(archivoBlobRDF);
@@ -94,16 +102,19 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
                         dArchivoPase.PasarProduccion();
                         dArchivoPase.TruncarTabla();
                     }
-                    
-                    //--------------------------------------------------------------
-                    reporte.setNombreFormulario(nombre);
-                    reporte.setDescFormulario(descripcion);
-                    reporte.setArchivo(archivoBlobRDF);
-                    reporte.setPpsubmenuSubmenuId(submenuId);
-                    reporte.setFlagEstado("A");
-                    reporte.setFlagUso("N");
+                    else
+                    {
+                        //--------------------------------------------------------------
+                        reporte.setNombreFormulario(nombre);
+                        reporte.setDescFormulario(descripcion);
+                        reporte.setArchivo(archivoBlobRDF);
+                        reporte.setPpsubmenuSubmenuId(submenuId);
+                        reporte.setFlagEstado("A");
+                        reporte.setFlagUso("N");
+                        reporte.setFlagTipo("R");
 
-                    dFormulario.insertarFormulario(reporte);
+                        dFormulario.insertarFormulario(reporte);
+                    }
                 }
                 else{
                     
@@ -139,6 +150,16 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
                         
                         //--------------------------------------------------------------
                         
+                        formulario.setNombreFormulario(nombre);
+                        formulario.setDescFormulario(descripcion);
+                        formulario.setArchivo(archivoBlobFMB);
+                        formulario.setPpsubmenuSubmenuId(submenuId);
+                        formulario.setFlagEstado("A");
+                        formulario.setFlagUso("N");
+                        formulario.setFlagTipo("F");
+
+                        dFormulario.insertarFormulario(formulario);
+                        
                         PpHistoriales historial = new PpHistoriales();
                         Date date = new Date();          
                         historial.setArchivo(archivoBlobFMB);
@@ -158,16 +179,21 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
                         dArchivoPase.PasarProduccion();
                         dArchivoPase.TruncarTabla();
                     }
-                    
-                    formulario.setNombreFormulario(nombre);
-                    formulario.setDescFormulario(descripcion);
-                    formulario.setArchivo(archivoBlobFMB);
-                    formulario.setPpsubmenuSubmenuId(submenuId);
-                    formulario.setFlagEstado("A");
-                    formulario.setFlagUso("N");
+                    else{
+                        formulario.setNombreFormulario(nombre);
+                        formulario.setDescFormulario(descripcion);
+                        formulario.setArchivo(archivoBlobFMB);
+                        formulario.setPpsubmenuSubmenuId(submenuId);
+                        formulario.setFlagEstado("A");
+                        formulario.setFlagUso("N");
+                        formulario.setFlagTipo("F");
 
-                    dFormulario.insertarFormulario(formulario);
+                        dFormulario.insertarFormulario(formulario);
+                    }
                 }
+                request.setAttribute("submenuId", submId);
+                RequestDispatcher rDispatcher = getServletContext().getRequestDispatcher("/mantenimientoFormulario.jsp");
+                rDispatcher.forward(request, response);
             }
             
         } catch (Exception e) {

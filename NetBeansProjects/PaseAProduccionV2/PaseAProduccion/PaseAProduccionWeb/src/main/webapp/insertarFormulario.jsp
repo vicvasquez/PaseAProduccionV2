@@ -129,7 +129,7 @@
                     <div class="col-sm-12 animated-panel zoomIn" style="-webkit-animation: 0.1s 0.1s;">
                         <div class="hpanel">
                             <div class="panel-body">
-                                <form method="POST" action="/PaseAProduccionWeb/MantenimientoFormularios">
+                                <form method="POST" action="/PaseAProduccionWeb/MantenimientoFormularios" enctype="multipart/form-data">
                                     <input type="hidden" name="submenuId" value="<% out.print(submenuId); %>">
                                     <div class="row">
                                         <div class="form-group">
