@@ -1,5 +1,5 @@
 package com.cis.paseaproduccionweb.hibernate;
-// Generated 17/07/2015 09:55:05 AM by Hibernate Tools 4.3.1
+// Generated 20/07/2015 11:30:52 AM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -19,6 +19,7 @@ public class PpArchivosAprob  implements java.io.Serializable {
      private String comentarioServicios;
      private BigDecimal usuarioId;
      private BigDecimal archivoId;
+     private Blob archivoFuente;
 
     public PpArchivosAprob() {
     }
@@ -27,7 +28,7 @@ public class PpArchivosAprob  implements java.io.Serializable {
     public PpArchivosAprob(BigDecimal aaprobId) {
         this.aaprobId = aaprobId;
     }
-    public PpArchivosAprob(BigDecimal aaprobId, String nombreArchivo, Blob archivo, String tipo, String comentarioPase, String comentarioServicios, BigDecimal usuarioId, BigDecimal archivoId) {
+    public PpArchivosAprob(BigDecimal aaprobId, String nombreArchivo, Blob archivo, String tipo, String comentarioPase, String comentarioServicios, BigDecimal usuarioId, BigDecimal archivoId, Blob archivoFuente) {
        this.aaprobId = aaprobId;
        this.nombreArchivo = nombreArchivo;
        this.archivo = archivo;
@@ -36,6 +37,7 @@ public class PpArchivosAprob  implements java.io.Serializable {
        this.comentarioServicios = comentarioServicios;
        this.usuarioId = usuarioId;
        this.archivoId = archivoId;
+       this.archivoFuente = archivoFuente;
     }
    
     public BigDecimal getAaprobId() {
@@ -93,6 +95,13 @@ public class PpArchivosAprob  implements java.io.Serializable {
     
     public void setArchivoId(BigDecimal archivoId) {
         this.archivoId = archivoId;
+    }
+    public Blob getArchivoFuente() {
+        return this.archivoFuente;
+    }
+    
+    public void setArchivoFuente(Blob archivoFuente) {
+        this.archivoFuente = archivoFuente;
     }
 
 

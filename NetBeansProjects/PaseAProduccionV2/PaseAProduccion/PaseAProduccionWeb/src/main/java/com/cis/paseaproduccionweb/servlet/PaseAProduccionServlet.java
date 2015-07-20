@@ -107,7 +107,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                 archivoBlobFMX = new javax.sql.rowset.serial.SerialBlob(bytesFMX);
             }
             
-            if(archivoTipo.equals("FOR"))
+            if(archivoTipo.equals("FOR") || archivoTipo.equals("REP"))
             {
                 PpFormularios formulario = dFormulario.getFormularioByFormularioId(archivoId);
                 if(formulario.getFlagTipo().equals("R")){
@@ -204,6 +204,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                         case 2:    //PASE NOCTURNO
                                 archivoAprob.setNombreArchivo(formulario.getNombreFormulario());
                                 archivoAprob.setArchivo(archivoBlobFMX);
+                                archivoAprob.setArchivoFuente(archivoBlobFMB);
                                 archivoAprob.setTipo("FOR");
                                 archivoAprob.setArchivoId(archivoId);
                                 archivoAprob.setUsuarioId(usuario.getUsuarioId());
@@ -283,6 +284,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                     case 2: //PASE NOCTURNO
                             archivoAprob.setNombreArchivo(modulo.getNombreModulo());
                             archivoAprob.setArchivo(archivoBlobFMX);
+                            archivoAprob.setArchivoFuente(archivoBlobFMB);
                             archivoAprob.setTipo("MOD");
                             archivoAprob.setArchivoId(archivoId);
                             archivoAprob.setUsuarioId(usuario.getUsuarioId());
