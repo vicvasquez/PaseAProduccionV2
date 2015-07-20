@@ -129,7 +129,7 @@
                     <div class="col-sm-12 animated-panel zoomIn" style="-webkit-animation: 0.1s 0.1s;">
                         <div class="hpanel">
                             <div class="panel-body">
-                                <form method="POST" action="/PaseAProduccionWeb/MantenimientoFormularios" enctype="multipart/form-data">
+                                <form method="POST" action="/PaseAProduccionWeb/MantenimientoFormularios">
                                     <input type="hidden" name="submenuId" value="<% out.print(submenuId); %>">
                                     <div class="row">
                                         <div class="form-group">
@@ -166,7 +166,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Archivo RDF</label>
                                             <div class="col-sm-5">
-                                                <input type="file" name="archivoRDF" id="archivoFMB" class="form-control" required="">
+                                                <input type="file" name="archivoRDF" id="archivoFMB" class="form-control">
                                             </div>
                                         </div>     
                                     </div>
@@ -177,7 +177,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Archivo FMB</label>
                                             <div class="col-sm-5">
-                                                <input type="file" name="archivoFMB" id="archivoFMB" class="form-control" required="">
+                                                <input type="file" name="archivoFMB" id="archivoFMB" class="form-control">
                                             </div>
                                         </div>     
                                     </div>
@@ -186,7 +186,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Archivo FMX</label>
                                             <div class="col-sm-5">
-                                                <input type="file" name="archivoFMX" id="archivoFMX" class="form-control" required="">
+                                                <input type="file" name="archivoFMX" id="archivoFMX" class="form-control">
                                             </div>
                                         </div>
                                     </div>
@@ -196,7 +196,7 @@
                                     <div class="col-sm-4"></div>
                                     <div class="col-sm-5" style="text-align: right">
                                         <button type="submit" class="btn w-xs btn-primary">Guardar</button>
-                                        <button type="button" class="btn w-xs btn-danger" onclick="window.location.href='/PaseAProduccionWeb/mantenimiento.jsp'">Cancelar</button>
+                                        <button type="button" class="btn w-xs btn-danger" onclick="window.location.href='mantenimientoFormulario.jsp?submenuId=<% out.print(submenuId); %>'">Cancelar</button>
                                     </div>
                                 </form>
                             </div>

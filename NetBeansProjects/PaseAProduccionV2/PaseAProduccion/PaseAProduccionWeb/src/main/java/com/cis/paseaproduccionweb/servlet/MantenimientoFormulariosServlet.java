@@ -54,22 +54,48 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
                 PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
                 FormulariosDao dFormulario = new FormulariosDao();
                 
+                BigDecimal submenuId = new BigDecimal(submId);
+                PpFormularios reporte = new PpFormularios();
+                
                 if(tipo.equals("Reporte")){
-                    //COPIAR RDF
                     
+                    
+                    //COPIAR RDF
                     Part filePartRDF = request.getPart("archivoRDF");
-                    InputStream fileContentRDF = filePartRDF.getInputStream();
-                    byte[] bytesRDF = new byte[(int)filePartRDF.getSize()];
-                    ByteArrayOutputStream output = new ByteArrayOutputStream();
+                    PpArchivosPase archivoPase = new PpArchivosPase();
+                    ArchivoPaseDao dArchivoPase = new ArchivoPaseDao();
+                    if(filePartRDF != null){
+                        InputStream fileContentRDF = filePartRDF.getInputStream();
+                        byte[] bytesRDF = new byte[(int)filePartRDF.getSize()];
+                        ByteArrayOutputStream output = new ByteArrayOutputStream();
 
-                    for(int i = 0; (i = fileContentRDF.read(bytesRDF))>0;)
-                        output.write(bytesRDF, 0, i);
+                        for(int i = 0; (i = fileContentRDF.read(bytesRDF))>0;)
+                            output.write(bytesRDF, 0, i);
 
-                    archivoBlobRDF = new javax.sql.rowset.serial.SerialBlob(bytesRDF);
+                        archivoBlobRDF = new javax.sql.rowset.serial.SerialBlob(bytesRDF);
+                        
+                        //---------------------------------------------------------------------------
+                        PpHistoriales historial = new PpHistoriales();
+                        Date date = new Date();          
+                        historial.setArchivo(archivoBlobRDF);
+                        historial.setFecha(date);
+                        historial.setPpFormularios(reporte);
+                        historial.setComentarioPase("Primera versión del reporte generado con su creación");
+                        historial.setUsuarioId(usuario.getUsuarioId());
+                        historial.setNombre(nombre);
+                        historial.setNroVersion((long)1);
+                        
+                        dHistorial.insertarHistorial(historial);
+                        
+                        archivoPase.setArchivo(archivoBlobRDF);
+                        archivoPase.setNombreArchivo(nombre);
+
+                        dArchivoPase.insertarArchivoUso(archivoPase);
+                        dArchivoPase.PasarProduccion();
+                        dArchivoPase.TruncarTabla();
+                    }
                     
                     //--------------------------------------------------------------
-                    BigDecimal submenuId = new BigDecimal(submId);
-                    PpFormularios reporte = new PpFormularios();
                     reporte.setNombreFormulario(nombre);
                     reporte.setDescFormulario(descripcion);
                     reporte.setArchivo(archivoBlobRDF);
@@ -78,57 +104,61 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
                     reporte.setFlagUso("N");
 
                     dFormulario.insertarFormulario(reporte);
-
-                    PpArchivosPase archivoPase = new PpArchivosPase();
-                    ArchivoPaseDao dArchivoPase = new ArchivoPaseDao();
-                    archivoPase.setArchivo(archivoBlobRDF);
-                    archivoPase.setNombreArchivo(nombre);
-
-                    dArchivoPase.insertarArchivoUso(archivoPase);
-                    dArchivoPase.PasarProduccion();
-                    dArchivoPase.TruncarTabla();
-
-                    PpHistoriales historial = new PpHistoriales();
-                    Date date = new Date();          
-                    historial.setArchivo(archivoBlobRDF);
-                    historial.setFecha(date);
-                    historial.setPpFormularios(reporte);
-                    historial.setComentarioPase("Primera versión del reporte generado con su creación");
-                    historial.setUsuarioId(usuario.getUsuarioId());
-                    historial.setNombre(nombre);
-                    historial.setNroVersion((long)1);
-
-                    dHistorial.insertarHistorial(historial);
                 }
                 else{
                     
-                    //COPIAR FMB
-                    Part filePartFMB = request.getPart("archivoFMB");
-                    InputStream fileContentFMB = filePartFMB.getInputStream();
-
-                    byte[] bytesFMB = new byte[(int)filePartFMB.getSize()];
-                    ByteArrayOutputStream outputFMB = new ByteArrayOutputStream();
-
-                    for(int i = 0; (i = fileContentFMB.read(bytesFMB))>0;)
-                        outputFMB.write(bytesFMB, 0, i);
-
-                    archivoBlobFMB = new javax.sql.rowset.serial.SerialBlob(bytesFMB);
-
-                    //COPIAR FMX
-                    Part filePartFMX = request.getPart("archivoFMX");
-                    InputStream fileContentFMX = filePartFMX.getInputStream();
-
-                    byte[] bytesFMX = new byte[(int)filePartFMX.getSize()];
-                    ByteArrayOutputStream outputFMX = new ByteArrayOutputStream();
-
-                    for(int i = 0; (i = fileContentFMX.read(bytesFMX))>0;)
-                        outputFMX.write(bytesFMX, 0, i);
-
-                    archivoBlobFMX = new javax.sql.rowset.serial.SerialBlob(bytesFMX);
-                    
-                    //--------------------------------------------------------------
-                    BigDecimal submenuId = new BigDecimal(submId);
                     PpFormularios formulario = new PpFormularios();
+                    PpArchivosPase archivoPase = new PpArchivosPase();
+                    ArchivoPaseDao dArchivoPase = new ArchivoPaseDao();
+                    Part filePartFMB = request.getPart("archivoFMB");
+                    Part filePartFMX = request.getPart("archivoFMX");
+                    
+                    if(filePartFMB != null && filePartFMX != null)
+                    {
+                        //COPIAR FMB
+                        InputStream fileContentFMB = filePartFMB.getInputStream();
+
+                        byte[] bytesFMB = new byte[(int)filePartFMB.getSize()];
+                        ByteArrayOutputStream outputFMB = new ByteArrayOutputStream();
+
+                        for(int i = 0; (i = fileContentFMB.read(bytesFMB))>0;)
+                            outputFMB.write(bytesFMB, 0, i);
+
+                        archivoBlobFMB = new javax.sql.rowset.serial.SerialBlob(bytesFMB);
+                        
+                        //COPIAR FMX
+                        InputStream fileContentFMX = filePartFMX.getInputStream();
+
+                        byte[] bytesFMX = new byte[(int)filePartFMX.getSize()];
+                        ByteArrayOutputStream outputFMX = new ByteArrayOutputStream();
+
+                        for(int i = 0; (i = fileContentFMX.read(bytesFMX))>0;)
+                            outputFMX.write(bytesFMX, 0, i);
+
+                        archivoBlobFMX = new javax.sql.rowset.serial.SerialBlob(bytesFMX);
+                        
+                        //--------------------------------------------------------------
+                        
+                        PpHistoriales historial = new PpHistoriales();
+                        Date date = new Date();          
+                        historial.setArchivo(archivoBlobFMB);
+                        historial.setFecha(date);
+                        historial.setPpFormularios(formulario);
+                        historial.setComentarioPase("Primera versión del formulario generado con su creación");
+                        historial.setUsuarioId(usuario.getUsuarioId());
+                        historial.setNombre(nombre);
+                        historial.setNroVersion((long)1);
+
+                        dHistorial.insertarHistorial(historial);
+                        
+                        archivoPase.setArchivo(archivoBlobFMX);
+                        archivoPase.setNombreArchivo(nombre);
+
+                        dArchivoPase.insertarArchivoUso(archivoPase);
+                        dArchivoPase.PasarProduccion();
+                        dArchivoPase.TruncarTabla();
+                    }
+                    
                     formulario.setNombreFormulario(nombre);
                     formulario.setDescFormulario(descripcion);
                     formulario.setArchivo(archivoBlobFMB);
@@ -137,27 +167,6 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
                     formulario.setFlagUso("N");
 
                     dFormulario.insertarFormulario(formulario);
-
-                    PpArchivosPase archivoPase = new PpArchivosPase();
-                    ArchivoPaseDao dArchivoPase = new ArchivoPaseDao();
-                    archivoPase.setArchivo(archivoBlobFMX);
-                    archivoPase.setNombreArchivo(nombre);
-
-                    dArchivoPase.insertarArchivoUso(archivoPase);
-                    dArchivoPase.PasarProduccion();
-                    dArchivoPase.TruncarTabla();
-
-                    PpHistoriales historial = new PpHistoriales();
-                    Date date = new Date();          
-                    historial.setArchivo(archivoBlobFMB);
-                    historial.setFecha(date);
-                    historial.setPpFormularios(formulario);
-                    historial.setComentarioPase("Primera versión del formulario generado con su creación");
-                    historial.setUsuarioId(usuario.getUsuarioId());
-                    historial.setNombre(nombre);
-                    historial.setNroVersion((long)1);
-
-                    dHistorial.insertarHistorial(historial);
                 }
             }
             

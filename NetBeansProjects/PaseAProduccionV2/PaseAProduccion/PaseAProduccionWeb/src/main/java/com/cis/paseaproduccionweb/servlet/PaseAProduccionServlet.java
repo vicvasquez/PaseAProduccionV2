@@ -205,6 +205,10 @@ public class PaseAProduccionServlet extends HttpServlet {
                                 archivoAprob.setNombreArchivo(formulario.getNombreFormulario());
                                 archivoAprob.setArchivo(archivoBlobFMX);
                                 archivoAprob.setTipo("FOR");
+                                archivoAprob.setArchivoId(archivoId);
+                                archivoAprob.setUsuarioId(usuario.getUsuarioId());
+                                archivoAprob.setComentarioPase(comentarioPase);
+                                archivoAprob.setComentarioServicios(comentarioServicios);
 
                                 dArchivoAprob.insertarArchivoUso(archivoAprob);
                                 
@@ -280,6 +284,10 @@ public class PaseAProduccionServlet extends HttpServlet {
                             archivoAprob.setNombreArchivo(modulo.getNombreModulo());
                             archivoAprob.setArchivo(archivoBlobFMX);
                             archivoAprob.setTipo("MOD");
+                            archivoAprob.setArchivoId(archivoId);
+                            archivoAprob.setUsuarioId(usuario.getUsuarioId());
+                            archivoAprob.setComentarioPase(comentarioPase);
+                            archivoAprob.setComentarioServicios(comentarioServicios);
                             
                             dArchivoAprob.insertarArchivoUso(archivoAprob);
                             
