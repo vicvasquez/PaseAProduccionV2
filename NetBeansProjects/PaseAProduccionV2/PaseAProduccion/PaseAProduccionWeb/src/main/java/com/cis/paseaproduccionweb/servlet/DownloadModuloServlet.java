@@ -12,9 +12,12 @@ import com.cis.paseaproduccionweb.hibernate.PpArchivosUso;
 import com.cis.paseaproduccionweb.hibernate.PpFormularios;
 import com.cis.paseaproduccionweb.hibernate.PpModulos;
 import com.cis.paseaproduccionweb.hibernate.PpUsuarios;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -63,20 +66,68 @@ public class DownloadModuloServlet extends HttpServlet {
                              
             }
             
-            InputStream is = modulo.getArchivo().getBinaryStream();
-             FileOutputStream fos = new FileOutputStream(usuario.getRutaLocal()+modulo.getNombreModulo());
-            
-            //5 MEGAS
-            int bufferSize = 5096;
+            if(modulo.getArchivo() != null){
+                
+                String fileName = modulo.getNombreModulo();
+                String fileType = "application/pdf";
+                // Find this file id in database to get file name, and file type
 
-            byte[] b = new byte[bufferSize];
-            int noOfBytes = 0;
-            while( (noOfBytes = is.read(b)) != -1 )
-            {
-               fos.write(b, 0, noOfBytes);
+                // You must tell the browser the file type you are going to send
+                // for example application/pdf, text/plain, text/html, image/jpg
+                response.setContentType(fileType);
+
+                // Make sure to show the download dialog
+                response.setHeader("Content-disposition","attachment; filename=" + fileName);
+
+                // Assume file name is retrieved from database
+                // For example D:\\file\\test.pdf
+                
+                
+                File              blobFile   = new File(fileName); 
+                FileOutputStream  outStream  = new FileOutputStream(blobFile); 
+                InputStream       inStream   = modulo.getArchivo().getBinaryStream(); 
+
+                int     length  = -1; 
+                int     size1    = 5096;
+                byte[]  buffer2  = new byte[size1]; 
+
+                while ((length = inStream.read(buffer2)) != -1) 
+                { 
+                  outStream.write(buffer2, 0, length); 
+                  outStream.flush(); 
+                } 
+
+                inStream.close(); 
+                outStream.close(); 
+                
+
+                // This should send the file to browser
+                OutputStream out = response.getOutputStream();
+                
+                FileInputStream in = new FileInputStream(blobFile);
+                byte[] buffer = new byte[5096];
+                int length1;
+                while ((length1 = in.read(buffer)) > 0){
+                   out.write(buffer, 0, length1);
+                }
+                in.close();
+                out.flush();
+                
+                /*InputStream is = modulo.getArchivo().getBinaryStream();
+                FileOutputStream fos = new FileOutputStream(usuario.getRutaLocal()+modulo.getNombreModulo());
+
+                //5 MEGAS
+                int bufferSize = 5096;
+
+                byte[] b = new byte[bufferSize];
+                int noOfBytes = 0;
+                while( (noOfBytes = is.read(b)) != -1 )
+                {
+                   fos.write(b, 0, noOfBytes);
+                }
+                fos.close();
+                is.close();*/
             }
-            fos.close();
-            is.close();
   
             request.setAttribute("tipoPadre", sistemaId);
             

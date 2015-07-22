@@ -3,9 +3,12 @@ package com.cis.paseaproduccionweb.servlet;
 import com.cis.paseaproduccionweb.dao.HistorialesDao;
 import com.cis.paseaproduccionweb.hibernate.PpHistoriales;
 import com.cis.paseaproduccionweb.hibernate.PpUsuarios;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -30,6 +33,56 @@ public class DownloadHistorialServlet extends HttpServlet {
             PpHistoriales historial = dHistorial.getHistorialByHistorialId(historialId);
             
             if(historial != null && historial.getArchivo() != null){
+                
+                String nombre = historial.getNombre();
+                String parte1 = nombre.substring(0, nombre.length()-5);
+                String parte2 = nombre.substring(nombre.length()-4, nombre.length());
+                String fileName = parte1 + "version-" + historial.getNroVersion().toString() + parte2;
+                String fileType = "application/pdf";
+                // Find this file id in database to get file name, and file type
+
+                // You must tell the browser the file type you are going to send
+                // for example application/pdf, text/plain, text/html, image/jpg
+                response.setContentType(fileType);
+
+                // Make sure to show the download dialog
+                response.setHeader("Content-disposition","attachment; filename=" + fileName);
+
+                // Assume file name is retrieved from database
+                // For example D:\\file\\test.pdf
+                
+                
+                File              blobFile   = new File(fileName); 
+                FileOutputStream  outStream  = new FileOutputStream(blobFile); 
+                InputStream       inStream   = historial.getArchivo().getBinaryStream(); 
+
+                int     length  = -1; 
+                int     size1    = 5096;
+                byte[]  buffer2  = new byte[size1]; 
+
+                while ((length = inStream.read(buffer2)) != -1) 
+                { 
+                  outStream.write(buffer2, 0, length); 
+                  outStream.flush(); 
+                } 
+
+                inStream.close(); 
+                outStream.close(); 
+                
+
+                // This should send the file to browser
+                OutputStream out = response.getOutputStream();
+                
+                FileInputStream in = new FileInputStream(blobFile);
+                byte[] buffer = new byte[5096];
+                int length1;
+                while ((length1 = in.read(buffer)) > 0){
+                   out.write(buffer, 0, length1);
+                }
+                in.close();
+                out.flush();
+                
+                /*
                 InputStream is = historial.getArchivo().getBinaryStream();
                 FileOutputStream fos = new FileOutputStream(usuario.getRutaLocal()+historial.getNombre()+"-v"+historial.getNroVersion().toString());
 
@@ -43,7 +96,7 @@ public class DownloadHistorialServlet extends HttpServlet {
                     fos.write(b, 0, noOfBytes);
                  }
                  fos.close();
-                 is.close();
+                 is.close();*/
             }
             
             response.sendRedirect("Historial");

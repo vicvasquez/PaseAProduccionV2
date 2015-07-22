@@ -55,19 +55,14 @@
         </div>
         <div id="header">
             <div class="color-line"></div>
-            <div id="logo" class="light-version">
-                <span>
-                    Pase a Producción
-                </span>
-            </div>
             <nav role="navigation">
                 <div class="header-link hide-menu"><i class="fa fa-bars"></i></div>
-                <div class="small-logo">
-                    <span class="text-primary">Pase a Producción</span>
-                </div>
+                <div style="text-align: right;" class="col-sm-7"><span class="font-extra-bold font-uppercase" style="font-size: 30px;">CIS - PASE A PRODUCCION</span></div>
                 <div class="navbar-right">
                     <ul class="nav navbar-nav no-borders">
-
+                        <li style="top: 15px;">
+                            Bienvenido, <span class="font-extra-bold font-uppercase"><% out.print(usuario.getNombre()); %></span>
+                        </li>
                         <li class="dropdown">
                             <a href="login.jsp">
                                 <i class="pe-7s-upload pe-rotate-90"></i>
@@ -80,10 +75,10 @@
         
         <aside id="menu">
             <div id="navigation">
-                <div class="profile-picture">
-                    <span class="font-extra-bold font-uppercase"><% out.print(usuario.getNombre()); %></span>
-                    <br/>
-                    <img src="images/logo_cis.jpg" height="70" width="130"/>
+                <div class="profile-picture" style="padding-left: 0px;">
+                    <div class="stats-label text-color">
+                        <img src="images/logo_cis.png" height="105" width="185"/>
+                    </div>
                 </div>
                 <ul class="nav" id="side-menu">
                     <li>
@@ -139,8 +134,8 @@
                                         <table cellpadd  ing="1" cellspacing="1" class="table table-condensed table-striped">
                                             <thead>
                                                 <tr>
+                                                    <th>Submenu</th>
                                                     <th>Nombre</th>
-                                                    <th>Descripcion</th>
                                                     <th>Estado</th>
                                                     <th></th>
                                                 </tr>
@@ -150,10 +145,10 @@
                                                 for(int i=0; i<lstSubmenus.size(); i++){
                                                     out.print("<tr>");
                                                     out.print("<td>");
-                                                    out.print(lstSubmenus.get(i).getNombreSubmenu());
+                                                    out.print(lstSubmenus.get(i).getDescSubmenu());
                                                     out.print("</td>");
                                                     out.print("<td>");
-                                                    out.print(lstSubmenus.get(i).getDescSubmenu());
+                                                    out.print(lstSubmenus.get(i).getNombreSubmenu());
                                                     out.print("</td>");
                                                     out.print("<td>");
                                                     if(lstSubmenus.get(i).getFlagEstado().equals("A"))
