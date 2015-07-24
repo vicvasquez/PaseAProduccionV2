@@ -309,8 +309,8 @@
                         <input type="hidden" name="archivoTipo" id="tipo"/>
                         <input type="hidden" name="paseTipo" id="paseTipo"/>
                         
-                        <div id="FMB" hidden=""><p>Seleccione el archivo FMB<input type="file" class="form-control" name="archivoFMB" id="archivoFMB" value="" onchange="activarBotones();" ></p></div>
-                        <div id="FMX" hidden=""><p>Seleccione el archivo FMX<input type="file" class="form-control" name="archivoFMX" id="archivoFMX" value="" onchange="activarBotones();" ></p></div>
+                        <div id="FMB" hidden=""><p>Seleccione el archivo fuente<input type="file" class="form-control" name="archivoFMB" id="archivoFMB" value="" onchange="activarBotones();" ></p></div>
+                        <div id="FMX" hidden=""><p>Seleccione el archivo ejecutable<input type="file" class="form-control" name="archivoFMX" id="archivoFMX" value="" onchange="activarBotones();" ></p></div>
                         <div id="RDF" hidden=""><p>Seleccione el reporte<input type="file" class="form-control" name="archivoRDF" id="archivoRDF" value="" onchange="activarBotones();"></p></div>
                         <br>                           
                         <p name="mensajeArchivos" id="mensajeArchivos" class="font-bold text-danger"></p>
@@ -483,7 +483,7 @@
                 else
                     $('#botones').hide();
             }
-            else{
+            else if($('input[name=archivoTipo]').val() === "FOR"){
                 var nombreArchivoFMB = $('input[name=archivoFMB]').val().toUpperCase();
                 var nombreArchivoFMX = $('input[name=archivoFMX]').val().toUpperCase();
                 
@@ -500,6 +500,23 @@
                     $('p[name=mensajeArchivos]').append("<label name=\"mensajeArch\" id=\"mensajeArch\">Elija los archivos correctos</label>");
                 }
                         
+            }
+            else if($('input[name=archivoTipo]').val() === "MOD"){
+                var nombreArchivoMMB = $('input[name=archivoFMB]').val().toUpperCase();
+                var nombreArchivoMMX = $('input[name=archivoFMX]').val().toUpperCase();
+                
+                if($('#mensajeArch').text()!=="")
+                {
+                    $('#mensajeArch').remove();
+                }
+                
+                if(nombreArchivoMMB.substr(nombreArchivoMMB.length-3, nombreArchivoMMB.length) === "MMB" &&
+                        nombreArchivoMMX.substr(nombreArchivoMMX.length-3, nombreArchivoMMX.length) === "MMX")
+                        $('#botones').show();
+                else{
+                    $('#botones').hide();
+                    $('p[name=mensajeArchivos]').append("<label name=\"mensajeArch\" id=\"mensajeArch\">Elija los archivos correctos</label>");
+                }
             }
         }
         

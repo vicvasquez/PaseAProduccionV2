@@ -118,8 +118,11 @@ public class PaseAProduccionServlet extends HttpServlet {
                     resultado = dArchivoPase.PasarProduccion();
                     dArchivoPase.TruncarTabla();
                     
-                    if(resultado == 0 || resultado == -1)
+                    if(resultado == 0 || resultado == -1){
                         response.sendRedirect("mensajePaseFalla.jsp");
+                        return;
+                    }
+                        
                     
                     formulario.setFlagUso("N");
                     formulario.setPpusuarioUsuarioId(null);
@@ -151,8 +154,10 @@ public class PaseAProduccionServlet extends HttpServlet {
                                 resultado = dArchivoPase.PasarProduccion();
                                 dArchivoPase.TruncarTabla();
                                 
-                                if(resultado == 0 || resultado == -1)
+                                if(resultado == 0 || resultado == -1){
                                     response.sendRedirect("mensajePaseFalla.jsp");
+                                    return;
+                                } 
 
                                 formulario.setFlagUso("N");
                                 formulario.setPpusuarioUsuarioId(null);
@@ -234,8 +239,10 @@ public class PaseAProduccionServlet extends HttpServlet {
                             resultado = dArchivoPase.PasarProduccion();
                             dArchivoPase.TruncarTabla();
                             
-                            if(resultado == 0 || resultado == -1)
-                                    response.sendRedirect("mensajePaseFalla.jsp");
+                            if(resultado == 0 || resultado == -1){
+                                response.sendRedirect("mensajePaseFalla.jsp");
+                                return;
+                            }
                             
                             modulo.setArchivo(archivoBlobFMB);
                             dModulos.updateModulo(modulo);
