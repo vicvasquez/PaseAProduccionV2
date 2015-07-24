@@ -20,6 +20,11 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <% 
+    if(request.getSession().getAttribute("user") == null){
+        response.sendRedirect("mensajeSesionTerminada.jsp");
+    }
+    else
+    {
     PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
     if(usuario==null)
         response.sendRedirect("login.jsp");
@@ -149,16 +154,6 @@
                                                         + "name=\"email\" id=\"email\">");  %>
                                             </div>
                                         </div>     
-                                    </div>
-                                    <br>
-                                    <div class="row">
-                                        <div class="form-group">
-                                            <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Ruta Local</label>
-                                            <div class="col-sm-5">
-                                                <% out.print("<input type=\"text\" class=\"form-control\" value=\""+ usuario.getRutaLocal()+"\" "
-                                                        + "name=\"rutaLocal\" id=\"rutaLocal\">");  %>
-                                            </div>
-                                        </div>
                                     </div>
                                     <br>
                                     <div class="row">
@@ -317,3 +312,6 @@
         }
     </script>
 </html>
+<%
+    }
+%>

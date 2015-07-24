@@ -1,6 +1,6 @@
 <%-- 
-    Document   : mensajePaseFalla
-    Created on : 09/07/2015, 10:27:40 AM
+    Document   : mensajeSesionTerminada
+    Created on : 24/07/2015, 10:44:41 AM
     Author     : vvasquez
 --%>
 
@@ -34,13 +34,13 @@
 
 <div class="color-line"></div>
 <div class="error-container" style="text-align: center">
-    <i class="fa fa-times-circle text-danger big-icon"></i>
-    <h1><strong>ERROR</strong></h1>
-    <strong>Se produjo un error y no se pudo pasar el formulario correctamente a producción</strong>
+    <i class="fa fa-ban text-danger big-icon"></i>
+    <h1><strong>SESIÓN TERMINADA</strong></h1>
+    <strong>Su sesión ha terminado, porfavor ingrese denuevo al sistema</strong>
     <p>
         
     </p>
-    <a href="index.jsp" class="btn btn-xs btn-danger">Regresar</a>
+    <a href="login.jsp" class="btn btn-xs btn-danger">Ingresar</a>
 </div>
 
 

@@ -15,10 +15,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <%
+    if(request.getSession().getAttribute("user") == null){
+        response.sendRedirect("mensajeSesionTerminada.jsp");
+    }
+    else
+    {
     PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
-    if(usuario==null)
-        response.sendRedirect("login.jsp");
-    
     HistorialesDao dHistorial = new HistorialesDao();
     List<PpHistoriales> lstHistorial = dHistorial.getHistorial();
     UsuariosDao dUsuario = new UsuariosDao();
@@ -379,3 +381,6 @@
         }
     </script>
 </html>
+<%
+    }
+%>

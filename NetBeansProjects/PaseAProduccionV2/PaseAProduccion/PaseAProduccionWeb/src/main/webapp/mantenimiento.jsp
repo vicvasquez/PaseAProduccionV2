@@ -12,6 +12,12 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <% 
+    
+    if(request.getSession().getAttribute("user") == null){
+        response.sendRedirect("mensajeSesionTerminada.jsp");
+    }
+    else
+    {
     PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
     if(usuario==null)
         response.sendRedirect("login.jsp");
@@ -325,3 +331,6 @@
         
     </script>
 </html>
+<%
+    }
+%>

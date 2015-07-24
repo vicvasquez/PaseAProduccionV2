@@ -15,16 +15,18 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <%      
-    if(request.getSession().getAttribute("user") == null)
-        response.sendRedirect("www.google.com.pe");
+    if(request.getSession().getAttribute("user") == null){
+        response.sendRedirect("mensajeSesionTerminada.jsp");
+    }
+        
+    else{
+        PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
     
-    PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
-    
-    ArchivosUsoDao archvDao = new ArchivosUsoDao();
-    UsuariosDao uDao = new UsuariosDao();
+        ArchivosUsoDao archvDao = new ArchivosUsoDao();
+        UsuariosDao uDao = new UsuariosDao();
 
-    List<PpArchivosUso> misFormsEnUso = archvDao.getArchivosUsoPorUsuario(usuario.getUsuarioId());
-    List<PpArchivosUso> formsEnUso= archvDao.getArchivosUso();
+        List<PpArchivosUso> misFormsEnUso = archvDao.getArchivosUsoPorUsuario(usuario.getUsuarioId());
+        List<PpArchivosUso> formsEnUso= archvDao.getArchivosUso();
     
 %>
 <!DOCTYPE html>
@@ -600,5 +602,7 @@
     </script>
     
 </html>
-
+<%
+    }
+%>
 <!-- 192.168.185.25   intra   PROYECTO01  PROYECTO01-->
