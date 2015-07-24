@@ -321,10 +321,10 @@
                             <p>Escriba un comentario acerca de los cambios realizados:</p>
                             <p><textarea class="form-control" required="" name="comentarioPase" id="comentarioPase" style="resize: none;" rows="4"></textarea></p>
                             <p>Elija el método por el cual desea pasar a producción el archivo seleccionado:</p>
-                            <p><button name="btnNocturno" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="setPaseTipo(2);">Pasar a producción en horario nocturno</button></p>
-                            <p><button name="btnSinBajar" type="button" class="btn btn-outline btn-primary" style="width: 500px;" onclick="setPaseTipo(0);">Intentar pasar a producción sin bajar servicios</button></p>
-                            <p><button name="btnBajar" type="button" class="btn btn-outline btn-danger" style="width: 500px;"
-                                       data-toggle="modal" data-target="#modalConfirmacion">Pasar a producción bajando servicios</button></p>
+                            <p><button name="btnSinBajar" type="button" class="btn btn-primary" style="width: 170px; height: 100px; text-align: center" onclick="setPaseTipo(0);">Intentar pasar a <br> producción sin bajar <br> servicios</button>&nbsp&nbsp&nbsp&nbsp
+                            <button name="btnNocturno" type="button" class="btn btn-primary" style="width: 170px; height: 100px; text-align: center" onclick="setPaseTipo(2);">Pasar a producción <br> en horario nocturno</button>&nbsp&nbsp&nbsp&nbsp
+                            <button name="btnBajar" type="button" class="btn btn-danger" style="width: 170px; height: 100px; text-align: center"
+                                       data-toggle="modal" data-target="#modalConfirmacion">Pasar a producción <br>bajando servicios</button></p>
                         </div>
                         </form>
                     </div>
