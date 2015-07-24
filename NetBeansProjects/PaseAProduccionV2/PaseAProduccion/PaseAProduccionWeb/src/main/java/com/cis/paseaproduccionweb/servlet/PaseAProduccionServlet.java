@@ -229,10 +229,13 @@ public class PaseAProduccionServlet extends HttpServlet {
                     case 0: //INTENTAR SIN BAJAR SERVICIOS
                             archivoPaseForm.setNombreArchivo(modulo.getNombreModulo());
                             archivoPaseForm.setArchivo(archivoBlobFMX);
-
+                            
                             dArchivoPase.insertarArchivoUso(archivoPaseForm);
-                            dArchivoPase.PasarProduccion();
+                            resultado = dArchivoPase.PasarProduccion();
                             dArchivoPase.TruncarTabla();
+                            
+                            if(resultado == 0 || resultado == -1)
+                                    response.sendRedirect("mensajePaseFalla.jsp");
                             
                             modulo.setArchivo(archivoBlobFMB);
                             dModulos.updateModulo(modulo);
