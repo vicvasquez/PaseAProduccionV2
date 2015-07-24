@@ -26,6 +26,7 @@
         <link rel="stylesheet" href="fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
         <link rel="stylesheet" href="fonts/pe-icon-7-stroke/css/helper.css" />
         <link rel="stylesheet" href="styles/style.css">
+        <link rel="stylesheet" href="vendor/toastr/build/toastr.min.css">
     </head>
     <body class="blank">
         <div class="splash"> 
@@ -36,7 +37,7 @@
             </div> 
         </div>
         <div class="color-line"></div>
-        <div class="login-container">
+        <div class="login-container">   
             <div class="row">
                 <div class="col-md-12">
                     <div class="text-center m-b-md">
@@ -44,7 +45,6 @@
                     </div>
                     <div class="hpanel">
                         <div class="panel-body">
-                            <form action="/PaseAProduccionWeb/Login" method="post" id="loginForm">
                                 <div class="form-group">
                                     <label class="control-label" for="username">Ususario</label>
                                     <input type="text" placeholder="user" title="Por favor ingrese su usario" required="" value="" name="username" id="username" class="form-control">
@@ -53,9 +53,7 @@
                                     <label class="control-label" for="password">Contraseña</label>
                                     <input type="password" title="Por favor ingrese su contraseña" placeholder="******" required="" value="" name="password" id="password" class="form-control">
                                 </div>
-                                    <div class="checkbox"> </div>
-                                    <button class="btn btn-success btn-block">Ingresar</button>
-                            </form>
+                            <button class="btn btn-success btn-block" id="login" type="button">Ingresar</button>
                         </div>
                     </div>
                 </div>
@@ -74,5 +72,48 @@
     <script src="vendor/iCheck/icheck.min.js"></script>
     <script src="vendor/sparkline/index.js"></script>
     <script src="scripts/homer.js"></script>
+    <script src="vendor/toastr/build/toastr.min.js"></script>
     </body>
+    
+    <script type="text/javascript">
+    
+    // Toastr options
+        toastr.options = {
+            "debug": false,
+            "newestOnTop": false,
+            "positionClass": "toast-top-center",
+            "closeButton": true,
+            "debug": false,
+            "toastClass": "animated fadeInDown",
+        };
+    
+    
+    $(document).ready(function (){
+       $('#login').click(function(){
+           var username = $('#username').val();
+           var password = $('#password').val();
+           $.ajax({
+               type: 'POST',
+               url: "/PaseAProduccionWeb/Login",
+               data:{"username":username, "password":password},
+               success: function (data) {
+                   if(data=='correcto'){
+                       window.location.href = "index.jsp";
+                   }
+                   else{
+                       toastr.error('Usuario o contraseña equivocados');
+                   }
+               }
+           });
+       });
+    });
+
+
+    $('#password').keypress(function (e){
+        if(e.keyCode == 13)
+            $('#login').click();
+    });
+    
+
+    </script>
 </html>

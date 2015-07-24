@@ -1,14 +1,14 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 20/07/2015 11:30:52 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated 23/07/2015 11:54:39 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.cis.paseaproduccionweb.hibernate.PpHistoriales" table="PP_HISTORIALES" schema="PROYECTO01" optimistic-lock="version">
         <id name="historialId" type="big_decimal">
             <column name="HISTORIAL_ID" precision="22" scale="0" />
             <generator class="sequence">
                 <param name="sequence">PPHISTORIAL_SEQ</param>
-            </generator>  
+            </generator>
         </id>
         <many-to-one name="ppModulos" class="com.cis.paseaproduccionweb.hibernate.PpModulos" fetch="select">
             <column name="MODULO_MODULO_ID" precision="22" scale="0" />
@@ -38,7 +38,7 @@
             <column name="NOMBRE" length="100" />
         </property>
     </class>
-    <sql-query name="SP_ULTIMA_VERSION_HISTORIAL" 	callable="true"><return-scalar column="cnt" type="integer"/>
+    <sql-query name="SP_ULTIMA_VERSION_HISTORIAL" callable="true"><return-scalar column="cnt" type="integer"/>
         { ? = call ULTIMA_VERSION_HISTORIAL(?) }
     </sql-query>
 </hibernate-mapping>

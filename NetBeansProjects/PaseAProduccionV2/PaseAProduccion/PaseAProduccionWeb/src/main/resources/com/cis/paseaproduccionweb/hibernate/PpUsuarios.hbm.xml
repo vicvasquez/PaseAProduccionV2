@@ -1,12 +1,12 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 20/07/2015 11:30:52 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated 23/07/2015 11:54:39 AM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.cis.paseaproduccionweb.hibernate.PpUsuarios" table="PP_USUARIOS" schema="PROYECTO01" optimistic-lock="version">
         <id name="usuarioId" type="big_decimal">
             <column name="USUARIO_ID" precision="22" scale="0" />
-            <generator class="increment" />
+            <generator class="assigned" />
         </id>
         <many-to-one name="ppRoles" class="com.cis.paseaproduccionweb.hibernate.PpRoles" fetch="select">
             <column name="PPROL_ROL_ID" precision="22" scale="0" not-null="true" />
@@ -32,5 +32,11 @@
         <property name="flagEstado" type="string">
             <column name="FLAG_ESTADO" length="1" />
         </property>
+        <set name="ppSentenciasSqls" table="PP_SENTENCIAS_SQL" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="PPUSUARIO_USUARIO_ID" precision="22" scale="0" not-null="true" />
+            </key>
+            <one-to-many class="com.cis.paseaproduccionweb.hibernate.PpSentenciasSql" />
+        </set>
     </class>
 </hibernate-mapping>

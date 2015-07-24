@@ -14,16 +14,18 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<%
+<%      
+    if(request.getSession().getAttribute("user") == null)
+        response.sendRedirect("www.google.com.pe");
+    
     PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
-    if(usuario==null)
-        response.sendRedirect("login.jsp");
     
     ArchivosUsoDao archvDao = new ArchivosUsoDao();
     UsuariosDao uDao = new UsuariosDao();
-    
+
     List<PpArchivosUso> misFormsEnUso = archvDao.getArchivosUsoPorUsuario(usuario.getUsuarioId());
     List<PpArchivosUso> formsEnUso= archvDao.getArchivosUso();
+    
 %>
 <!DOCTYPE html>
 <html>
@@ -311,6 +313,7 @@
                         <div id="FMX" hidden=""><p>Seleccione el archivo FMX<input type="file" class="form-control" name="archivoFMX" id="archivoFMX" value="" onchange="activarBotones();" ></p></div>
                         <div id="RDF" hidden=""><p>Seleccione el reporte<input type="file" class="form-control" name="archivoRDF" id="archivoRDF" value="" onchange="activarBotones();"></p></div>
                         <br>                           
+                        <p name="mensajeArchivos" id="mensajeArchivos" class="font-bold text-danger"></p>
                         
                         <div id="botones" hidden="">
                             <p>Escriba un comentario acerca de los cambios realizados:</p>
@@ -475,16 +478,27 @@
         function activarBotones(){
             if($('input[name=archivoTipo]').val() === "REP")
             {
-                if($('input[name=archivoRDF]').val() !== "")
+                if($('input[name=archivoRDF]').val() !== "" && $('input[name=archivoRDF]').val().substring($('input[name=archivoRDF]').val().size()-3, $('input[name=archivoRDF]').val().size()).toUpperCase() === "RDF")
                     $('#botones').show();
                 else
                     $('#botones').hide();
             }
             else{
-                if($('input[name=archivoFMB]').val() !== "" && $('input[name=archivoFMX]').val() !== "")
+                var nombreArchivoFMB = $('input[name=archivoFMB]').val().toUpperCase();
+                var nombreArchivoFMX = $('input[name=archivoFMX]').val().toUpperCase();
+                
+                if($('#mensajeArch').text()!=="")
+                {
+                    $('#mensajeArch').remove();
+                }
+                
+                if(nombreArchivoFMB.substr(nombreArchivoFMB.length-3, nombreArchivoFMB.length) === "FMB" &&
+                        nombreArchivoFMX.substr(nombreArchivoFMX.length-3, nombreArchivoFMX.length) === "FMX")
                         $('#botones').show();
-                else
-                        $('#botones').hide();
+                else{
+                    $('#botones').hide();
+                    $('p[name=mensajeArchivos]').append("<label name=\"mensajeArch\" id=\"mensajeArch\">Elija los archivos correctos</label>");
+                }
                         
             }
         }

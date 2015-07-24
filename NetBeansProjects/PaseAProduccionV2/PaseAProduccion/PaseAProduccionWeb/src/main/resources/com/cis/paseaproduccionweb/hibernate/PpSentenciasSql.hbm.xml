@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 23/07/2015 11:54:39 AM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.cis.paseaproduccionweb.hibernate.PpSentenciasSql" table="PP_SENTENCIAS_SQL" schema="PROYECTO01" optimistic-lock="version">
+        <id name="setenciasqlId" type="long">
+            <column name="SETENCIASQL_ID" precision="18" scale="0" />
+            <generator class="increment" />
+        </id>
+        <many-to-one name="ppUsuarios" class="com.cis.paseaproduccionweb.hibernate.PpUsuarios" fetch="select">
+            <column name="PPUSUARIO_USUARIO_ID" precision="22" scale="0" not-null="true" />
+        </many-to-one>
+        <many-to-one name="ppSistemas" class="com.cis.paseaproduccionweb.hibernate.PpSistemas" fetch="select">
+            <column name="PPSISTEMA_SISTEMA_ID" precision="22" scale="0" not-null="true" />
+        </many-to-one>
+        <property name="flagEstado" type="string">
+            <column name="FLAG_ESTADO" length="1" />
+        </property>
+        <property name="flagUso" type="string">
+            <column name="FLAG_USO" length="1" />
+        </property>
+        <property name="descSentenciasql" type="string">
+            <column name="DESC_SENTENCIASQL" length="250" />
+        </property>
+        <property name="nombreSentenciasql" type="string">
+            <column name="NOMBRE_SENTENCIASQL" length="100" />
+        </property>
+        <property name="tipo" type="string">
+            <column name="TIPO" length="3">
+                <comment>'PAC' = PACKAGE, 'TRI' = TRIGGER, 'TYP' = TYPE, 'PRO' = PROCEDURE, 'FUN' = FUNCTION</comment>
+            </column>
+        </property>
+        <property name="archivo" type="blob">
+            <column name="ARCHIVO" />
+        </property>
+    </class>
+</hibernate-mapping>

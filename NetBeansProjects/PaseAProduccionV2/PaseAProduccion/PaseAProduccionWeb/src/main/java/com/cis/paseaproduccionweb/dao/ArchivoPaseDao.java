@@ -36,16 +36,17 @@ public class ArchivoPaseDao {
         
     }
     
-    public void PasarProduccion(){
+    public int PasarProduccion(){
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
+        Integer resultado = -1;
         
         try {
             tx = session.getTransaction();
             tx.begin();
             Query q = session.getNamedQuery("SP_PASE_PRODUCCION");
-            Object resultado = q.uniqueResult();
+            resultado = (Integer)q.uniqueResult();
             tx.commit();
         } catch (Exception e) {
             if(tx != null)
@@ -53,6 +54,8 @@ public class ArchivoPaseDao {
         } finally{
             session.close();
         }
+        
+        return resultado;
         
     }
     

@@ -21,7 +21,6 @@ import com.cis.paseaproduccionweb.hibernate.PpUsuarios;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.sql.Blob;
 import java.util.Date;
@@ -30,7 +29,6 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.Part;
-import sun.misc.IOUtils;
 
 
 public class PaseAProduccionServlet extends HttpServlet {
@@ -68,6 +66,7 @@ public class PaseAProduccionServlet extends HttpServlet {
             Blob archivoBlobRDF = null;
             Blob archivoBlobFMB = null;
             Blob archivoBlobFMX = null;
+            Integer resultado = null;
             
             if(archivoTipo.equals("REP")){
                 //COPIAR RDF
@@ -115,6 +114,13 @@ public class PaseAProduccionServlet extends HttpServlet {
                     archivoPaseForm.setNombreArchivo(formulario.getNombreFormulario());
                     archivoPaseForm.setArchivo(archivoBlobRDF);
                     
+                    dArchivoPase.insertarArchivoUso(archivoPaseForm);
+                    resultado = dArchivoPase.PasarProduccion();
+                    dArchivoPase.TruncarTabla();
+                    
+                    if(resultado == 0 || resultado == -1)
+                        response.sendRedirect("mensajePaseFalla.jsp");
+                    
                     formulario.setFlagUso("N");
                     formulario.setPpusuarioUsuarioId(null);
 
@@ -134,11 +140,6 @@ public class PaseAProduccionServlet extends HttpServlet {
                     historial.setNroVersion((long)dHistorial.getLastVersion(formulario.getNombreFormulario()));
                     
                     dHistorial.insertarHistorial(historial);
-                    
-                    
-                    dArchivoPase.insertarArchivoUso(archivoPaseForm);
-                    dArchivoPase.PasarProduccion();
-                    dArchivoPase.TruncarTabla();
                 }
                 else{
                     switch(paseTipo){
@@ -147,8 +148,11 @@ public class PaseAProduccionServlet extends HttpServlet {
                                 archivoPaseForm.setArchivo(archivoBlobFMX);
 
                                 dArchivoPase.insertarArchivoUso(archivoPaseForm);
-                                dArchivoPase.PasarProduccion();
+                                resultado = dArchivoPase.PasarProduccion();
                                 dArchivoPase.TruncarTabla();
+                                
+                                if(resultado == 0 || resultado == -1)
+                                    response.sendRedirect("mensajePaseFalla.jsp");
 
                                 formulario.setFlagUso("N");
                                 formulario.setPpusuarioUsuarioId(null);
@@ -177,7 +181,6 @@ public class PaseAProduccionServlet extends HttpServlet {
 
                                 dArchivoPase.insertarArchivoUso(archivoPaseForm);
                                 dArchivoPase.PasarProduccionServicios();
-
                                 dArchivoPase.TruncarTabla();
 
                                 formulario.setFlagUso("N");

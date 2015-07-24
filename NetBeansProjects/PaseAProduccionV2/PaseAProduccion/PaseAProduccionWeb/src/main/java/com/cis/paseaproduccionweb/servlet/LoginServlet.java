@@ -31,11 +31,10 @@ public class LoginServlet extends HttpServlet {
         {
             request.setAttribute("user", usuario);
             request.getSession().setAttribute("user", usuario);
-            response.sendRedirect("index.jsp");
+            response.getWriter().write("correcto");
         }
-        
         else
-            response.sendRedirect("login.jsp");
+            response.getWriter().write("error");
         try {
         } catch (Exception e) {
             response.sendRedirect("mensajeError.jsp");
