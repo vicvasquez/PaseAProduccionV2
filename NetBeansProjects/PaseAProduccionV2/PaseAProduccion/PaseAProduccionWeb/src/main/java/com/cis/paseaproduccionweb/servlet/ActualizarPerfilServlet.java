@@ -24,7 +24,7 @@ public class ActualizarPerfilServlet extends HttpServlet {
         try {
             String nombre = request.getParameter("nombre");
             String email = request.getParameter("email");
-            String password = request.getParameter("password1");
+            String password = request.getParameter("password1");          
 
             BigDecimal usuarioId = new BigDecimal(request.getParameter("usuarioId"));
 

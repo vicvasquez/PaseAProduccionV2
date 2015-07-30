@@ -6,6 +6,7 @@
 package com.cis.paseaproduccionweb.dao;
 
 import com.cis.paseaproduccionweb.hibernate.HibernateUtil;
+import com.cis.paseaproduccionweb.hibernate.PpErrores;
 import com.cis.paseaproduccionweb.hibernate.PpHistoriales;
 import java.math.BigDecimal;
 import java.text.DateFormat;
@@ -35,6 +36,13 @@ public class HistorialesDao {
         } catch (Exception e) {
             if(tx != null)
                 tx.rollback();
+            ErroresDao dError = new ErroresDao();
+            PpErrores error = new PpErrores();
+            Date date = new Date();
+            
+            error.setStacktrace(e.toString());
+            error.setFecha(date);
+            dError.insertarError(error);
         } finally{
             session.close();
         }
@@ -57,6 +65,13 @@ public class HistorialesDao {
         } catch (Exception e) {
             if(tx != null)
                 tx.rollback();
+            ErroresDao dError = new ErroresDao();
+            PpErrores error = new PpErrores();
+            Date date = new Date();
+            
+            error.setStacktrace(e.toString());
+            error.setFecha(date);
+            dError.insertarError(error);
         } finally{
             session.close();
         }
@@ -76,6 +91,13 @@ public class HistorialesDao {
         } catch (Exception e) {
             if(tx != null)
                 tx.rollback();
+            ErroresDao dError = new ErroresDao();
+            PpErrores error = new PpErrores();
+            Date date = new Date();
+            
+            error.setStacktrace(e.toString());
+            error.setFecha(date);
+            dError.insertarError(error);
         } finally{
             session.close();
         }
@@ -122,6 +144,13 @@ public class HistorialesDao {
             }
             
         } catch (Exception e) {
+            ErroresDao dError = new ErroresDao();
+            PpErrores error = new PpErrores();
+            Date date = new Date();
+            
+            error.setStacktrace(e.toString());
+            error.setFecha(date);
+            dError.insertarError(error);
             return null;
             
         }
@@ -143,6 +172,13 @@ public class HistorialesDao {
         } catch (Exception e) {
             if(tx != null)
                 tx.rollback();
+            ErroresDao dError = new ErroresDao();
+            PpErrores error = new PpErrores();
+            Date date = new Date();
+            
+            error.setStacktrace(e.toString());
+            error.setFecha(date);
+            dError.insertarError(error);
         } finally{
             session.close();
         }

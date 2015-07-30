@@ -48,7 +48,7 @@ public class PpErrores  implements java.io.Serializable {
     public void setFecha(Date fecha) {
         this.fecha = fecha;
     }
-
+    
 
 
 

@@ -35,7 +35,7 @@ public class HistorialServlet extends HttpServlet {
             RequestDispatcher rDispatcher = getServletContext().getRequestDispatcher("/historial.jsp");
             rDispatcher.forward(request, response);
             
-        } catch (Exception e) {
+        } catch (Exception e) {           
             response.sendRedirect("mensajeError.jsp");
         }
     }
