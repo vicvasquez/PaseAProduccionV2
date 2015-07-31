@@ -22,7 +22,7 @@ public class SubMenusDao {
         try {
             tx = session.getTransaction();
             tx.begin();
-            Query query = session.createQuery("from PpSubmenus where moduloModuloId='"+ moduloId +"'");
+            Query query = session.createQuery("from PpSubmenus sm where sm.moduloModuloId='"+ moduloId +"' order by sm.nombreSubmenu");
             lstSubMenus = query.list();
             tx.commit();
         } catch (Exception e) {
@@ -52,7 +52,7 @@ public class SubMenusDao {
         try {
             tx = session.getTransaction();
             tx.begin();
-            Query query = session.createQuery("from PpSubmenus where submenuId='"+ submenuId +"'");
+            Query query = session.createQuery("from PpSubmenus sm where sm.submenuId='"+ submenuId +"' order by sm.nombreSubmenu");
             submenu = (PpSubmenus)query.uniqueResult();
             tx.commit();
         } catch (Exception e) {

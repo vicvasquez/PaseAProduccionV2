@@ -48,6 +48,7 @@
      <link rel="stylesheet" href="fonts/pe-icon-7-stroke/css/pe-icon-7-stroke.css" />
      <link rel="stylesheet" href="fonts/pe-icon-7-stroke/css/helper.css" />
      <link rel="stylesheet" href="styles/style.css">
+     <link rel="stylesheet" href="vendor/toastr/build/toastr.min.css">
     </head>
     
     <body>
@@ -131,7 +132,7 @@
                                             <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Nombres</label>
                                             <div class="col-sm-5">
                                                 <% out.print("<input type=\"text\" class=\"form-control\" value=\""+ usuario.getNombre() +"\" "
-                                                        + "name=\"nombre\" id=\"nombre\">");  %>
+                                                        + "name=\"nombre\" id=\"nombre\" required>");  %>
                                             </div>
                                         </div>
                                     </div>
@@ -151,7 +152,7 @@
                                             <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Email</label>
                                             <div class="col-sm-5">
                                                 <% out.print("<input type=\"text\" class=\"form-control\" value=\""+ usuario.getEmail()+"\" "
-                                                        + "name=\"email\" id=\"email\">");  %>
+                                                        + "name=\"email\" id=\"email\" required>");  %>
                                             </div>
                                         </div>     
                                     </div>
@@ -170,8 +171,8 @@
                                         <div class="form-group">
                                             <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Password</label>
                                             <div class="col-sm-5">
-                                                <% out.print("<input type=\"password\" class=\"form-control\" value=\""+ usuario.getClave()+"\" "
-                                                        + "name=\"password1\" id=\"password1\">");  %>
+                                                <input type="password" class="form-control" value= "<% out.print(usuario.getClave()); %>" 
+                                                       name="password1" id="password1" required>
                                             </div>
                                         </div>
                                     </div>
@@ -180,8 +181,8 @@
                                         <div class="form-group">
                                             <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Repita Password</label>
                                             <div class="col-sm-5">
-                                                <% out.print("<input type=\"password\" class=\"form-control\" value=\""+ usuario.getClave()+"\" "
-                                                        + "name=\"password2\" id=\"password2\">");  %>
+                                                <input type="password" class="form-control" value= "<% out.print(usuario.getClave()); %>" 
+                                                       name="password2" id="password2" required onblur="validarClave();">
                                             </div>
                                         </div>
                                     </div>
@@ -199,7 +200,7 @@
                                     <br>
                                     <div class="col-sm-4"></div>
                                     <div class="col-sm-5" style="text-align: right">
-                                        <button type="submit" class="btn w-xs btn-primary">Guardar</button>
+                                        <button type="submit" class="btn w-xs btn-primary" id="btnGuardar">Guardar</button>
                                         <button type="button" class="btn w-xs btn-danger" onclick="window.location.href='/PaseAProduccionWeb/index.jsp'">Cancelar</button>
                                     </div>
                                 </form>
@@ -227,6 +228,7 @@
     <script src="vendor/bootstrap-star-rating/js/star-rating.min.js"></script>
     <script src="scripts/homer.js"></script>
     <script src="scripts/charts.js"></script>
+    <script src="vendor/toastr/build/toastr.min.js"></script>
 
     <script>
 
@@ -301,14 +303,31 @@
         ga('create', 'UA-4625583-2', 'webapplayers.com');
         ga('send', 'pageview');
         
-        function descargar(formulario)
-        {
-            alert("Se descagará el formulario " + formulario.value);
-        }
         
-        function setModuloId(entorno){
+        toastr.options = {
+            "debug": false,
+            "newestOnTop": false,
+            "positionClass": "toast-top-center",
+            "closeButton": true,
+            "debug": false,
+            "toastClass": "animated fadeInDown",
+        };
+        
+        function validarClave(){
+            var password1 = $('#password1').val();
+            var password2 = $('#password2').val();
             
-            $('input[name=sistemaId]').val(entorno.value)
+            if($('#mensajeClave').text()!==""){
+                    $('#mensajeClave').remove();
+                }
+            
+            if(password1 !== password2){
+                $('#btnGuardar').attr('disabled', 'disabled');
+                toastr.error('Las contraseñas deben ser iguales');
+            }
+            else{
+                $('#btnGuardar').removeAttr('disabled');
+            }
         }
     </script>
 </html>

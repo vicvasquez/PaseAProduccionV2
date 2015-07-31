@@ -37,6 +37,7 @@ public class PaseAProduccionServlet extends HttpServlet {
             throws ServletException, IOException {
         try{
             
+            request.setCharacterEncoding("UTF-8");
             String archId = request.getParameter("archivoId");
             String archivoTipo = request.getParameter("archivoTipo");
             String comentarioPase = request.getParameter("comentarioPase");

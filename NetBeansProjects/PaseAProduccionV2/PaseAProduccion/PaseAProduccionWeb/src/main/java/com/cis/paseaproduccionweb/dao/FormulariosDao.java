@@ -25,7 +25,7 @@ public class FormulariosDao {
         try {
             tx = session.getTransaction();
             tx.begin();
-            Query query = session.createQuery("from PpFormularios where ppsubmenuSubmenuId='"+ submenuId +"'");
+            Query query = session.createQuery("from PpFormularios f where f.ppsubmenuSubmenuId='"+ submenuId +"' order by f.nombreFormulario");
             lstFormularios = query.list();
             tx.commit();
         } catch (Exception e) {

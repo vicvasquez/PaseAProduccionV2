@@ -30,7 +30,7 @@ public class ModulosDao {
         try {
             tx = session.getTransaction();
             tx.begin();
-            Query query = session.createQuery("from PpModulos where ppsistemaSistemaId='"+ sistemaId +"'");
+            Query query = session.createQuery("from PpModulos m where m.ppsistemaSistemaId='"+ sistemaId +"' order by m.nombreModulo");
             lstModulos = query.list();
             tx.commit();
         } catch (Exception e) {
@@ -60,7 +60,7 @@ public class ModulosDao {
         try {
             tx = session.getTransaction();
             tx.begin();
-            Query query = session.createQuery("from PpModulos where moduloId='"+ moduloId +"'");
+            Query query = session.createQuery("from PpModulos m where m.moduloId='"+ moduloId +"' order by m.nombreModulo");
             modulo = (PpModulos)query.uniqueResult();
             tx.commit();
         } catch (Exception e) {

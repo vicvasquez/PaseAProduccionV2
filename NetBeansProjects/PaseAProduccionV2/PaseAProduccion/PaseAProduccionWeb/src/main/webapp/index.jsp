@@ -143,6 +143,7 @@
                                     <table cellpadd  ing="1" cellspacing="1" class="table table-condensed table-striped">
                                         <thead>
                                             <tr>
+                                                <th>Sistema</th> 
                                                 <th>Formulario</th>
                                             </tr>
                                         </thead>
@@ -150,6 +151,12 @@
                                             <%
                                             for(int i=0; i<misFormsEnUso.size(); i++){
                                                 out.print("<tr>");
+                                                out.print("<td>");
+                                                if(misFormsEnUso.get(i).getSistemaId().toString().equals("1"))
+                                                    out.print("SAAS");
+                                                else if(misFormsEnUso.get(i).getSistemaId().toString().equals("2"))
+                                                    out.print("TDM");
+                                                out.print("</td>");
                                                 out.print("<td>");
                                                 out.print(misFormsEnUso.get(i).getNombreArchivo() + "&nbsp;&nbsp;&nbsp;&nbsp;");
                                                 out.print("</td>");
@@ -162,7 +169,7 @@
                                                 }
                                                 else{
                                                     out.print("<button class=\"btn btn-primary btn-xs\" type=\"button\" onclick=\"setValues(\'"
-                                                            + misFormsEnUso.get(i).getArchivoId()+ "\', \'" + misFormsEnUso.get(i).getTipo() +"\');\" data-toggle=\"modal\" data-target=\"#modalPasarAProduccion\">");
+                                                            + misFormsEnUso.get(i).getArchivoId()+ "\', \'" + misFormsEnUso.get(i).getTipo() +"\', \'"+ misFormsEnUso.get(i).getNombreArchivo() +"\');\" data-toggle=\"modal\" data-target=\"#modalPasarAProduccion\">");
                                                     out.print("<i class=\"fa fa-upload\"></i> Pasar a producción");
                                                     out.print("</button>");
                                                 }
@@ -197,6 +204,7 @@
                                     <table cellpadding="1" cellspacing="1" class="table table-condensed table-striped">
                                         <thead>
                                             <tr>
+                                                <th>Sistema</th>
                                                 <th>Formulario</th>
                                                 <th>Usuario</th>
                                                 <th>Tipo</th>
@@ -207,6 +215,12 @@
                                   for(int i=0; i<formsEnUso.size(); i++)
                                   {
                                     out.print("<tr>");
+                                    out.print("<td>");
+                                    if(formsEnUso.get(i).getSistemaId().toString().equals("1"))
+                                        out.print("SAAS");
+                                    else if(formsEnUso.get(i).getSistemaId().toString().equals("2"))
+                                        out.print("TDM");
+                                    out.print("</td>");
                                     out.print("<td>");
                                     out.print(formsEnUso.get(i).getNombreArchivo());
                                     out.print("</td>");
@@ -299,7 +313,7 @@
             </div>
         </div>
         <div class="modal fade" id="modalPasarAProduccion" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="color-line"></div>
                     <div class="modal-header">
@@ -310,21 +324,25 @@
                         <input type="hidden" name="archivoId" id="archivoId"/>
                         <input type="hidden" name="archivoTipo" id="tipo"/>
                         <input type="hidden" name="paseTipo" id="paseTipo"/>
+                        <input type="hidden" name="nombreArchivo" id="nombreArchivo"/>
                         
                         <div id="FMB" hidden=""><p>Seleccione el archivo fuente<input type="file" class="form-control" name="archivoFMB" id="archivoFMB" value="" onchange="activarBotones();" ></p></div>
                         <div id="FMX" hidden=""><p>Seleccione el archivo ejecutable<input type="file" class="form-control" name="archivoFMX" id="archivoFMX" value="" onchange="activarBotones();" ></p></div>
                         <div id="RDF" hidden=""><p>Seleccione el reporte<input type="file" class="form-control" name="archivoRDF" id="archivoRDF" value="" onchange="activarBotones();"></p></div>
                         <br>                           
                         <p name="mensajeArchivos" id="mensajeArchivos" class="font-bold text-danger"></p>
-                        
                         <div id="botones" hidden="">
                             <p>Escriba un comentario acerca de los cambios realizados:</p>
                             <p><textarea class="form-control" required="" name="comentarioPase" id="comentarioPase" style="resize: none;" rows="4"></textarea></p>
                             <p>Elija el método por el cual desea pasar a producción el archivo seleccionado:</p>
-                            <p><button name="btnSinBajar" type="button" class="btn btn-primary" style="width: 170px; height: 100px; text-align: center" onclick="setPaseTipo(0);">Intentar pasar a <br> producción sin bajar <br> servicios</button>&nbsp&nbsp&nbsp&nbsp
-                            <button name="btnNocturno" type="button" class="btn btn-primary" style="width: 170px; height: 100px; text-align: center" onclick="setPaseTipo(2);">Pasar a producción <br> en horario nocturno</button>&nbsp&nbsp&nbsp&nbsp
-                            <button name="btnBajar" type="button" class="btn btn-danger" style="width: 170px; height: 100px; text-align: center"
-                                       data-toggle="modal" data-target="#modalConfirmacion">Pasar a producción <br>bajando servicios</button></p>
+                            <p>
+                                <button name="btnSinBajar" type="button" class="btn btn-primary" style="width: 200px; height: 120px; text-align: center" onclick="setPaseTipo(0);">Intentar pasar a <br> producción sin bajar <br> servicios</button>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+                                <button name="btnNocturno" type="button" class="btn btn-primary" style="width: 200px; height: 120px; text-align: center" onclick="setPaseTipo(2);">Pasar a producción <br> en horario nocturno</button>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+                                <button name="btnBajar" type="button" class="btn btn-danger" style="width: 200px; height: 120px; text-align: center"
+                                                              data-toggle="modal" data-target="#modalConfirmacion">Pasar a producción <br>bajando servicios</button>
+                            </p>
                         </div>
                         </form>
                     </div>
@@ -478,6 +496,9 @@
         
         
         function activarBotones(){
+            var nombre = $('input[name=nombreArchivo]').val().toUpperCase();
+            nombre = nombre.substr(0, nombre.length-4);
+            
             if($('input[name=archivoTipo]').val() === "REP")
             {
                 if($('input[name=archivoRDF]').val() !== "" && $('input[name=archivoRDF]').val().substring($('input[name=archivoRDF]').val().size()-3, $('input[name=archivoRDF]').val().size()).toUpperCase() === "RDF")
@@ -488,6 +509,8 @@
             else if($('input[name=archivoTipo]').val() === "FOR"){
                 var nombreArchivoFMB = $('input[name=archivoFMB]').val().toUpperCase();
                 var nombreArchivoFMX = $('input[name=archivoFMX]').val().toUpperCase();
+                nombreArchivoFMB = nombreArchivoFMB.replace(/C:\\fakepath\\/i, '');
+                nombreArchivoFMX = nombreArchivoFMX.replace(/C:\\fakepath\\/i, '');
                 
                 if($('#mensajeArch').text()!=="")
                 {
@@ -495,8 +518,11 @@
                 }
                 
                 if(nombreArchivoFMB.substr(nombreArchivoFMB.length-3, nombreArchivoFMB.length) === "FMB" &&
-                        nombreArchivoFMX.substr(nombreArchivoFMX.length-3, nombreArchivoFMX.length) === "FMX")
-                        $('#botones').show();
+                        nombreArchivoFMB.substr(0, nombreArchivoFMB.length-4) === nombre &&
+                        nombreArchivoFMX.substr(nombreArchivoFMX.length-3, nombreArchivoFMX.length) === "FMX" &&
+                        nombreArchivoFMX.substr(0, nombreArchivoFMX.length-4) === nombre){
+                    $('#botones').show();
+                }
                 else{
                     $('#botones').hide();
                     $('p[name=mensajeArchivos]').append("<label name=\"mensajeArch\" id=\"mensajeArch\">Elija los archivos correctos</label>");
@@ -506,6 +532,8 @@
             else if($('input[name=archivoTipo]').val() === "MOD"){
                 var nombreArchivoMMB = $('input[name=archivoFMB]').val().toUpperCase();
                 var nombreArchivoMMX = $('input[name=archivoFMX]').val().toUpperCase();
+                nombreArchivoMMB = nombreArchivoMMB.replace(/C:\\fakepath\\/i, '');
+                nombreArchivoMMX = nombreArchivoMMX.replace(/C:\\fakepath\\/i, '');
                 
                 if($('#mensajeArch').text()!=="")
                 {
@@ -513,8 +541,11 @@
                 }
                 
                 if(nombreArchivoMMB.substr(nombreArchivoMMB.length-3, nombreArchivoMMB.length) === "MMB" &&
-                        nombreArchivoMMX.substr(nombreArchivoMMX.length-3, nombreArchivoMMX.length) === "MMX")
-                        $('#botones').show();
+                        nombreArchivoMMB.substr(0, nombreArchivoMMB.length-4) === nombre &&
+                        nombreArchivoMMX.substr(nombreArchivoMMX.length-3, nombreArchivoMMX.length) === "MMX" &&
+                        nombreArchivoMMX.substr(0, nombreArchivoMMX.length-4) === nombre){
+                    $('#botones').show();
+                }
                 else{
                     $('#botones').hide();
                     $('p[name=mensajeArchivos]').append("<label name=\"mensajeArch\" id=\"mensajeArch\">Elija los archivos correctos</label>");
@@ -522,10 +553,11 @@
             }
         }
         
-        function setValues(archivoId, tipo){
+        function setValues(archivoId, tipo, nombre){
             
             $('input[name=archivoId]').val(archivoId.toString());
             $('input[name=archivoTipo]').val(tipo.toString());
+            $('input[name=nombreArchivo]').val(nombre.toString());
             $('input[name=archivoFMB]').val("");
             $('input[name=archivoFMX]').val("");
             $('input[name=archivoRDF]').val("");
