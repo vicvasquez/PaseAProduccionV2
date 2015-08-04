@@ -116,11 +116,19 @@
                             <span class="nav-label">Historial</span> 
                             <span class="fa arrow"></span>
                         </a>
-                        <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
-                            <li>
+                        <ul class="nav nav-second-level collapse in" aria-expanded="true">
+                            <% if(sisId.equals("1"))
+                              out.print("<li class=\"active\">");
+                                else
+                              out.print("<li>");
+                            %>
                                 <a href="/PaseAProduccionWeb/Historial?sistemaId=1"><span class="nav-label">Historial de SAAS</span></a>
                             </li>
-                            <li>
+                            <% if(sisId.equals("2"))
+                              out.print("<li class=\"active\">");
+                                else
+                              out.print("<li>");
+                            %>
                                 <a href="/PaseAProduccionWeb/Historial?sistemaId=2"><span class="nav-label">Historial de TDM</span></a>
                             </li>
                         </ul>
