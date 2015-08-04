@@ -4,6 +4,7 @@
     Author     : vvasquez
 --%>
 
+<%@page import="java.math.BigDecimal"%>
 <%@page import="java.text.SimpleDateFormat"%>
 <%@page import="java.text.DateFormat"%>
 <%@page import="com.cis.paseaproduccionweb.dao.FormulariosDao"%>
@@ -21,8 +22,10 @@
     else
     {
     PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
+    String sisId = request.getParameter("sistemaId");
+    BigDecimal sistemaId = new BigDecimal(sisId);
     HistorialesDao dHistorial = new HistorialesDao();
-    List<PpHistoriales> lstHistorial = dHistorial.getHistorial();
+    List<PpHistoriales> lstHistorial = dHistorial.getHistorial(sistemaId);
     UsuariosDao dUsuario = new UsuariosDao();
     
     String filtroNombreArchivo = request.getParameter("filtroNombreArchivo");
@@ -108,8 +111,19 @@
                     <li>
                         <a href="mostrarEntornos.jsp"> <span class="nav-label">Reservar Formulario</span> </a>
                     </li>
-                    <li class="active">
-                        <a href="historial.jsp"> <span class="nav-label">Historial</span> </a>
+                    <li class>
+                        <a href="#"> 
+                            <span class="nav-label">Historial</span> 
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+                            <li>
+                                <a href="/PaseAProduccionWeb/Historial?sistemaId=1"><span class="nav-label">Historial de SAAS</span></a>
+                            </li>
+                            <li>
+                                <a href="/PaseAProduccionWeb/Historial?sistemaId=2"><span class="nav-label">Historial de TDM</span></a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         <a href="perfil.jsp"> <span class="nav-label">Perfil</span> </a>
@@ -125,9 +139,20 @@
                 <div class="hpanel">
                     <div class="panel-body">
                         <h2 class="font-light m-b-xs">
-                            Historial
+                            <% if(sisId.equals("1"))
+                                out.print("Historial de SAAS");
+                               else if(sisId.equals("2"))
+                                out.print("Historial de TDM");
+                            %>
                         </h2>
-                        <small>Se visualiza el historial de los formularios y reportes pasados a produccion</small>
+                        <small>Se visualiza el historial de los formularios y reportes pasados a produccion del sistema 
+                            <%
+                            if(sisId.equals("1"))
+                                out.print("SAAS");
+                            else if(sisId.equals("2"))
+                                out.print("TDM");
+                            %>
+                        </small>
                         <br><br><br>
                         <ol class="hbreadcrumb breadcrumb">
                             <li><label style="color: green">Historial</label></li>
@@ -138,6 +163,7 @@
             <div class="content animate-panel">    
                 <div class="row">
                     <form class="form-horizontal" action="/PaseAProduccionWeb/Historial" method="post">
+                        <input type="hidden" value="<% out.print(sistemaId); %>" name="sistemaId"/>
                         <div class="form-group">
                             <div class="col-lg-1"></div>
                             <label class="col-lg-2 control-label">Nombre del Formulario o Reporte</label>

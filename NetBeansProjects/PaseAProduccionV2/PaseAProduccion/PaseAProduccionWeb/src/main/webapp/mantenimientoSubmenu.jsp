@@ -93,8 +93,19 @@
                     <li>
                         <a href="mostrarEntornos.jsp"> <span class="nav-label">Reservar Formulario</span> </a>
                     </li>
-                    <li>
-                        <a href="historial.jsp"> <span class="nav-label">Historial</span> </a>
+                    <li class>
+                        <a href="#"> 
+                            <span class="nav-label">Historial</span> 
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+                            <li>
+                                <a href="/PaseAProduccionWeb/Historial?sistemaId=1"><span class="nav-label">Historial de SAAS</span></a>
+                            </li>
+                            <li>
+                                <a href="/PaseAProduccionWeb/Historial?sistemaId=2"><span class="nav-label">Historial de TDM</span></a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         <a href="perfil.jsp"> <span class="nav-label">Perfil</span> </a>
@@ -112,7 +123,13 @@
                         <h2 class="font-light m-b-xs">
                             Mantenimiento de Submenus
                         </h2>
-                        <small>En esa sección se realizará el mantenimiento de los submenus del modulo <% out.print(dModulo.getModuloByModuloId(moduloId).getNombreModulo()); %></small>
+                        <small>En esa sección se realizará el mantenimiento de los submenus del modulo 
+                            <% out.print(dModulo.getModuloByModuloId(moduloId).getNombreModulo()); %> del sistema 
+                            <% if(dModulo.getModuloByModuloId(moduloId).getPpsistemaSistemaId().toString().equals("1"))
+                                out.print("SAAS");
+                            else if(dModulo.getModuloByModuloId(moduloId).getPpsistemaSistemaId().toString().equals("2"))
+                                    out.print("TDM");
+                            %></small>
                         <br><br><br>
                         <ol class="hbreadcrumb breadcrumb">
                             <li><a href="mantenimiento.jsp" style="font-weight: bold">Mantenimiento Modulos</a></li>                            

@@ -1,12 +1,14 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 23/07/2015 11:54:39 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated 04/08/2015 01:00:43 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.cis.paseaproduccionweb.hibernate.PpModulos" table="PP_MODULOS" schema="PROYECTO01" optimistic-lock="version">
         <id name="moduloId" type="big_decimal">
             <column name="MODULO_ID" precision="22" scale="0" />
-            <generator class="increment" />
+            <generator class="sequence">
+                <param name="sequence">PPMODULOS_SEQ</param>
+            </generator>
         </id>
         <property name="nombreModulo" type="string">
             <column name="NOMBRE_MODULO" length="100" />

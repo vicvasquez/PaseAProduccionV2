@@ -1,5 +1,5 @@
 package com.cis.paseaproduccionweb.hibernate;
-// Generated 23/07/2015 11:54:39 AM by Hibernate Tools 4.3.1
+// Generated 04/08/2015 01:00:43 PM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -22,6 +22,7 @@ public class PpFormularios  implements java.io.Serializable {
      private BigDecimal ppusuarioUsuarioId;
      private String flagTipo;
      private Blob archivo;
+     private Set ppReporteses = new HashSet(0);
      private Set ppHistorialeses = new HashSet(0);
 
     public PpFormularios() {
@@ -32,7 +33,7 @@ public class PpFormularios  implements java.io.Serializable {
         this.formularioId = formularioId;
         this.ppsubmenuSubmenuId = ppsubmenuSubmenuId;
     }
-    public PpFormularios(BigDecimal formularioId, String flagEstado, String flagUso, String descFormulario, String nombreFormulario, BigDecimal ppsubmenuSubmenuId, BigDecimal ppusuarioUsuarioId, String flagTipo, Blob archivo, Set ppHistorialeses) {
+    public PpFormularios(BigDecimal formularioId, String flagEstado, String flagUso, String descFormulario, String nombreFormulario, BigDecimal ppsubmenuSubmenuId, BigDecimal ppusuarioUsuarioId, String flagTipo, Blob archivo, Set ppReporteses, Set ppHistorialeses) {
        this.formularioId = formularioId;
        this.flagEstado = flagEstado;
        this.flagUso = flagUso;
@@ -42,6 +43,7 @@ public class PpFormularios  implements java.io.Serializable {
        this.ppusuarioUsuarioId = ppusuarioUsuarioId;
        this.flagTipo = flagTipo;
        this.archivo = archivo;
+       this.ppReporteses = ppReporteses;
        this.ppHistorialeses = ppHistorialeses;
     }
    
@@ -107,6 +109,13 @@ public class PpFormularios  implements java.io.Serializable {
     
     public void setArchivo(Blob archivo) {
         this.archivo = archivo;
+    }
+    public Set getPpReporteses() {
+        return this.ppReporteses;
+    }
+    
+    public void setPpReporteses(Set ppReporteses) {
+        this.ppReporteses = ppReporteses;
     }
     public Set getPpHistorialeses() {
         return this.ppHistorialeses;

@@ -1,5 +1,5 @@
 package com.cis.paseaproduccionweb.hibernate;
-// Generated 23/07/2015 11:54:39 AM by Hibernate Tools 4.3.1
+// Generated 04/08/2015 01:00:43 PM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -23,6 +23,7 @@ public class PpUsuarios  implements java.io.Serializable {
      private Date dateModified;
      private String flagEstado;
      private Set ppSentenciasSqls = new HashSet(0);
+     private Set ppReporteses = new HashSet(0);
 
     public PpUsuarios() {
     }
@@ -32,7 +33,7 @@ public class PpUsuarios  implements java.io.Serializable {
         this.usuarioId = usuarioId;
         this.ppRoles = ppRoles;
     }
-    public PpUsuarios(BigDecimal usuarioId, PpRoles ppRoles, String email, String rutaLocal, String clave, String nombreUsuario, String nombre, Date dateModified, String flagEstado, Set ppSentenciasSqls) {
+    public PpUsuarios(BigDecimal usuarioId, PpRoles ppRoles, String email, String rutaLocal, String clave, String nombreUsuario, String nombre, Date dateModified, String flagEstado, Set ppSentenciasSqls, Set ppReporteses) {
        this.usuarioId = usuarioId;
        this.ppRoles = ppRoles;
        this.email = email;
@@ -43,6 +44,7 @@ public class PpUsuarios  implements java.io.Serializable {
        this.dateModified = dateModified;
        this.flagEstado = flagEstado;
        this.ppSentenciasSqls = ppSentenciasSqls;
+       this.ppReporteses = ppReporteses;
     }
    
     public BigDecimal getUsuarioId() {
@@ -114,6 +116,13 @@ public class PpUsuarios  implements java.io.Serializable {
     
     public void setPpSentenciasSqls(Set ppSentenciasSqls) {
         this.ppSentenciasSqls = ppSentenciasSqls;
+    }
+    public Set getPpReporteses() {
+        return this.ppReporteses;
+    }
+    
+    public void setPpReporteses(Set ppReporteses) {
+        this.ppReporteses = ppReporteses;
     }
 
 

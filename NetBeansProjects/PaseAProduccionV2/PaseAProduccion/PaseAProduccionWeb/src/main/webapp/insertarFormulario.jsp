@@ -95,8 +95,19 @@
                     <li>
                         <a href="mostrarEntornos.jsp"> <span class="nav-label">Reservar Formulario</span> </a>
                     </li>
-                    <li>
-                        <a href="historial.jsp"> <span class="nav-label">Historial</span> </a>
+                    <li class>
+                        <a href="#"> 
+                            <span class="nav-label">Historial</span> 
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+                            <li>
+                                <a href="/PaseAProduccionWeb/Historial?sistemaId=1"><span class="nav-label">Historial de SAAS</span></a>
+                            </li>
+                            <li>
+                                <a href="/PaseAProduccionWeb/Historial?sistemaId=2"><span class="nav-label">Historial de TDM</span></a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="active">
                         <a href="perfil.jsp"> <span class="nav-label">Perfil</span> </a>
@@ -114,7 +125,14 @@
                         <h2 class="font-light m-b-xs">
                             Insertar un Módulo
                         </h2>
-                        <small>En esta sección se insertará un formulario o reporte en el submenu <% out.print(dSubmenu.getSubMenuBySubMenuId(submenuId)); %> </small>
+                        <small>En esta sección se insertará un formulario o reporte en el submenu 
+                            <% out.print(dSubmenu.getSubMenuBySubMenuId(submenuId).getNombreSubmenu()); %> del sistema
+                            <% if(dModulo.getModuloByModuloId(moduloId).getPpsistemaSistemaId().toString().equals("1"))
+                                out.print("SAAS");
+                            else if(dModulo.getModuloByModuloId(moduloId).getPpsistemaSistemaId().toString().equals("2"))
+                                    out.print("TDM");
+                            %>
+                        </small>
                         <br><br><br>
                         <ol class="hbreadcrumb breadcrumb">
                             <li><a href="mantenimiento.jsp" style="font-weight: bold">Mantenimiento Modulos</a></li>                            
@@ -132,6 +150,7 @@
                             <div class="panel-body">
                                 <form method="POST" action="/PaseAProduccionWeb/MantenimientoFormularios" enctype="multipart/form-data">
                                     <input type="hidden" name="submenuId" value="<% out.print(submenuId); %>">
+                                    <p name="mensajeArchivos" id="mensajeArchivos" class="font-bold text-danger"></p>
                                     <div class="row">
                                         <div class="form-group">
                                             <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Nombre</label>
@@ -167,7 +186,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Archivo RDF</label>
                                             <div class="col-sm-5">
-                                                <input type="file" name="archivoRDF" id="archivoFMB" class="form-control">
+                                                <input type="file" name="archivoRDF" id="archivoRDF" class="form-control" onblur="validarArchivos();">
                                             </div>
                                         </div>     
                                     </div>
@@ -178,7 +197,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Archivo FMB</label>
                                             <div class="col-sm-5">
-                                                <input type="file" name="archivoFMB" id="archivoFMB" class="form-control">
+                                                <input type="file" name="archivoFMB" id="archivoFMB" class="form-control" onblur="validarArchivos();">
                                             </div>
                                         </div>     
                                     </div>
@@ -187,7 +206,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Archivo FMX</label>
                                             <div class="col-sm-5">
-                                                <input type="file" name="archivoFMX" id="archivoFMX" class="form-control">
+                                                <input type="file" name="archivoFMX" id="archivoFMX" class="form-control" onblur="validarArchivos();">
                                             </div>
                                         </div>
                                     </div>
@@ -196,7 +215,7 @@
                                     <br>
                                     <div class="col-sm-4"></div>
                                     <div class="col-sm-5" style="text-align: right">
-                                        <button type="submit" class="btn w-xs btn-primary">Guardar</button>
+                                        <button type="submit" class="btn w-xs btn-primary" id="btnGuardar">Guardar</button>
                                         <button type="button" class="btn w-xs btn-danger" onclick="window.location.href='mantenimientoFormulario.jsp?submenuId=<% out.print(submenuId); %>'">Cancelar</button>
                                     </div>
                                 </form>
@@ -300,6 +319,9 @@
         
         function mostrarFiles(){
             var tipo = $("#tipo").val();
+            $('input[name=archivoFMB]').val("");
+            $('input[name=archivoFMX]').val("");
+            $('input[name=archivoRDF]').val("");
             
             if(tipo === "F"){
                 $("#archivosFormularios").show();
@@ -308,6 +330,63 @@
             else if(tipo === "R"){
                 $("#archivosFormularios").hide();
                 $("#archivosReporte").show();
+            }
+            
+            $('#btnGuardar').removeAttr('disabled');
+            $('#mensajeArch').remove();
+        }
+        
+        function validarArchivos(){
+            if($("#tipo").val() === "F")
+            {
+                var nombreArchivoFMB = $('input[name=archivoFMB]').val().toUpperCase();
+                var nombreArchivoFMX = $('input[name=archivoFMX]').val().toUpperCase();
+                nombreArchivoFMB = nombreArchivoFMB.replace(/C:\\fakepath\\/i, '');
+                nombreArchivoFMX = nombreArchivoFMX.replace(/C:\\fakepath\\/i, '');
+
+                if($('#mensajeArch').text()!=="")
+                {
+                    $('#mensajeArch').remove();
+                }
+
+                if(nombreArchivoFMB.substr(nombreArchivoFMB.length-3, nombreArchivoFMB.length) === "FMB" &&
+                            nombreArchivoFMX.substr(nombreArchivoFMX.length-3, nombreArchivoFMX.length) === "FMX"){
+                        $('#btnGuardar').removeAttr('disabled');
+                        $('#mensajeArch').remove();
+                }
+                else{
+                        $('#btnGuardar').attr('disabled', 'disabled');
+                        $('p[name=mensajeArchivos]').append("<label name=\"mensajeArch\" id=\"mensajeArch\">Elija los archivos correctos</label>");
+                }
+
+                if(nombreArchivoFMB === "" && nombreArchivoFMX === ""){
+                    $('#btnGuardar').removeAttr('disabled');
+                    $('#mensajeArch').remove();
+                }
+            }
+            else if($("#tipo").val() === "R")
+            {
+                var nombreArchivoRDF = $('input[name=archivoRDF]').val().toUpperCase();
+                nombreArchivoRDF = nombreArchivoRDF.replace(/C:\\fakepath\\/i, '');
+
+                if($('#mensajeArch').text()!=="")
+                {
+                    $('#mensajeArch').remove();
+                }
+
+                if(nombreArchivoRDF.substr(nombreArchivoRDF.length-3, nombreArchivoRDF.length) === "RDF"){
+                        $('#btnGuardar').removeAttr('disabled');
+                        $('#mensajeArch').remove();
+                }
+                else{
+                        $('#btnGuardar').attr('disabled', 'disabled');
+                        $('p[name=mensajeArchivos]').append("<label name=\"mensajeArch\" id=\"mensajeArch\">Elija el archivo correcto</label>");
+                }
+
+                if(nombreArchivoRDF === ""){
+                    $('#btnGuardar').removeAttr('disabled');
+                    $('#mensajeArch').remove();
+                }
             }
         }
     </script>

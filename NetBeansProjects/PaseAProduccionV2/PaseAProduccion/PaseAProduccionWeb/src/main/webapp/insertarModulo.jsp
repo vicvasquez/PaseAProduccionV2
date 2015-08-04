@@ -86,8 +86,19 @@
                     <li>
                         <a href="mostrarEntornos.jsp"> <span class="nav-label">Reservar Formulario</span> </a>
                     </li>
-                    <li>
-                        <a href="historial.jsp"> <span class="nav-label">Historial</span> </a>
+                    <li class>
+                        <a href="#"> 
+                            <span class="nav-label">Historial</span> 
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+                            <li>
+                                <a href="/PaseAProduccionWeb/Historial?sistemaId=1"><span class="nav-label">Historial de SAAS</span></a>
+                            </li>
+                            <li>
+                                <a href="/PaseAProduccionWeb/Historial?sistemaId=2"><span class="nav-label">Historial de TDM</span></a>
+                            </li>
+                        </ul>
                     </li>
                     <li class="active">
                         <a href="perfil.jsp"> <span class="nav-label">Perfil</span> </a>
@@ -121,6 +132,7 @@
                             <div class="panel-body">
                                 <form method="POST" action="/PaseAProduccionWeb/MantenimientoModulos" enctype="multipart/form-data">
                                     <input type="hidden" name="sistemaId" value="<% out.print(sistemaId); %>">
+                                    <p name="mensajeArchivos" id="mensajeArchivos" class="font-bold text-danger"></p>
                                     <div class="row">
                                         <div class="form-group">
                                             <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Nombre</label>
@@ -141,18 +153,18 @@
                                     <br>
                                     <div class="row">
                                         <div class="form-group">
-                                            <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Archivo FMB</label>
+                                            <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Archivo Fuente</label>
                                             <div class="col-sm-5">
-                                                <input type="file" name="archivoFMB" id="archivoFMB" class="form-control" required="">
+                                                <input type="file" name="archivoFMB" id="archivoFMB" class="form-control" onblur="validarArchivos();">
                                             </div>
                                         </div>     
                                     </div>
                                     <br>
                                     <div class="row">
                                         <div class="form-group">
-                                            <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Archivo FMX</label>
+                                            <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Archivo Ejecutable</label>
                                             <div class="col-sm-5">
-                                                <input type="file" name="archivoFMX" id="archivoFMX" class="form-control" required="">
+                                                <input type="file" name="archivoFMX" id="archivoFMX" class="form-control" onblur="validarArchivos();">
                                             </div>
                                         </div>
                                     </div>
@@ -160,7 +172,7 @@
                                     <br>
                                     <div class="col-sm-4"></div>
                                     <div class="col-sm-5" style="text-align: right">
-                                        <button type="submit" class="btn w-xs btn-primary">Guardar</button>
+                                        <button type="submit" class="btn w-xs btn-primary" id="btnGuardar">Guardar</button>
                                         <button type="button" class="btn w-xs btn-danger" onclick="window.location.href='/PaseAProduccionWeb/mantenimiento.jsp'">Cancelar</button>
                                     </div>
                                 </form>
@@ -261,6 +273,33 @@
 
         ga('create', 'UA-4625583-2', 'webapplayers.com');
         ga('send', 'pageview');
+        
+        function validarArchivos(){
+            var nombreArchivoFMB = $('input[name=archivoFMB]').val().toUpperCase();
+            var nombreArchivoFMX = $('input[name=archivoFMX]').val().toUpperCase();
+            nombreArchivoFMB = nombreArchivoFMB.replace(/C:\\fakepath\\/i, '');
+            nombreArchivoFMX = nombreArchivoFMX.replace(/C:\\fakepath\\/i, '');
+            
+            if($('#mensajeArch').text()!=="")
+            {
+                $('#mensajeArch').remove();
+            }
+            
+            if(nombreArchivoFMB.substr(nombreArchivoFMB.length-3, nombreArchivoFMB.length) === "MMB" &&
+                        nombreArchivoFMX.substr(nombreArchivoFMX.length-3, nombreArchivoFMX.length) === "MMX"){
+                    $('#btnGuardar').removeAttr('disabled');
+                    $('#mensajeArch').remove();
+            }
+            else{
+                    $('#btnGuardar').attr('disabled', 'disabled');
+                    $('p[name=mensajeArchivos]').append("<label name=\"mensajeArch\" id=\"mensajeArch\">Elija los archivos correctos</label>");
+            }
+            
+            if(nombreArchivoFMB === "" && nombreArchivoFMX === ""){
+                $('#btnGuardar').removeAttr('disabled');
+                $('#mensajeArch').remove();
+            }
+        }
     </script>
 </html>
 <%

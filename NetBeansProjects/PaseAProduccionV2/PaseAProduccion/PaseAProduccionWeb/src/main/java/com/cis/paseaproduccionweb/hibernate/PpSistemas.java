@@ -1,5 +1,5 @@
 package com.cis.paseaproduccionweb.hibernate;
-// Generated 23/07/2015 11:54:39 AM by Hibernate Tools 4.3.1
+// Generated 04/08/2015 01:00:43 PM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -15,6 +15,7 @@ public class PpSistemas  implements java.io.Serializable {
      private BigDecimal sistemaId;
      private String nombreSistema;
      private Set ppSentenciasSqls = new HashSet(0);
+     private Set ppHistorialeses = new HashSet(0);
 
     public PpSistemas() {
     }
@@ -23,10 +24,11 @@ public class PpSistemas  implements java.io.Serializable {
     public PpSistemas(BigDecimal sistemaId) {
         this.sistemaId = sistemaId;
     }
-    public PpSistemas(BigDecimal sistemaId, String nombreSistema, Set ppSentenciasSqls) {
+    public PpSistemas(BigDecimal sistemaId, String nombreSistema, Set ppSentenciasSqls, Set ppHistorialeses) {
        this.sistemaId = sistemaId;
        this.nombreSistema = nombreSistema;
        this.ppSentenciasSqls = ppSentenciasSqls;
+       this.ppHistorialeses = ppHistorialeses;
     }
    
     public BigDecimal getSistemaId() {
@@ -49,6 +51,13 @@ public class PpSistemas  implements java.io.Serializable {
     
     public void setPpSentenciasSqls(Set ppSentenciasSqls) {
         this.ppSentenciasSqls = ppSentenciasSqls;
+    }
+    public Set getPpHistorialeses() {
+        return this.ppHistorialeses;
+    }
+    
+    public void setPpHistorialeses(Set ppHistorialeses) {
+        this.ppHistorialeses = ppHistorialeses;
     }
 
 

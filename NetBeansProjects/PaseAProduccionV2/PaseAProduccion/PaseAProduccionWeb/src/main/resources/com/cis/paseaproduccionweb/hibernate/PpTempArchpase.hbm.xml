@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 03/08/2015 12:00:45 PM by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="com.cis.paseaproduccionweb.hibernate.PpTempArchpase" table="PP_TEMP_ARCHPASE" schema="PASESWEB" optimistic-lock="version">
+        <id name="tempapaseId" type="long">
+            <column name="TEMPAPASE_ID" precision="18" scale="0" />
+            <generator class="sequence">
+                <param name="sequence">PP_ARCHPASE_SEQ</param>
+            </generator>
+        </id>
+        <property name="nombreArchivo" type="string">
+            <column name="NOMBRE_ARCHIVO" length="100" />
+        </property>
+        <property name="archivo" type="blob">
+            <column name="ARCHIVO" />
+        </property>
+    </class>
+    <sql-query name="SP_PASE_PRODUCCION_TDM" callable="true"><return-scalar column="cnt" type="integer"/>
+        { ? = call PASE_PRODUCCION }
+    </sql-query>
+    <sql-query name="SP_PASE_PRODUCCION_SERVICIOS_TDM" callable="true">
+        <return-scalar column="cnt" type="integer"/>
+                { ? = call PASE_PRODUCCION_SERVICIOS }
+    </sql-query>
+</hibernate-mapping>

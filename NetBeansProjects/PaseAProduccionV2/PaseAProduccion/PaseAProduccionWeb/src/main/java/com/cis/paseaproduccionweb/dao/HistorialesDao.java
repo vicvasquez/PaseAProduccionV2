@@ -78,14 +78,14 @@ public class HistorialesDao {
         return 0;
     }
     
-    public List<PpHistoriales> getHistorial(){
+    public List<PpHistoriales> getHistorial(BigDecimal sistemaId){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
         List<PpHistoriales> lstHistorial = null;
         try {
             tx = session.getTransaction();
             tx.begin();
-            Query query = session.createQuery("from PpHistoriales h order by h.nombre ASC, h.nroVersion ASC");
+            Query query = session.createQuery("from PpHistoriales h where h.ppSistemas = '"+ sistemaId +"' order by h.nombre ASC, h.nroVersion ASC");
             lstHistorial = query.list();
             tx.commit();
         } catch (Exception e) {

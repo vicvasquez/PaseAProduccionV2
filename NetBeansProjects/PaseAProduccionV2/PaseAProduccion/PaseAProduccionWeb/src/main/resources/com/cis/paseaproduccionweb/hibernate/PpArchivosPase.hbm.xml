@@ -1,12 +1,14 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 23/07/2015 11:54:39 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated 04/08/2015 01:00:43 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.cis.paseaproduccionweb.hibernate.PpArchivosPase" table="PP_ARCHIVOS_PASE" schema="PROYECTO01" optimistic-lock="version">
         <id name="apaseId" type="long">
             <column name="APASE_ID" precision="18" scale="0" />
-            <generator class="increment" />
+            <generator class="sequence">
+                <param name="sequence">PPARCHIVOPASE_SEQ</param>
+            </generator>
         </id>
         <property name="nombreArchivo" type="string">
             <column name="NOMBRE_ARCHIVO" length="100">
@@ -18,12 +20,17 @@
                 <comment>Archivo en bytes</comment>
             </column>
         </property>
+        <sql-query name="SP_PASE_PRODUCCION" callable="true">
+            <return-scalar column="cnt" type="integer"/>
+            { ? = call PASE_PRODUCCION }
+        </sql-query>
+        <sql-query name="SP_PASE_PRODUCCION_SERVICIOS" callable="true">
+            <return-scalar column="cnt" type="integer"/>
+            { ? = call PASE_PRODUCCION_SERVICIOS }
+        </sql-query>
+        <sql-query name="SP_ELIMINAR_ARCHIVO_USO" callable="true">
+            <return-scalar column="cnt" type="integer"/>
+            { ? = call ELIMINAR_ARCHIVO_USO( ? , ?) }
+        </sql-query>
     </class>
-    <sql-query name="SP_PASE_PRODUCCION" callable="true"><return-scalar column="cnt" type="integer"/>
-        { ? = call PASE_PRODUCCION }
-    </sql-query><sql-query name="SP_PASE_PRODUCCION_SERVICIOS" callable="true"><return-scalar column="cnt" type="integer"/>
-                { ? = call PASE_PRODUCCION_SERVICIOS }
-    </sql-query><sql-query name="SP_ELIMINAR_ARCHIVO_USO" callable="true"><return-scalar column="cnt" type="integer"/>
-                { ? = call ELIMINAR_ARCHIVO_USO( ? , ?) }
-    </sql-query>
 </hibernate-mapping>

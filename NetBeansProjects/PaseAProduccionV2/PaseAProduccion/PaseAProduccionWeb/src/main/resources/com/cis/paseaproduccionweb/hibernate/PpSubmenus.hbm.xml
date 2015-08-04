@@ -1,12 +1,14 @@
 <?xml version="1.0"?>
 <!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
-<!-- Generated 23/07/2015 11:54:39 AM by Hibernate Tools 4.3.1 -->
+<!-- Generated 04/08/2015 01:00:43 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
     <class name="com.cis.paseaproduccionweb.hibernate.PpSubmenus" table="PP_SUBMENUS" schema="PROYECTO01" optimistic-lock="version">
         <id name="submenuId" type="big_decimal">
             <column name="SUBMENU_ID" precision="22" scale="0" />
-            <generator class="increment" />
+            <generator class="sequence">
+                <param name="sequence">PPSUBMENU_SEQ</param>
+            </generator>
         </id>
         <property name="descSubmenu" type="string">
             <column name="DESC_SUBMENU" length="250" />

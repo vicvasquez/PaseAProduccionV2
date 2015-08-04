@@ -4,22 +4,20 @@
   <session-factory>
     <property name="hibernate.dialect">org.hibernate.dialect.OracleDialect</property>
     <property name="hibernate.connection.driver_class">oracle.jdbc.OracleDriver</property>
-    <property name="hibernate.connection.url">jdbc:oracle:thin:@192.168.185.41:1521:intra</property>
-    <property name="hibernate.connection.username">PROYECTO01</property>
-    <property name="hibernate.connection.password">PROYECTO01</property>
+    <property name="hibernate.connection.url">jdbc:oracle:thin:@192.168.185.21:1521:INTRA</property>
+    <property name="hibernate.connection.username">PASESWEB</property>
+    <property name="hibernate.connection.password">PASESWEB</property>
     <property name="hibernate.current_session_context_class">thread</property>
-    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpTempArchaprob.hbm.xml"/>
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpErrores.hbm.xml"/>
+    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpTempArchaprob.hbm.xml"/>
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpUsuarios.hbm.xml"/>
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpModulos.hbm.xml"/>
-    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpHistoriales.hbm.xml"/>
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpRolPermisos.hbm.xml"/>
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpHorasPases.hbm.xml"/>
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpRoles.hbm.xml"/>
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpArchivosUso.hbm.xml"/>
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpSentenciasSql.hbm.xml"/>
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpTempArchpase.hbm.xml"/>
-    <mapping resource="com/cis/paseaproduccionweb/hibernate/PpReportes.hbm.xml"/>
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpArchivosPase.hbm.xml"/>
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpPermisos.hbm.xml"/>
     <mapping resource="com/cis/paseaproduccionweb/hibernate/PpFormularios.hbm.xml"/>

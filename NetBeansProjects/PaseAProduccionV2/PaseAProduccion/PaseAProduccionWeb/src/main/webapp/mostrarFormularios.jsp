@@ -111,8 +111,19 @@
                     <li class="active">
                         <a href="mostrarEntornos.jsp"> <span class="nav-label">Reservar Formulario</span> </a>
                     </li>
-                    <li>
-                        <a href="historial.jsp"> <span class="nav-label">Historial</span> </a>
+                    <li class>
+                        <a href="#"> 
+                            <span class="nav-label">Historial</span> 
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+                            <li>
+                                <a href="/PaseAProduccionWeb/Historial?sistemaId=1"><span class="nav-label">Historial de SAAS</span></a>
+                            </li>
+                            <li>
+                                <a href="/PaseAProduccionWeb/Historial?sistemaId=2"><span class="nav-label">Historial de TDM</span></a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         <a href="perfil.jsp"> <span class="nav-label">Perfil</span> </a>

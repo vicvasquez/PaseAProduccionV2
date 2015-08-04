@@ -5,6 +5,7 @@
  */
 package com.cis.paseaproduccionweb.hibernate;
 
+import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 
@@ -14,7 +15,7 @@ import org.hibernate.cfg.Configuration;
  *
  * @author vvasquez
  */
-public class HibernateUtil {
+public class HibernateUtilTDM {
 
     private static final SessionFactory sessionFactory;
     
@@ -22,11 +23,11 @@ public class HibernateUtil {
         try {
             // Create the SessionFactory from standard (hibernate.cfg.xml) 
             // config file.
-            sessionFactory = new Configuration().configure("/hibernate.cfg.xml").buildSessionFactory();
+            sessionFactory = new Configuration().configure("/hibernateTDM.cfg.xml").buildSessionFactory();
         } catch (Throwable ex) {
             // Log the exception. 
             System.err.println("Initial SessionFactory creation failed." + ex);
-                throw new ExceptionInInitializerError(ex);
+            throw new ExceptionInInitializerError(ex);
         }
     }
     

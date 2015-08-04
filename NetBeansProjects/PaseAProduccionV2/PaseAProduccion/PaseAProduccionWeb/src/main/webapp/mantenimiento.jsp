@@ -92,8 +92,19 @@
                     <li>
                         <a href="mostrarEntornos.jsp"> <span class="nav-label">Reservar Formulario</span> </a>
                     </li>
-                    <li>
-                        <a href="historial.jsp"> <span class="nav-label">Historial</span> </a>
+                    <li class>
+                        <a href="#"> 
+                            <span class="nav-label">Historial</span> 
+                            <span class="fa arrow"></span>
+                        </a>
+                        <ul class="nav nav-second-level collapse" aria-expanded="false" style="height: 0px;">
+                            <li>
+                                <a href="/PaseAProduccionWeb/Historial?sistemaId=1"><span class="nav-label">Historial de SAAS</span></a>
+                            </li>
+                            <li>
+                                <a href="/PaseAProduccionWeb/Historial?sistemaId=2"><span class="nav-label">Historial de TDM</span></a>
+                            </li>
+                        </ul>
                     </li>
                     <li>
                         <a href="perfil.jsp"> <span class="nav-label">Perfil</span> </a>
@@ -191,8 +202,8 @@
                                             <table cellpadd  ing="1" cellspacing="1" class="table table-condensed table-striped">
                                                 <thead>
                                                     <tr>
+                                                        <th>Modulo</th>
                                                         <th>Nombre</th>
-                                                        <th>Descripcion</th>
                                                         <th>Estado</th>
                                                         <th></th>
                                                     </tr>
@@ -202,10 +213,10 @@
                                                     for(int i=0; i<lstModulosTdm.size(); i++){
                                                         out.print("<tr>");
                                                         out.print("<td>");
-                                                        out.print(lstModulosTdm.get(i).getNombreModulo());
+                                                        out.print(lstModulosTdm.get(i).getDescModulo());
                                                         out.print("</td>");
                                                         out.print("<td>");
-                                                        out.print(lstModulosTdm.get(i).getDescModulo());
+                                                        out.print(lstModulosTdm.get(i).getNombreModulo());
                                                         out.print("</td>");
                                                         out.print("<td>");
                                                         if(lstModulosTdm.get(i).getFlagEstado().equals("A"))

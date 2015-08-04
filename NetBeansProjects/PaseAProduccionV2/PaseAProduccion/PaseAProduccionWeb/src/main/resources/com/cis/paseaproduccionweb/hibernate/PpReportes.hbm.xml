@@ -3,18 +3,18 @@
 "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
 <!-- Generated 04/08/2015 01:00:43 PM by Hibernate Tools 4.3.1 -->
 <hibernate-mapping>
-    <class name="com.cis.paseaproduccionweb.hibernate.PpSentenciasSql" table="PP_SENTENCIAS_SQL" schema="PROYECTO01" optimistic-lock="version">
-        <id name="setenciasqlId" type="long">
-            <column name="SETENCIASQL_ID" precision="18" scale="0" />
+    <class name="com.cis.paseaproduccionweb.hibernate.PpReportes" table="PP_REPORTES" schema="PROYECTO01" optimistic-lock="version">
+        <id name="reporteId" type="long">
+            <column name="REPORTE_ID" precision="18" scale="0" />
             <generator class="sequence">
-                <param name="sequence">PPSENTENCIASSQL_SEQ</param>
+                <param name="sequence">PPREPORTES_SEQ</param>
             </generator>
         </id>
         <many-to-one name="ppUsuarios" class="com.cis.paseaproduccionweb.hibernate.PpUsuarios" fetch="select">
             <column name="PPUSUARIO_USUARIO_ID" precision="22" scale="0" not-null="true" />
         </many-to-one>
-        <many-to-one name="ppSistemas" class="com.cis.paseaproduccionweb.hibernate.PpSistemas" fetch="select">
-            <column name="PPSISTEMA_SISTEMA_ID" precision="22" scale="0" not-null="true" />
+        <many-to-one name="ppFormularios" class="com.cis.paseaproduccionweb.hibernate.PpFormularios" fetch="select">
+            <column name="PPFORM_FORMULARIO_ID" precision="18" scale="0" not-null="true" />
         </many-to-one>
         <property name="flagEstado" type="string">
             <column name="FLAG_ESTADO" length="1" />
@@ -22,16 +22,14 @@
         <property name="flagUso" type="string">
             <column name="FLAG_USO" length="1" />
         </property>
-        <property name="descSentenciasql" type="string">
-            <column name="DESC_SENTENCIASQL" length="250" />
+        <property name="descReporte" type="string">
+            <column name="DESC_REPORTE" length="250" />
         </property>
-        <property name="nombreSentenciasql" type="string">
-            <column name="NOMBRE_SENTENCIASQL" length="100" />
+        <property name="nombreReporte" type="string">
+            <column name="NOMBRE_REPORTE" length="100" />
         </property>
-        <property name="tipo" type="string">
-            <column name="TIPO" length="3">
-                <comment>'PAC' = PACKAGE, 'TRI' = TRIGGER, 'TYP' = TYPE, 'PRO' = PROCEDURE, 'FUN' = FUNCTION</comment>
-            </column>
+        <property name="flagTipo" type="string">
+            <column name="FLAG_TIPO" length="1" />
         </property>
         <property name="archivo" type="blob">
             <column name="ARCHIVO" />

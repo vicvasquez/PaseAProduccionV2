@@ -1,5 +1,5 @@
 package com.cis.paseaproduccionweb.hibernate;
-// Generated 23/07/2015 11:54:39 AM by Hibernate Tools 4.3.1
+// Generated 04/08/2015 01:00:43 PM by Hibernate Tools 4.3.1
 
 
 import java.math.BigDecimal;
@@ -13,6 +13,7 @@ public class PpHistoriales  implements java.io.Serializable {
 
 
      private BigDecimal historialId;
+     private PpSistemas ppSistemas;
      private PpModulos ppModulos;
      private PpFormularios ppFormularios;
      private Blob archivo;
@@ -30,8 +31,9 @@ public class PpHistoriales  implements java.io.Serializable {
     public PpHistoriales(BigDecimal historialId) {
         this.historialId = historialId;
     }
-    public PpHistoriales(BigDecimal historialId, PpModulos ppModulos, PpFormularios ppFormularios, Blob archivo, Date fecha, Long nroVersion, String comentarioPase, String comentarioServicios, BigDecimal usuarioId, String nombre) {
+    public PpHistoriales(BigDecimal historialId, PpSistemas ppSistemas, PpModulos ppModulos, PpFormularios ppFormularios, Blob archivo, Date fecha, Long nroVersion, String comentarioPase, String comentarioServicios, BigDecimal usuarioId, String nombre) {
        this.historialId = historialId;
+       this.ppSistemas = ppSistemas;
        this.ppModulos = ppModulos;
        this.ppFormularios = ppFormularios;
        this.archivo = archivo;
@@ -49,6 +51,13 @@ public class PpHistoriales  implements java.io.Serializable {
     
     public void setHistorialId(BigDecimal historialId) {
         this.historialId = historialId;
+    }
+    public PpSistemas getPpSistemas() {
+        return this.ppSistemas;
+    }
+    
+    public void setPpSistemas(PpSistemas ppSistemas) {
+        this.ppSistemas = ppSistemas;
     }
     public PpModulos getPpModulos() {
         return this.ppModulos;
