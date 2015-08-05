@@ -72,7 +72,7 @@ public class SubMenusDao {
         return submenu;
     }
     
-    public void insertarSubMenu(PpSubmenus submenuInsert){
+    public void insertarSubMenu(PpSubmenus submenuIns){
         
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
@@ -80,7 +80,7 @@ public class SubMenusDao {
         try {
             tx = session.getTransaction();
             tx.begin();
-            session.save(submenuInsert);
+            session.save(submenuIns);
             tx.commit();
         } catch (Exception e) {
             if(tx != null)
@@ -92,7 +92,7 @@ public class SubMenusDao {
             error.setStacktrace(e.toString());
             error.setFecha(date);
             dError.insertarError(error);
-        } finally{
+        }    finally{
             session.close();
         }
     }

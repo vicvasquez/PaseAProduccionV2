@@ -1,9 +1,11 @@
 package com.cis.paseaproduccionweb.servlet;
 
 import com.cis.paseaproduccionweb.dao.ArchivoAprobDao;
+import com.cis.paseaproduccionweb.dao.ArchivoAprobDaoTDM;
 import com.cis.paseaproduccionweb.dao.ArchivosUsoDao;
 import com.cis.paseaproduccionweb.dao.FormulariosDao;
 import com.cis.paseaproduccionweb.dao.ModulosDao;
+import com.cis.paseaproduccionweb.dao.SubMenusDao;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosUso;
 import com.cis.paseaproduccionweb.hibernate.PpFormularios;
 import com.cis.paseaproduccionweb.hibernate.PpModulos;
@@ -33,33 +35,58 @@ public class CancelarFormularioServlet extends HttpServlet {
 
             if(archivoUso != null)
             {
-                if(tipoCancelacion.equals("1")){
-                    dArchivosUso.eliminarArchivoUso(archivoUso.getArchivoUsoId(), "S");
-                    if(tipo.equals("MOD")){
-                        ModulosDao dModulo = new ModulosDao();
-                        PpModulos modulo = dModulo.getModuloByModuloId(archivoId);
-                        modulo.setFlagUso("N");
-                        modulo.setPpusuarioUsuarioId(null);
-                        dModulo.updateModulo(modulo);
-                    }
-
-                    else if(tipo.equals("FOR") || tipo.equals("REP")){
-                        FormulariosDao dFormulario = new FormulariosDao();
-                        PpFormularios formulario = dFormulario.getFormularioByFormularioId(archivoId);
-                        formulario.setFlagUso("N");
-                        formulario.setPpusuarioUsuarioId(null);
-                        dFormulario.updateFormularios(formulario);
+                ArchivoAprobDao dArchivoAprobado = new ArchivoAprobDao();
+                ArchivoAprobDaoTDM dArchivoAprobadoTDM = new ArchivoAprobDaoTDM();
+                SubMenusDao dSubmenu = new SubMenusDao();
+                ModulosDao dModulo = new ModulosDao();
+                FormulariosDao dFormulario = new FormulariosDao();
+                String sistemaId = null;
+                
+                if(tipo.equals("MOD")){
+                    PpModulos modulo = dModulo.getModuloByModuloId(archivoId);
+                    sistemaId = modulo.getPpsistemaSistemaId().toString();
+                    switch(tipoCancelacion){
+                        case "1":
+                            dArchivosUso.eliminarArchivoUso(archivoUso.getArchivoUsoId(), "S");
+                            modulo.setFlagUso("N");
+                            modulo.setPpusuarioUsuarioId(null);
+                            dModulo.updateModulo(modulo);
+                            break;
+                            
+                        case "2":
+                            archivoUso.setFlagNoche("N");
+                            dArchivosUso.updateArchivoUso(archivoUso);
+                            break;
                     }
                 }
-
-                else if(tipoCancelacion.equals("2")){
-                    
-                    archivoUso.setFlagNoche("N");
-                    dArchivosUso.updateArchivoUso(archivoUso);
+                else if(tipo.equals("FOR") || tipo.equals("REP")){
+                    PpFormularios formulario = dFormulario.getFormularioByFormularioId(archivoId);
+                    sistemaId = dModulo.getModuloByModuloId(dSubmenu.getSubMenuBySubMenuId(formulario.getPpsubmenuSubmenuId()).getModuloModuloId()).getPpsistemaSistemaId().toString();
+                    switch(tipoCancelacion){
+                        case "1":
+                            dArchivosUso.eliminarArchivoUso(archivoUso.getArchivoUsoId(), "S");
+                            formulario.setFlagUso("N");
+                            formulario.setPpusuarioUsuarioId(null);
+                            dFormulario.updateFormularios(formulario);
+                            break;
+                            
+                        case "2":
+                            archivoUso.setFlagNoche("N");
+                            dArchivosUso.updateArchivoUso(archivoUso);
+                            break;
+                    }
                 }
                 
-                ArchivoAprobDao dArchivoAprobado = new ArchivoAprobDao();
-                dArchivoAprobado.eliminarArchivoAprobado(dArchivoAprobado.getArchivoAprobadoByNombre(archivoUso.getNombreArchivo()));   
+                if(sistemaId != null){
+                    switch (sistemaId){
+                            case "1":
+                                dArchivoAprobado.eliminarArchivoAprobado(dArchivoAprobado.getArchivoAprobadoByNombre(archivoUso.getNombreArchivo()));   
+                                break;
+                            case "2":
+                                dArchivoAprobadoTDM.eliminarArchivoAprobado(dArchivoAprobadoTDM.getArchivoAprobadoByNombre(archivoUso.getNombreArchivo()));
+                                break;
+                        }
+                }
         }
         
         response.sendRedirect("index.jsp");

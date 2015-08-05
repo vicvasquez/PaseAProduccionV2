@@ -4,6 +4,7 @@
     Author     : vvasquez
 --%>
 
+<%@page import="com.cis.paseaproduccionweb.dao.SistemasDao"%>
 <%@page import="com.cis.paseaproduccionweb.dao.ModulosDao"%>
 <%@page import="com.cis.paseaproduccionweb.dao.FormulariosDao"%>
 <%@page import="com.cis.paseaproduccionweb.dao.SubMenusDao"%>
@@ -36,6 +37,8 @@
     ModulosDao dModulo = new ModulosDao();
     
     List<PpFormularios> lstFormularios = dFormulario.getFormulariosBySubmenuId(submenuId);
+    
+    BigDecimal sistemaId = dModulo.getModuloByModuloId(dSubmenu.getSubMenuBySubMenuId(submenuId).getModuloModuloId()).getPpsistemaSistemaId();
     
 
 %>
@@ -153,6 +156,7 @@
                             <div class="hpanel">
                                 <form method="POST" action="/PaseAProduccionWeb/MantenimientoFormularios">
                                     <input type="hidden" value="<% out.print(submenuId); %>" name="submenuId" id="submenuId">
+                                    <input type="hidden" value="<% out.print(sistemaId); %>" name="sistemaId" id="sistemaId">
                                     <div class="panel-heading">
                                         <label style="font-size: 25px; margin: 0px;"><% out.print(dSubmenu.getSubMenuBySubMenuId(submenuId).getNombreSubmenu()); %> &nbsp;</label>
                                         <button type="submit" class="btn btn-primary btn-xs" style="margin-bottom: 10px;"><i class="fa fa-plus fa-2x"></i></button>

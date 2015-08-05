@@ -28,9 +28,5 @@
             <return-scalar column="cnt" type="integer"/>
             { ? = call PASE_PRODUCCION_SERVICIOS }
         </sql-query>
-        <sql-query name="SP_ELIMINAR_ARCHIVO_USO" callable="true">
-            <return-scalar column="cnt" type="integer"/>
-            { ? = call ELIMINAR_ARCHIVO_USO( ? , ?) }
-        </sql-query>
     </class>
 </hibernate-mapping>

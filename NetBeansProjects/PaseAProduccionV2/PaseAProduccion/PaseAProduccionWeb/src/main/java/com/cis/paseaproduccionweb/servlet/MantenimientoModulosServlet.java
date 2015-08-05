@@ -1,11 +1,14 @@
 package com.cis.paseaproduccionweb.servlet;
 
 import com.cis.paseaproduccionweb.dao.ArchivoPaseDao;
+import com.cis.paseaproduccionweb.dao.ArchivoPaseDaoTDM;
 import com.cis.paseaproduccionweb.dao.HistorialesDao;
 import com.cis.paseaproduccionweb.dao.ModulosDao;
+import com.cis.paseaproduccionweb.dao.SistemasDao;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosPase;
 import com.cis.paseaproduccionweb.hibernate.PpHistoriales;
 import com.cis.paseaproduccionweb.hibernate.PpModulos;
+import com.cis.paseaproduccionweb.hibernate.PpTempArchpase;
 import com.cis.paseaproduccionweb.hibernate.PpUsuarios;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -42,63 +45,96 @@ public class MantenimientoModulosServlet extends HttpServlet {
                 HistorialesDao dHistorial = new HistorialesDao();
                 PpUsuarios usuario = (PpUsuarios)request.getSession().getAttribute("user");
                 ModulosDao dModulo = new ModulosDao();
+                SistemasDao dSistema = new SistemasDao();
                 
-                //COPIAR FMB
                 Part filePartFMB = request.getPart("archivoFMB");
-                InputStream fileContentFMB = filePartFMB.getInputStream();
-
-                byte[] bytesFMB = new byte[(int)filePartFMB.getSize()];
-                ByteArrayOutputStream outputFMB = new ByteArrayOutputStream();
-
-                for(int i = 0; (i = fileContentFMB.read(bytesFMB))>0;)
-                    outputFMB.write(bytesFMB, 0, i);
-
-                archivoBlobFMB = new javax.sql.rowset.serial.SerialBlob(bytesFMB);
-
-                //COPIAR FMX ---------------------------------------------
                 Part filePartFMX = request.getPart("archivoFMX");
-                InputStream fileContentFMX = filePartFMX.getInputStream();
-
-                byte[] bytesFMX = new byte[(int)filePartFMX.getSize()];
-                ByteArrayOutputStream outputFMX = new ByteArrayOutputStream();
-
-                for(int i = 0; (i = fileContentFMX.read(bytesFMX))>0;)
-                    outputFMX.write(bytesFMX, 0, i);
-
-                archivoBlobFMX = new javax.sql.rowset.serial.SerialBlob(bytesFMX);
                 
-               //---------------
                 BigDecimal sistemaId = new BigDecimal(sisId);
                 PpModulos modulo = new PpModulos();
-                modulo.setNombreModulo(nombre);
-                modulo.setDescModulo(descripcion);
-                modulo.setArchivo(archivoBlobFMB);
-                modulo.setPpsistemaSistemaId(sistemaId);
-                modulo.setFlagEstado("A");
-                modulo.setFlagUso("N");
                 
-                dModulo.insertarModulo(modulo);
-                
-                PpArchivosPase archivoPase = new PpArchivosPase();
-                ArchivoPaseDao dArchivoPase = new ArchivoPaseDao();
-                archivoPase.setArchivo(archivoBlobFMX);
-                archivoPase.setNombreArchivo(nombre);
-                
-                dArchivoPase.insertarArchivoUso(archivoPase);
-                dArchivoPase.PasarProduccion();
-                dArchivoPase.TruncarTabla();
-                
-                PpHistoriales historial = new PpHistoriales();
-                Date date = new Date();          
-                historial.setArchivo(archivoBlobFMB);
-                historial.setFecha(date);
-                historial.setPpModulos(modulo);
-                historial.setComentarioPase("Primera versión del modulo generado con su creación");
-                historial.setUsuarioId(usuario.getUsuarioId());
-                historial.setNombre(nombre);
-                historial.setNroVersion((long)1);
-                
-                dHistorial.insertarHistorial(historial);
+                if(filePartFMB.getSize() != 0 && filePartFMX.getSize() != 0){
+                    //COPIAR FMB
+                    InputStream fileContentFMB = filePartFMB.getInputStream();
+
+                    byte[] bytesFMB = new byte[(int)filePartFMB.getSize()];
+                    ByteArrayOutputStream outputFMB = new ByteArrayOutputStream();
+
+                    for(int i = 0; (i = fileContentFMB.read(bytesFMB))>0;)
+                        outputFMB.write(bytesFMB, 0, i);
+
+                    archivoBlobFMB = new javax.sql.rowset.serial.SerialBlob(bytesFMB);
+
+                    //COPIAR FMX ---------------------------------------------
+                    InputStream fileContentFMX = filePartFMX.getInputStream();
+
+                    byte[] bytesFMX = new byte[(int)filePartFMX.getSize()];
+                    ByteArrayOutputStream outputFMX = new ByteArrayOutputStream();
+
+                    for(int i = 0; (i = fileContentFMX.read(bytesFMX))>0;)
+                        outputFMX.write(bytesFMX, 0, i);
+
+                    archivoBlobFMX = new javax.sql.rowset.serial.SerialBlob(bytesFMX);
+
+                   //---------------
+
+                    modulo.setNombreModulo(nombre);
+                    modulo.setDescModulo(descripcion);
+                    modulo.setArchivo(archivoBlobFMB);
+                    modulo.setPpsistemaSistemaId(sistemaId);
+                    modulo.setFlagEstado("A");
+                    modulo.setFlagUso("N");
+
+                    dModulo.insertarModulo(modulo);
+
+                    PpArchivosPase archivoPase = new PpArchivosPase();
+                    ArchivoPaseDao dArchivoPase = new ArchivoPaseDao();
+                    PpTempArchpase archivoPaseTDM = new PpTempArchpase();
+                    ArchivoPaseDaoTDM dArchivoPaseTDM = new ArchivoPaseDaoTDM();
+                    
+                    switch(sisId){
+                        case "1":
+                            archivoPase.setArchivo(archivoBlobFMX);
+                            archivoPase.setNombreArchivo(nombre);
+
+                            dArchivoPase.insertarArchivoUso(archivoPase);
+                            dArchivoPase.PasarProduccion();
+                            dArchivoPase.TruncarTabla();
+                            break;
+                            
+                        case "2":
+                            archivoPaseTDM.setArchivo(archivoBlobFMX);
+                            archivoPaseTDM.setNombreArchivo(nombre);
+
+                            dArchivoPaseTDM.insertarArchivoUso(archivoPaseTDM);
+                            dArchivoPaseTDM.PasarProduccion();
+                            dArchivoPaseTDM.TruncarTabla();
+                            break;
+                    }
+
+                    PpHistoriales historial = new PpHistoriales();
+                    Date date = new Date();          
+                    historial.setArchivo(archivoBlobFMB);
+                    historial.setFecha(date);
+                    historial.setPpModulos(modulo);
+                    historial.setComentarioPase("Primera versión del modulo generado con su creación");
+                    historial.setUsuarioId(usuario.getUsuarioId());
+                    historial.setNombre(nombre);
+                    historial.setNroVersion((long)1);
+                    historial.setPpSistemas(dSistema.getSistemaBySistemaId(sistemaId));
+
+                    dHistorial.insertarHistorial(historial);
+                }
+                else{
+                    modulo.setNombreModulo(nombre);
+                    modulo.setDescModulo(descripcion);
+                    modulo.setArchivo(archivoBlobFMB);
+                    modulo.setPpsistemaSistemaId(sistemaId);
+                    modulo.setFlagEstado("A");
+                    modulo.setFlagUso("N");
+                    
+                    dModulo.insertarModulo(modulo);
+                }
                 
                 request.setAttribute("sistemaId", sisId);
                 RequestDispatcher rDispatcher = getServletContext().getRequestDispatcher("/mantenimiento.jsp");

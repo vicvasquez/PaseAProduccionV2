@@ -24,6 +24,8 @@
     
     String submId = request.getParameter("submenuId");
     
+    String sistemaId = request.getParameter("sistemaId");
+    
     BigDecimal submenuId = new BigDecimal(submId);
     
     FormulariosDao dFormulario = new FormulariosDao();
@@ -150,6 +152,7 @@
                             <div class="panel-body">
                                 <form method="POST" action="/PaseAProduccionWeb/MantenimientoFormularios" enctype="multipart/form-data">
                                     <input type="hidden" name="submenuId" value="<% out.print(submenuId); %>">
+                                    <input type="hidden" name="sistemaId" value="<% out.print(sistemaId); %>">
                                     <p name="mensajeArchivos" id="mensajeArchivos" class="font-bold text-danger"></p>
                                     <div class="row">
                                         <div class="form-group">

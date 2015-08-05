@@ -340,7 +340,7 @@
                         <div id="FMB" hidden=""><p>Seleccione el archivo fuente<input type="file" class="form-control" name="archivoFMB" id="archivoFMB" value="" onchange="activarBotones();" ></p></div>
                         <div id="FMX" hidden=""><p>Seleccione el archivo ejecutable<input type="file" class="form-control" name="archivoFMX" id="archivoFMX" value="" onchange="activarBotones();" ></p></div>
                         <div id="RDF" hidden=""><p>Seleccione el reporte<input type="file" class="form-control" name="archivoRDF" id="archivoRDF" value="" onchange="activarBotones();"></p></div>
-                        <br>                           
+                        <br>                          
                         <p name="mensajeArchivos" id="mensajeArchivos" class="font-bold text-danger"></p>
                         <div id="botones" hidden="">
                             <p>Escriba un comentario acerca de los cambios realizados:</p>
@@ -507,15 +507,30 @@
         
         
         function activarBotones(){
+            
             var nombre = $('input[name=nombreArchivo]').val().toUpperCase();
             nombre = nombre.substr(0, nombre.length-4);
             
-            if($('input[name=archivoTipo]').val() === "REP")
-            {
-                if($('input[name=archivoRDF]').val() !== "" && $('input[name=archivoRDF]').val().substring($('input[name=archivoRDF]').val().size()-3, $('input[name=archivoRDF]').val().size()).toUpperCase() === "RDF")
+            if($('input[name=archivoTipo]').val() === "REP"){
+                var nombreArchivoRDF = $('input[name=archivoRDF]').val().toUpperCase();
+                nombreArchivoRDF = nombreArchivoRDF.replace(/C:\\fakepath\\/i, '');
+                
+                if($('#mensajeArch').text()!=="")
+                {
+                    $('#mensajeArch').remove();
+                }
+                
+                if(nombreArchivoRDF.substr(nombreArchivoRDF.length-3, nombreArchivoRDF.length) === "RDF" &&
+                        nombreArchivoRDF.substr(0, nombreArchivoRDF.length-4) === nombre){
                     $('#botones').show();
-                else
+                    $('button[name=btnNocturno]').hide();
+                    $('button[name=btnBajar]').hide();
+                }
+                else{
                     $('#botones').hide();
+                    $('p[name=mensajeArchivos]').append("<label name=\"mensajeArch\" id=\"mensajeArch\">Elija los archivos correctos</label>");
+                }
+                    
             }
             else if($('input[name=archivoTipo]').val() === "FOR"){
                 var nombreArchivoFMB = $('input[name=archivoFMB]').val().toUpperCase();
@@ -575,12 +590,19 @@
             if($('input[name=archivoTipo]').val() === "REP")
             {
                 $('#RDF').show();
+                $('#FMB').hide();
+                $('#FMX').hide();
             }
             else{
+                $('#RDF').hide();
                 $('#FMB').show();
                 $('#FMX').show();
             }
             $('#botones').hide();
+            if($('#mensajeArch').text()!=="")
+            {
+                $('#mensajeArch').remove();
+            }
         }
         
         function setPaseTipo(paseTipo){

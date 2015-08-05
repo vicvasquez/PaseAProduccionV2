@@ -6,11 +6,14 @@
 package com.cis.paseaproduccionweb.servlet;
 
 import com.cis.paseaproduccionweb.dao.ArchivoPaseDao;
+import com.cis.paseaproduccionweb.dao.ArchivoPaseDaoTDM;
 import com.cis.paseaproduccionweb.dao.FormulariosDao;
 import com.cis.paseaproduccionweb.dao.HistorialesDao;
+import com.cis.paseaproduccionweb.hibernate.PpArchivosAprob;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosPase;
 import com.cis.paseaproduccionweb.hibernate.PpFormularios;
 import com.cis.paseaproduccionweb.hibernate.PpHistoriales;
+import com.cis.paseaproduccionweb.hibernate.PpTempArchpase;
 import com.cis.paseaproduccionweb.hibernate.PpUsuarios;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -43,6 +46,7 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
             else{
                 
                 String tipo = request.getParameter("tipo");
+                String sistemaId = request.getParameter("sistemaId");
                 
                 Blob archivoBlobRDF = null;
                 Blob archivoBlobFMB = null;
@@ -55,14 +59,18 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
                 BigDecimal submenuId = new BigDecimal(submId);
                 PpFormularios reporte = new PpFormularios();
                 
+                
+                PpArchivosPase archivoPase = new PpArchivosPase();
+                ArchivoPaseDao dArchivoPase = new ArchivoPaseDao();
+                PpTempArchpase archivoPaseTDM = new PpTempArchpase();
+                ArchivoPaseDaoTDM dArchivoPaseTDM = new ArchivoPaseDaoTDM();
+                
                 if(tipo.equals("R")){
                     
                     
                     //COPIAR RDF
                     Part filePartRDF = request.getPart("archivoRDF");
-                    PpArchivosPase archivoPase = new PpArchivosPase();
-                    ArchivoPaseDao dArchivoPase = new ArchivoPaseDao();
-                    if(filePartRDF != null){
+                    if(filePartRDF.getSize() != 0){
                         InputStream fileContentRDF = filePartRDF.getInputStream();
                         byte[] bytesRDF = new byte[(int)filePartRDF.getSize()];
                         ByteArrayOutputStream output = new ByteArrayOutputStream();
@@ -83,6 +91,26 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
 
                         dFormulario.insertarFormulario(reporte);
                         
+                        switch(sistemaId){
+                            case "1":
+                                archivoPase.setArchivo(archivoBlobRDF);
+                                archivoPase.setNombreArchivo(nombre);
+
+                                dArchivoPase.insertarArchivoUso(archivoPase);
+                                dArchivoPase.PasarProduccion();
+                                dArchivoPase.TruncarTabla();
+                                break;
+                                
+                            case "2":
+                                archivoPaseTDM.setArchivo(archivoBlobRDF);
+                                archivoPaseTDM.setNombreArchivo(nombre);
+
+                                dArchivoPaseTDM.insertarArchivoUso(archivoPaseTDM);
+                                dArchivoPaseTDM.PasarProduccion();
+                                dArchivoPaseTDM.TruncarTabla();
+                                break;
+                        }
+                        
                         PpHistoriales historial = new PpHistoriales();
                         Date date = new Date();          
                         historial.setArchivo(archivoBlobRDF);
@@ -94,13 +122,6 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
                         historial.setNroVersion((long)1);
                         
                         dHistorial.insertarHistorial(historial);
-                        
-                        archivoPase.setArchivo(archivoBlobRDF);
-                        archivoPase.setNombreArchivo(nombre);
-
-                        dArchivoPase.insertarArchivoUso(archivoPase);
-                        dArchivoPase.PasarProduccion();
-                        dArchivoPase.TruncarTabla();
                     }
                     else
                     {
@@ -119,12 +140,10 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
                 else{
                     
                     PpFormularios formulario = new PpFormularios();
-                    PpArchivosPase archivoPase = new PpArchivosPase();
-                    ArchivoPaseDao dArchivoPase = new ArchivoPaseDao();
                     Part filePartFMB = request.getPart("archivoFMB");
                     Part filePartFMX = request.getPart("archivoFMX");
                     
-                    if(filePartFMB != null && filePartFMX != null)
+                    if(filePartFMB.getSize() != 0 && filePartFMX.getSize() != 0)
                     {
                         //COPIAR FMB
                         InputStream fileContentFMB = filePartFMB.getInputStream();
@@ -160,6 +179,26 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
 
                         dFormulario.insertarFormulario(formulario);
                         
+                        switch(sistemaId){
+                            case "1":
+                                archivoPase.setArchivo(archivoBlobFMX);
+                                archivoPase.setNombreArchivo(nombre);
+
+                                dArchivoPase.insertarArchivoUso(archivoPase);
+                                dArchivoPase.PasarProduccion();
+                                dArchivoPase.TruncarTabla();
+                                break;
+                                
+                            case "2":
+                                archivoPaseTDM.setArchivo(archivoBlobFMX);
+                                archivoPaseTDM.setNombreArchivo(nombre);
+
+                                dArchivoPaseTDM.insertarArchivoUso(archivoPaseTDM);
+                                dArchivoPaseTDM.PasarProduccion();
+                                dArchivoPaseTDM.TruncarTabla();
+                                break;
+                        }
+                        
                         PpHistoriales historial = new PpHistoriales();
                         Date date = new Date();          
                         historial.setArchivo(archivoBlobFMB);
@@ -171,13 +210,6 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
                         historial.setNroVersion((long)1);
 
                         dHistorial.insertarHistorial(historial);
-                        
-                        archivoPase.setArchivo(archivoBlobFMX);
-                        archivoPase.setNombreArchivo(nombre);
-
-                        dArchivoPase.insertarArchivoUso(archivoPase);
-                        dArchivoPase.PasarProduccion();
-                        dArchivoPase.TruncarTabla();
                     }
                     else{
                         formulario.setNombreFormulario(nombre);

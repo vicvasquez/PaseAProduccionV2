@@ -4,8 +4,6 @@
  * and open the template in the editor.
  */
 package com.cis.paseaproduccionweb.hibernate;
-
-import org.hibernate.cfg.AnnotationConfiguration;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
 

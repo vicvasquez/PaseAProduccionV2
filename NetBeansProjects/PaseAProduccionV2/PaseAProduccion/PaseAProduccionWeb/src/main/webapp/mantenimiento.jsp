@@ -135,7 +135,7 @@
                         <div class="col-lg-6 animated-panel zoomIn" style="-webkit-animation: 0.5s;">
                             <div class="hpanel hgreen">
                                 <form method="POST" action="/PaseAProduccionWeb/MantenimientoModulos">
-                                    <input type="hidden" value="1" name="sistemaId" id="entornoId">
+                                    <input type="hidden" value="1" name="sistemaId" id="sistemaId">
                                     <div class="panel-heading">
                                         <label style="font-size: 25px; margin: 0px;">SAAS &nbsp;</label>
                                         <button type="submit" class="btn btn-success btn-xs" style="margin-bottom: 10px;"><i class="fa fa-plus fa-2x"></i></button>
@@ -189,7 +189,7 @@
                         <div class="col-lg-6 animated-panel zoomIn" style="-webkit-animation: 0.5s;">
                             <div class="hpanel hblue">
                                 <form method="POST" action="/PaseAProduccionWeb/MantenimientoModulos">
-                                    <input type="hidden" value="2" name="sistemaId" id="entornoId">
+                                    <input type="hidden" value="2" name="sistemaId" id="sistemaId">
                                 <div class="panel-heading">
                                     <label style="font-size: 25px; margin: 0px;">TDM &nbsp;</label>
                                     <button class="btn btn-info btn-xs" style="margin-bottom: 10px;"><i class="fa fa-plus fa-2x"></i></button>
