@@ -13,6 +13,7 @@ import com.cis.paseaproduccionweb.dao.ArchivosUsoDao;
 import com.cis.paseaproduccionweb.dao.FormulariosDao;
 import com.cis.paseaproduccionweb.dao.HistorialesDao;
 import com.cis.paseaproduccionweb.dao.ModulosDao;
+import com.cis.paseaproduccionweb.dao.SistemasDao;
 import com.cis.paseaproduccionweb.dao.SubMenusDao;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosAprob;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosPase;
@@ -68,6 +69,8 @@ public class PaseAProduccionServlet extends HttpServlet {
             PpArchivosAprob archivoAprob = new PpArchivosAprob();
             PpTempArchaprob archivoAprobTDM = new PpTempArchaprob();
             PpHistoriales historial = new PpHistoriales();
+            
+            SistemasDao dSistema = new SistemasDao();
             
             Date date = new Date();          
             
@@ -164,7 +167,8 @@ public class PaseAProduccionServlet extends HttpServlet {
                     historial.setComentarioServicios(comentarioServicios);
                     historial.setUsuarioId(usuario.getUsuarioId());
                     historial.setNombre(formulario.getNombreFormulario());
-                    historial.setNroVersion((long)dHistorial.getLastVersion(formulario.getNombreFormulario()));
+                    historial.setNroVersion((long)dHistorial.getLastVersion(formulario.getNombreFormulario(), sistemaId));
+                    historial.setPpSistemas(dSistema.getSistemaBySistemaId(sistemaId));
                     
                     dHistorial.insertarHistorial(historial);
                 }
@@ -212,7 +216,8 @@ public class PaseAProduccionServlet extends HttpServlet {
                             historial.setComentarioServicios(comentarioServicios);
                             historial.setUsuarioId(usuario.getUsuarioId());
                             historial.setNombre(formulario.getNombreFormulario());
-                            historial.setNroVersion((long)dHistorial.getLastVersion(formulario.getNombreFormulario()));
+                                historial.setNroVersion((long)dHistorial.getLastVersion(formulario.getNombreFormulario(), sistemaId));
+                            historial.setPpSistemas(dSistema.getSistemaBySistemaId(sistemaId));
 
                             dHistorial.insertarHistorial(historial);
                             break;
@@ -254,7 +259,8 @@ public class PaseAProduccionServlet extends HttpServlet {
                             historial.setComentarioServicios(comentarioServicios);
                             historial.setUsuarioId(usuario.getUsuarioId());
                             historial.setNombre(formulario.getNombreFormulario());
-                            historial.setNroVersion((long)dHistorial.getLastVersion(formulario.getNombreFormulario()));
+                            historial.setNroVersion((long)dHistorial.getLastVersion(formulario.getNombreFormulario(), sistemaId));
+                            historial.setPpSistemas(dSistema.getSistemaBySistemaId(sistemaId));
 
                             dHistorial.insertarHistorial(historial);
                             break;
@@ -341,7 +347,8 @@ public class PaseAProduccionServlet extends HttpServlet {
                         historial.setComentarioServicios(comentarioServicios);
                         historial.setUsuarioId(usuario.getUsuarioId());
                         historial.setNombre(modulo.getNombreModulo());
-                        historial.setNroVersion((long)dHistorial.getLastVersion(modulo.getNombreModulo()));
+                        historial.setNroVersion((long)dHistorial.getLastVersion(modulo.getNombreModulo(), sistemaId));
+                        historial.setPpSistemas(dSistema.getSistemaBySistemaId(sistemaId));
 
                         dHistorial.insertarHistorial(historial);
                         break;
@@ -383,7 +390,8 @@ public class PaseAProduccionServlet extends HttpServlet {
                         historial.setComentarioServicios(comentarioServicios);
                         historial.setUsuarioId(usuario.getUsuarioId());
                         historial.setNombre(modulo.getNombreModulo());
-                        historial.setNroVersion((long)dHistorial.getLastVersion(modulo.getNombreModulo()));
+                        historial.setNroVersion((long)dHistorial.getLastVersion(modulo.getNombreModulo(), sistemaId));
+                        historial.setPpSistemas(dSistema.getSistemaBySistemaId(sistemaId));
 
                         dHistorial.insertarHistorial(historial);
                         break;

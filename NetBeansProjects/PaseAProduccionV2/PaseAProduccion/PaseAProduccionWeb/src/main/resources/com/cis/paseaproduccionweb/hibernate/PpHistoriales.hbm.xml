@@ -42,6 +42,6 @@
         </property>
     </class>
     <sql-query name="SP_ULTIMA_VERSION_HISTORIAL" callable="true"><return-scalar column="cnt" type="integer"/>
-        { ? = call ULTIMA_VERSION_HISTORIAL(?) }
+        { ? = call ULTIMA_VERSION_HISTORIAL(?, ?) }
     </sql-query>
 </hibernate-mapping>

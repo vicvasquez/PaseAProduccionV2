@@ -49,7 +49,7 @@ public class HistorialesDao {
         
     }
     
-    public Integer getLastVersion(String nombre){
+    public Integer getLastVersion(String nombre, BigDecimal sistemaId){
         Session session = HibernateUtil.getSessionFactory().openSession();
         Transaction tx = null;
         Object resultado;
@@ -59,6 +59,7 @@ public class HistorialesDao {
             tx.begin();
             Query q = session.getNamedQuery("SP_ULTIMA_VERSION_HISTORIAL");
             q.setString(0, nombre);
+            q.setBigDecimal(1, sistemaId);
             resultado = q.uniqueResult();
             tx.commit();
             return (Integer)resultado;

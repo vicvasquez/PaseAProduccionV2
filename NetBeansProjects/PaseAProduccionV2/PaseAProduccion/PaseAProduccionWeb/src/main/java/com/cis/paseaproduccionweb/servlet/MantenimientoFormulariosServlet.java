@@ -9,7 +9,7 @@ import com.cis.paseaproduccionweb.dao.ArchivoPaseDao;
 import com.cis.paseaproduccionweb.dao.ArchivoPaseDaoTDM;
 import com.cis.paseaproduccionweb.dao.FormulariosDao;
 import com.cis.paseaproduccionweb.dao.HistorialesDao;
-import com.cis.paseaproduccionweb.hibernate.PpArchivosAprob;
+import com.cis.paseaproduccionweb.dao.SistemasDao;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosPase;
 import com.cis.paseaproduccionweb.hibernate.PpFormularios;
 import com.cis.paseaproduccionweb.hibernate.PpHistoriales;
@@ -58,12 +58,14 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
                 
                 BigDecimal submenuId = new BigDecimal(submId);
                 PpFormularios reporte = new PpFormularios();
-                
+                SistemasDao dSistema = new SistemasDao();
                 
                 PpArchivosPase archivoPase = new PpArchivosPase();
                 ArchivoPaseDao dArchivoPase = new ArchivoPaseDao();
                 PpTempArchpase archivoPaseTDM = new PpTempArchpase();
                 ArchivoPaseDaoTDM dArchivoPaseTDM = new ArchivoPaseDaoTDM();
+                
+                BigDecimal sisId = new BigDecimal(sistemaId);
                 
                 if(tipo.equals("R")){
                     
@@ -112,7 +114,8 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
                         }
                         
                         PpHistoriales historial = new PpHistoriales();
-                        Date date = new Date();          
+                        Date date = new Date();
+                        
                         historial.setArchivo(archivoBlobRDF);
                         historial.setFecha(date);
                         historial.setPpFormularios(reporte);
@@ -120,6 +123,7 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
                         historial.setUsuarioId(usuario.getUsuarioId());
                         historial.setNombre(nombre);
                         historial.setNroVersion((long)1);
+                        historial.setPpSistemas(dSistema.getSistemaBySistemaId(sisId));
                         
                         dHistorial.insertarHistorial(historial);
                     }
@@ -208,6 +212,7 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
                         historial.setUsuarioId(usuario.getUsuarioId());
                         historial.setNombre(nombre);
                         historial.setNroVersion((long)1);
+                        historial.setPpSistemas(dSistema.getSistemaBySistemaId(sisId));
 
                         dHistorial.insertarHistorial(historial);
                     }
