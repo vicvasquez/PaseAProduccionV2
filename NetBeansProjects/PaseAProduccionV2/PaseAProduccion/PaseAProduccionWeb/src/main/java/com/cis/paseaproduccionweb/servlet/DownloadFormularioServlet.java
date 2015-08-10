@@ -131,8 +131,7 @@ public class DownloadFormularioServlet extends HttpServlet {
             request.setAttribute("tipoPadre", padreId);
             request.setAttribute("tipoPadre", sistemaId);
             
-            RequestDispatcher rDispatcher = getServletContext().getRequestDispatcher("/mostrarModulos.jsp");
-            rDispatcher.forward(request, response);
+            getServletContext().getRequestDispatcher("/mostrarModulos.jsp").forward(request, response);
         }
         catch(Exception ex)
         {

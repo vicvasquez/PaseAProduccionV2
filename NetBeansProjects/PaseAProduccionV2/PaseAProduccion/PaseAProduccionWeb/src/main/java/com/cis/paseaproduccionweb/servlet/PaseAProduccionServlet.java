@@ -322,7 +322,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                                 archivoPaseFormTDM.setArchivo(archivoBlobFMX);
 
                                 dArchivoPaseTDM.insertarArchivoUso(archivoPaseFormTDM);
-                                resultado = dArchivoPase.PasarProduccion();
+                                resultado = dArchivoPaseTDM.PasarProduccion();
                                 dArchivoPaseTDM.TruncarTabla();
                                 break;
                         }

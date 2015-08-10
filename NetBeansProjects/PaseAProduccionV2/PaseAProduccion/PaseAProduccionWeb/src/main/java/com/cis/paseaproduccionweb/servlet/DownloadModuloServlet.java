@@ -131,8 +131,7 @@ public class DownloadModuloServlet extends HttpServlet {
   
             request.setAttribute("tipoPadre", sistemaId);
             
-            RequestDispatcher rDispatcher = getServletContext().getRequestDispatcher("/mostrarModulos.jsp");
-            rDispatcher.forward(request, response);
+            getServletContext().getRequestDispatcher("/mostrarEntornos.jsp").forward(request, response);
         }
         catch(Exception ex)
         {
