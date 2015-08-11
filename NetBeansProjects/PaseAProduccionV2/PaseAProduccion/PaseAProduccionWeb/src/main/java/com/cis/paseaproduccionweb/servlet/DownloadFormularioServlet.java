@@ -128,10 +128,10 @@ public class DownloadFormularioServlet extends HttpServlet {
             }
             
             request.setAttribute("tipoPadre", tipoPadre);
-            request.setAttribute("tipoPadre", padreId);
-            request.setAttribute("tipoPadre", sistemaId);
+            request.setAttribute("padreId", padreId);
+            request.setAttribute("sistemaId", sistemaId);
             
-            getServletContext().getRequestDispatcher("/mostrarModulos.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/Formularios").forward(request, response);
         }
         catch(Exception ex)
         {

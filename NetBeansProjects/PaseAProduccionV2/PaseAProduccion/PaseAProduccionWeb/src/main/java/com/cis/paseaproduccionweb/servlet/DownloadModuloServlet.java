@@ -129,9 +129,9 @@ public class DownloadModuloServlet extends HttpServlet {
                 is.close();*/
             }
   
-            request.setAttribute("tipoPadre", sistemaId);
+            request.setAttribute("sistemaId", sistemaId);
             
-            getServletContext().getRequestDispatcher("/mostrarEntornos.jsp").forward(request, response);
+            getServletContext().getRequestDispatcher("/Modulos").forward(request, response);
         }
         catch(Exception ex)
         {
@@ -165,7 +165,6 @@ public class DownloadModuloServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
-        processRequest(request, response);
     }
 
     /**

@@ -4,6 +4,7 @@
     Author     : vvasquez
 --%>
 
+<%@page import="com.cis.paseaproduccionweb.dao.UsuariosDao"%>
 <%@page import="com.cis.paseaproduccionweb.dao.FormulariosDao"%>
 <%@page import="com.cis.paseaproduccionweb.hibernate.PpFormularios"%>
 <%@page import="com.cis.paseaproduccionweb.hibernate.PpSubmenus"%>
@@ -143,13 +144,14 @@
                 FormulariosDao dFormulario = new FormulariosDao();
                 List<PpSubmenus> lstSubmenus = null;
                 List<PpFormularios> lstFormularios = null;
+                UsuariosDao dUsuario = new UsuariosDao();
                 int cantForms=0;
                 for(int i=0; i<lstModulos.size(); i++){
                     out.print("<div class=\"row\">");
                     out.print("<div class=\"hpanel col-lg-12\">");
                     out.print("<div class=\"panel-heading hbuilt\">");
                     out.print("<div class=\"panel-tools\">");
-                    out.print("<a class=\"showhide\"><i class=\"fa fa-chevron-up\"></i></a>");
+                    out.print("<a class=\"showhide\"><i class=\"fa fa-chevron-down\"></i></a>");
                     out.print("</div>");
                     out.print("<i class=\"pe-7s-folder\" style=\"font-size: 30px; vertical-align: bottom\"></i>");
                     out.print("&nbsp;&nbsp;"+lstModulos.get(i).getNombreModulo()+"&nbsp;&nbsp;");
@@ -163,7 +165,7 @@
                     out.print("</button>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;");
                     if(lstModulos.get(i).getFlagUso().equals("S")){
                         out.print("<div class=\"btn w-xs btn-default\" disabled=\"true\">");
-                        out.print("<i class=\"fa fa-lock\"></i> Reservar Menú para trabajar");
+                        out.print("<i class=\"fa fa-lock\"></i> EN USO POR " + dUsuario.getUsuarioById(lstModulos.get(i).getPpusuarioUsuarioId()).getNombre());
                         out.print("</div>");
                         
                     }
@@ -179,7 +181,7 @@
                     out.print("<i class=\"fa fa-download\"></i> Descargar Menú para consultar");
                     out.print("</button>");
                     out.print("</div>");
-                    out.print("<div class= \"panel-body no-padding\">");
+                    out.print("<div class= \"panel-body no-padding\" style=\"display: none;\">");
                     out.print("<ul class=\"list-group\">");
                     
                     lstSubmenus = dSubMenu.getSubMenuByModuloId(lstModulos.get(i).getModuloId());

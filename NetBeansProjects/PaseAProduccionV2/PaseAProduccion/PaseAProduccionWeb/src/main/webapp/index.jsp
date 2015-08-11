@@ -329,6 +329,7 @@
                     <div class="color-line"></div>
                     <div class="modal-header">
                         <h4 class="modal-title">Pasar archivo a Producción</h4>
+                        <h4 name="nombreFormulario"></h4>
                     </div>
                     <div class="modal-body">
                         <form id="paseForm" action="/PaseAProduccionWeb/PaseAProduccion" method="post" enctype="multipart/form-data" onsubmit="mostrarLoading();">
@@ -336,7 +337,6 @@
                         <input type="hidden" name="archivoTipo" id="tipo"/>
                         <input type="hidden" name="paseTipo" id="paseTipo"/>
                         <input type="hidden" name="nombreArchivo" id="nombreArchivo"/>
-                        
                         <div id="FMB" hidden=""><p>Seleccione el archivo fuente<input type="file" class="form-control" name="archivoFMB" id="archivoFMB" value="" onchange="activarBotones();" ></p></div>
                         <div id="FMX" hidden=""><p>Seleccione el archivo ejecutable<input type="file" class="form-control" name="archivoFMX" id="archivoFMX" value="" onchange="activarBotones();" ></p></div>
                         <div id="RDF" hidden=""><p>Seleccione el reporte<input type="file" class="form-control" name="archivoRDF" id="archivoRDF" value="" onchange="activarBotones();"></p></div>
@@ -587,6 +587,11 @@
             $('input[name=archivoFMB]').val("");
             $('input[name=archivoFMX]').val("");
             $('input[name=archivoRDF]').val("");
+            if($('#mostrarNombre').text()!=="")
+            {
+                $('#mostrarNombre').remove();
+            }
+            $('h4[name=nombreFormulario]').append("<label name=\"mostrarNombre\" id=\"mostrarNombre\">"+ nombre +"</label>");
             if($('input[name=archivoTipo]').val() === "REP")
             {
                 $('#RDF').show();
