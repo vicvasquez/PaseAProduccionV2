@@ -111,12 +111,12 @@
                     <li>
                         <a href="mostrarEntornos.jsp"> <span class="nav-label">Reservar Formulario</span> </a>
                     </li>
-                    <li class>
+                    <li class="active">
                         <a href="#"> 
                             <span class="nav-label">Historial</span> 
                             <span class="fa arrow"></span>
                         </a>
-                        <ul class="nav nav-second-level collapse in" aria-expanded="true">
+                        <ul class="nav nav-second-level collapse in">
                             <% if(sisId.equals("1"))
                               out.print("<li class=\"active\">");
                                 else

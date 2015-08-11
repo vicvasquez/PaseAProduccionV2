@@ -138,7 +138,7 @@
             <input type="hidden" id="tipoPadre" name="tipoPadre"/>
             <input type="hidden" id="padreId" name="padreId"/>
             <input type="hidden" id="sistemaId" name="sistemaId" value="<% out.print(sistemaId); %>"/>
-            <div class="content animate-panel">
+            <div class="content animate-panel" data-child="hpanel" data-effect="zoomIn">
                 <%
                 SubMenusDao dSubMenu = new SubMenusDao();
                 FormulariosDao dFormulario = new FormulariosDao();
@@ -148,7 +148,7 @@
                 int cantForms=0;
                 for(int i=0; i<lstModulos.size(); i++){
                     out.print("<div class=\"row\">");
-                    out.print("<div class=\"hpanel col-lg-12\">");
+                    out.print("<div class=\"hpanel col-lg-12\" >");
                     out.print("<div class=\"panel-heading hbuilt\">");
                     out.print("<div class=\"panel-tools\">");
                     out.print("<a class=\"showhide\"><i class=\"fa fa-chevron-down\"></i></a>");
