@@ -20,7 +20,8 @@
                 <comment>Archivo en bytes</comment>
             </column>
         </property>
-        <sql-query name="SP_PASE_PRODUCCION" callable="true">
+    </class>
+    <sql-query name="SP_PASE_PRODUCCION" callable="true">
             <return-scalar column="cnt" type="integer"/>
             { ? = call PASE_PRODUCCION }
         </sql-query>
@@ -28,5 +29,4 @@
             <return-scalar column="cnt" type="integer"/>
             { ? = call PASE_PRODUCCION_SERVICIOS }
         </sql-query>
-    </class>
 </hibernate-mapping>

@@ -137,7 +137,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Nombre</label>
                                             <div class="col-sm-5">
-                                                <input name="nombre" id="nombre" class="form-control" required="">
+                                                <input name="nombre" id="nombre" class="form-control" required="" onblur="validarNombre();">
                                             </div>
                                         </div>
                                     </div>
@@ -297,6 +297,34 @@
             
             if(nombreArchivoFMB === "" && nombreArchivoFMX === ""){
                 $('#btnGuardar').removeAttr('disabled');
+                $('#mensajeArch').remove();
+            }
+        }
+        
+        function validarNombre(){
+            var nombre = $('input[name=nombre]').val().toUpperCase();
+            
+            if($('#mensajeArch').text()!=="")
+            {
+                $('#mensajeArch').remove();
+            }
+            
+            if(nombre.substr(nombre.length-4, nombre.length) === ".MMB"){
+                $('#btnGuardar').removeAttr('disabled');
+                $('input[name=archivoFMB]').attr('disabled', 'disabled');
+                $('input[name=archivoFMX]').attr('disabled', 'disabled');
+                $('#mensajeArch').remove();
+            }
+            else{
+                    $('#btnGuardar').attr('disabled', 'disabled');
+                    $('input[name=archivoFMB]').attr('disabled', 'disabled');
+                    $('input[name=archivoFMX]').attr('disabled', 'disabled');
+                    $('p[name=mensajeArchivos]').append("<label name=\"mensajeArch\" id=\"mensajeArch\">Debe escribir el nombre con su extensión (.MMB)</label>");
+            }
+            if(nombre === ""){
+                $('#btnGuardar').removeAttr('disabled');
+                $('input[name=archivoFMB]').removeAttr('disabled');
+                $('input[name=archivoFMX]').removeAttr('disabled');
                 $('#mensajeArch').remove();
             }
         }

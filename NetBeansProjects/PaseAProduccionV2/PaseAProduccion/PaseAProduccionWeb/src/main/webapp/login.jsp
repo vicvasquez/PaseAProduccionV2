@@ -90,7 +90,7 @@
     
     $(document).ready(function (){
        $('#login').click(function(){
-           var username = $('#username').val();
+           var username = $('#username').val().toUpperCase();
            var password = $('#password').val();
            $.ajax({
                type: 'POST',

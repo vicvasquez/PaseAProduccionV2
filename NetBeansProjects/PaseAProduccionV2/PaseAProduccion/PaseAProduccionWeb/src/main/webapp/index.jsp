@@ -149,9 +149,9 @@
                             <div class="panel-heading">
                                 Mis formularios en uso
                             </div>
-                            <div class="panel-body" style="display: block;">
+                            <div class="panel-body" style="display: block; padding-bottom: 0px;">
                                 <div class="table-responsive">
-                                    <table cellpadd  ing="1" cellspacing="1" class="table table-condensed table-striped">
+                                    <table cellpadd  ing="1" cellspacing="1" class="table table-condensed table-striped" style="margin-bottom: 10px;">
                                         <thead>
                                             <tr>
                                                 <th>Sistema</th> 
@@ -192,8 +192,19 @@
                                                 out.print("</button>");
                                                 out.print("</td>");
                                                 out.print("</tr>");
+                                                out.print("");
                                             }                            
                                             %>
+                                        <tr>
+                                            <td style="padding-top: 30px;">
+                                                <button class="btn btn-block btn-primary" type="button" data-toggle="modal" data-target="#modalPasarMultiplesArchivos">
+                                                    <i class="fa fa-upload"></i> Pasar a Producción varios archivos
+                                                </button>
+                                            </td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
                                         </tbody>
                                     </table>
                                 </div> 
@@ -257,38 +268,6 @@
             </div>
         </div>
         
-        <div class="modal fade hmodal-danger" id="modalMensajeFallo" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="color-line"></div>
-                    <div class="modal-header">
-                        <h4 class="modal-title">Pase a Producción Fallado</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>El pase a producción <strong>NO SE PUDO COMPLETAR</strong> con exito</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">ACEPTAR</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="modal fade hmodal-success" id="modalMensajeRecibido" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="color-line"></div>
-                    <div class="modal-header">
-                        <h4 class="modal-title">Pase a Producción Realizado</h4>
-                    </div>
-                    <div class="modal-body">
-                        <p>El pase a producción se <strong>REALIZÓ</strong> con exito</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">ACEPTAR</button>
-                    </div>
-                </div>
-            </div>
-        </div>
         <div class="modal fade hmodal-danger" id="modalLiberar" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
             <div class="modal-dialog">
                 <div class="modal-content">
@@ -352,7 +331,7 @@
                                 <button name="btnNocturno" type="button" class="btn btn-primary" style="width: 200px; height: 120px; text-align: center" onclick="setPaseTipo(2);">Pasar a producción <br> en horario nocturno</button>
                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
                                 <button name="btnBajar" type="button" class="btn btn-danger" style="width: 200px; height: 120px; text-align: center"
-                                                              data-toggle="modal" data-target="#modalConfirmacion">Pasar a producción <br>bajando servicios</button>
+                                                              data-toggle="modal" data-target="#modalBajarServicios">Pasar a producción <br>bajando servicios</button>
                             </p>
                         </div>
                         </form>
@@ -374,8 +353,38 @@
                         <p>¿Esta totalmente seguro que desea <strong>BAJAR</strong> los servicios del sistema?</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" data-toggle="modal" data-target="#modalBajarServicios" onclick="resetearCampos();">SI</button>
-                        <button type="button" class="btn btn-danger" data-dismiss="modal">NO</button>
+                        <button type="button" class="btn btn-danger" data-dismiss="modal" data-toggle="modal" data-target="#modalBajarServicios" onclick="resetearCampos();">SI</button>
+                        <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>
+                    </div>
+                </div>
+            </div>
+        </div>                        
+        <div class="modal fade" id="modalPasarMultiplesArchivos" tabindex="-1" role="dialog" aria-hidden="true" style="display: none;">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="color-line"></div>
+                    <div class="modal-header">
+                        <h4 class="modal-title">Pase de multiples archivos</h4>
+                    </div>
+                    <div class="modal-body">
+                        <p>Indique el sistema del cual desea seleccionar sus archivos para pasar a producción <strong>BAJANDO</strong> servicios</p>
+                        <br><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <button type="button" class="btn btn-outline btn-success" style="width: 200px; height: 120px; text-align: center" onclick="window.location.href='multiplesArchivos.jsp?sistemaId=1'">
+                            <i class="pe-7s-server" style="font-size: 50px;"></i>
+                            <br>
+                            SAAS
+                        </button>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp
+                        <button type="button" class="btn btn-outline btn-info" style="width: 200px; height: 120px; text-align: center" onclick="window.location.href='multiplesArchivos.jsp?sistemaId=2'">
+                            <i class="pe-7s-server" style="font-size: 50px;"></i>
+                            <br>
+                            TDM
+                        </button>
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-danger" data-dismiss="modal">Cancelar</button>
                     </div>
                 </div>
             </div>

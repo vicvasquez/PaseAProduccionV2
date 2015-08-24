@@ -1,7 +1,10 @@
 package com.cis.paseaproduccionweb.servlet;
 
+import com.cis.paseaproduccionweb.dao.ErroresDao;
+import com.cis.paseaproduccionweb.hibernate.PpErrores;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -28,6 +31,13 @@ public class FormulariosServlet extends HttpServlet {
             RequestDispatcher rDispatcher = getServletContext().getRequestDispatcher("/mostrarFormularios.jsp");
             rDispatcher.forward(request, response);
         } catch (Exception e) {
+            ErroresDao dError = new ErroresDao();
+            PpErrores error = new PpErrores();
+            Date date = new Date();
+            
+            error.setStacktrace(e.toString());
+            error.setFecha(date);
+            dError.insertarError(error);
             response.sendRedirect("mensajeError.jsp");
         }
         

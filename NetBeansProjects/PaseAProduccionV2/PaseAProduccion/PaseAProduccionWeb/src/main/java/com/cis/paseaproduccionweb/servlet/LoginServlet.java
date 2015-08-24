@@ -5,8 +5,11 @@
  */
 package com.cis.paseaproduccionweb.servlet;
 
+import com.cis.paseaproduccionweb.dao.ErroresDao;
+import com.cis.paseaproduccionweb.hibernate.PpErrores;
 import com.cis.paseaproduccionweb.hibernate.PpUsuarios;
 import java.io.IOException;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +40,13 @@ public class LoginServlet extends HttpServlet {
             response.getWriter().write("error");
         try {
         } catch (Exception e) {
+            ErroresDao dError = new ErroresDao();
+            PpErrores error = new PpErrores();
+            Date date = new Date();
+            
+            error.setStacktrace(e.toString());
+            error.setFecha(date);
+            dError.insertarError(error);
             response.sendRedirect("mensajeError.jsp");
         }
     }

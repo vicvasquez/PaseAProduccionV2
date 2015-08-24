@@ -231,7 +231,7 @@
                         <h4 class="modal-title">Descarga</h4>
                     </div>
                     <div class="modal-body">
-                        <p>¿Esta usted seguro que desea <strong>DESCARGAR</strong> el elemento seleccionado?</p>
+                        <p>¿Esta usted seguro que desea <strong>RESERVAR</strong> el elemento seleccionado?</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">NO</button>

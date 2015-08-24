@@ -2,10 +2,12 @@ package com.cis.paseaproduccionweb.servlet;
 
 import com.cis.paseaproduccionweb.dao.ArchivoPaseDao;
 import com.cis.paseaproduccionweb.dao.ArchivoPaseDaoTDM;
+import com.cis.paseaproduccionweb.dao.ErroresDao;
 import com.cis.paseaproduccionweb.dao.HistorialesDao;
 import com.cis.paseaproduccionweb.dao.ModulosDao;
 import com.cis.paseaproduccionweb.dao.SistemasDao;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosPase;
+import com.cis.paseaproduccionweb.hibernate.PpErrores;
 import com.cis.paseaproduccionweb.hibernate.PpHistoriales;
 import com.cis.paseaproduccionweb.hibernate.PpModulos;
 import com.cis.paseaproduccionweb.hibernate.PpTempArchpase;
@@ -142,6 +144,13 @@ public class MantenimientoModulosServlet extends HttpServlet {
                 
             }
         } catch (Exception e) {
+            ErroresDao dError = new ErroresDao();
+            PpErrores error = new PpErrores();
+            Date date = new Date();
+            
+            error.setStacktrace(e.toString());
+            error.setFecha(date);
+            dError.insertarError(error);
             response.sendRedirect("mensajeError.jsp");
         }
         

@@ -158,7 +158,7 @@
                                         <div class="form-group">
                                             <label class="col-sm-4 control-label" style="text-align: right; padding: 6px;">Nombre</label>
                                             <div class="col-sm-5">
-                                                <input name="nombre" id="nombre" class="form-control" required="">
+                                                <input name="nombre" id="nombre" class="form-control" required="" onblur="validarNombre();">
                                             </div>
                                         </div>
                                     </div>
@@ -321,6 +321,7 @@
         ga('send', 'pageview');
         
         function mostrarFiles(){
+            validarNombre();
             var tipo = $("#tipo").val();
             $('input[name=archivoFMB]').val("");
             $('input[name=archivoFMX]').val("");
@@ -388,6 +389,59 @@
 
                 if(nombreArchivoRDF === ""){
                     $('#btnGuardar').removeAttr('disabled');
+                    $('#mensajeArch').remove();
+                }
+            }
+        }
+        
+        function validarNombre(){
+            var nombre = $('input[name=nombre]').val().toUpperCase();
+            
+            if($("#tipo").val() === "F"){
+                
+                if($('#mensajeArch').text()!=="")
+                {
+                    $('#mensajeArch').remove();
+                }
+
+                if(nombre.substr(nombre.length-4, nombre.length) === ".FMB"){
+                    $('#btnGuardar').removeAttr('disabled');
+                    $('input[name=archivoFMB]').removeAttr('disabled');
+                    $('input[name=archivoFMX]').removeAttr('disabled');
+                    $('#mensajeArch').remove();
+                }
+                else{
+                        $('#btnGuardar').attr('disabled', 'disabled');
+                        $('input[name=archivoFMB]').attr('disabled', 'disabled');
+                        $('input[name=archivoFMX]').attr('disabled', 'disabled');
+                        $('p[name=mensajeArchivos]').append("<label name=\"mensajeArch\" id=\"mensajeArch\">Debe escribir el nombre con su extensión (.FMB)</label>");
+                }
+                if(nombre === ""){
+                    $('#btnGuardar').removeAttr('disabled');
+                    $('input[name=archivoFMB]').removeAttr('disabled');
+                    $('input[name=archivoFMX]').removeAttr('disabled');
+                    $('#mensajeArch').remove();
+                }
+            }
+            else if($("#tipo").val() === "R"){
+                if($('#mensajeArch').text()!=="")
+                {
+                    $('#mensajeArch').remove();
+                }
+
+                if(nombre.substr(nombre.length-4, nombre.length) === ".RDF"){
+                    $('#btnGuardar').removeAttr('disabled');
+                    $('input[name=archivoRDF]').removeAttr('disabled');
+                    $('#mensajeArch').remove();
+                }
+                else{
+                        $('#btnGuardar').attr('disabled', 'disabled');
+                        $('input[name=archivoRDF]').attr('disabled', 'disabled');
+                        $('p[name=mensajeArchivos]').append("<label name=\"mensajeArch\" id=\"mensajeArch\">Debe escribir el nombre con su extensión (.RDF)</label>");
+                }
+                if(nombre === ""){
+                    $('#btnGuardar').removeAttr('disabled');
+                    $('input[name=archivoRDF]').removeAttr('disabled');
                     $('#mensajeArch').remove();
                 }
             }

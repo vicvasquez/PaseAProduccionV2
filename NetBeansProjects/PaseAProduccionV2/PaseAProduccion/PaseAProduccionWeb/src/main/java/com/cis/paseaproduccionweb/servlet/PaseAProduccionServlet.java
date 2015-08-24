@@ -1,4 +1,4 @@
-/*
+    /*
  * To change this license header, choose License Headers in Project Properties.
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
@@ -10,6 +10,7 @@ import com.cis.paseaproduccionweb.dao.ArchivoAprobDaoTDM;
 import com.cis.paseaproduccionweb.dao.ArchivoPaseDao;
 import com.cis.paseaproduccionweb.dao.ArchivoPaseDaoTDM;
 import com.cis.paseaproduccionweb.dao.ArchivosUsoDao;
+import com.cis.paseaproduccionweb.dao.ErroresDao;
 import com.cis.paseaproduccionweb.dao.FormulariosDao;
 import com.cis.paseaproduccionweb.dao.HistorialesDao;
 import com.cis.paseaproduccionweb.dao.ModulosDao;
@@ -18,6 +19,7 @@ import com.cis.paseaproduccionweb.dao.SubMenusDao;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosAprob;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosPase;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosUso;
+import com.cis.paseaproduccionweb.hibernate.PpErrores;
 import com.cis.paseaproduccionweb.hibernate.PpFormularios;
 import com.cis.paseaproduccionweb.hibernate.PpHistoriales;
 import com.cis.paseaproduccionweb.hibernate.PpModulos;
@@ -72,7 +74,7 @@ public class PaseAProduccionServlet extends HttpServlet {
             
             SistemasDao dSistema = new SistemasDao();
             
-            Date date = new Date();          
+            Date date = new Date();
             
             ArchivosUsoDao dArchivosUso = new ArchivosUsoDao();
             PpArchivosUso archivoUso = dArchivosUso.getArchivosUsoByArchivoIdYTipo(archivoId, archivoTipo);
@@ -432,6 +434,13 @@ public class PaseAProduccionServlet extends HttpServlet {
             }
             response.sendRedirect("mensajePaseConfirmacion.jsp");
         }catch(Exception ex){
+            ErroresDao dError = new ErroresDao();
+            PpErrores error = new PpErrores();
+            Date date = new Date();
+            
+            error.setStacktrace(ex.toString());
+            error.setFecha(date);
+            dError.insertarError(error);
             response.sendRedirect("mensajePaseFalla.jsp");
         }
         

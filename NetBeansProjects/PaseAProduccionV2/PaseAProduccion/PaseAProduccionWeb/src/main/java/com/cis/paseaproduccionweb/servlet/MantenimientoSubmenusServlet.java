@@ -5,11 +5,14 @@
  */
 package com.cis.paseaproduccionweb.servlet;
 
+import com.cis.paseaproduccionweb.dao.ErroresDao;
 import com.cis.paseaproduccionweb.dao.SubMenusDao;
+import com.cis.paseaproduccionweb.hibernate.PpErrores;
 import com.cis.paseaproduccionweb.hibernate.PpSubmenus;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.math.BigDecimal;
+import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -53,6 +56,13 @@ public class MantenimientoSubmenusServlet extends HttpServlet {
             }
                
         } catch (Exception e) {
+            ErroresDao dError = new ErroresDao();
+            PpErrores error = new PpErrores();
+            Date date = new Date();
+            
+            error.setStacktrace(e.toString());
+            error.setFecha(date);
+            dError.insertarError(error);
             response.sendRedirect("mensajeError.jsp");
         }
     }

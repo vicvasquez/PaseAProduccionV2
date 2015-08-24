@@ -6,9 +6,11 @@
 package com.cis.paseaproduccionweb.servlet;
 
 import com.cis.paseaproduccionweb.dao.ArchivosUsoDao;
+import com.cis.paseaproduccionweb.dao.ErroresDao;
 import com.cis.paseaproduccionweb.dao.FormulariosDao;
 import com.cis.paseaproduccionweb.dao.ModulosDao;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosUso;
+import com.cis.paseaproduccionweb.hibernate.PpErrores;
 import com.cis.paseaproduccionweb.hibernate.PpFormularios;
 import com.cis.paseaproduccionweb.hibernate.PpModulos;
 import com.cis.paseaproduccionweb.hibernate.PpUsuarios;
@@ -19,6 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -135,6 +138,14 @@ public class DownloadModuloServlet extends HttpServlet {
         }
         catch(Exception ex)
         {
+            ErroresDao dError = new ErroresDao();
+            PpErrores error = new PpErrores();
+            Date date = new Date();
+            
+            error.setStacktrace(ex.toString());
+            error.setFecha(date);
+            dError.insertarError(error);
+            
             response.sendRedirect("mensajeError.jsp");
         }
     }

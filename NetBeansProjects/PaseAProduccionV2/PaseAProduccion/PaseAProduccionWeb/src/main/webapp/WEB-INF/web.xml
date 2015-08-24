@@ -74,6 +74,10 @@
             <file-size-threshold>1048576</file-size-threshold>
         </multipart-config>
     </servlet>
+    <servlet>
+        <servlet-name>PaseMultiplesArchivosServlet</servlet-name>
+        <servlet-class>com.cis.paseaproduccionweb.servlet.PaseMultiplesArchivosServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>LoginServlet</servlet-name>
         <url-pattern>/Login</url-pattern>
@@ -129,6 +133,10 @@
     <servlet-mapping>
         <servlet-name>MantenimientoFormulariosServlet</servlet-name>
         <url-pattern>/MantenimientoFormularios</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>PaseMultiplesArchivosServlet</servlet-name>
+        <url-pattern>/PaseMultiplesArchivos</url-pattern>
     </servlet-mapping>
     <session-config>
         <session-timeout>

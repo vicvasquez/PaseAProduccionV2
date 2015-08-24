@@ -176,4 +176,63 @@ public class ArchivosUsoDao {
         } 
     }
     
+    public PpArchivosUso getArchivoUsoByArchivoUsoId(BigDecimal archivoUsoId){
+        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        PpArchivosUso archivoUso = null;
+        
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            Query query = session.createQuery("from PpArchivosUso where archivoUsoId='"+ archivoUsoId +"'");
+            archivoUso = (PpArchivosUso)query.uniqueResult();
+            tx.commit();
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+            ErroresDao dError = new ErroresDao();
+            PpErrores error = new PpErrores();
+            Date date = new Date();
+            
+            error.setStacktrace(e.toString());
+            error.setFecha(date);
+            dError.insertarError(error);
+        } finally{
+            session.close();
+        }
+        
+        return archivoUso;
+    }
+    
+    public List<PpArchivosUso> getArchivosUsoPorUsuarioYSistemaId(BigDecimal usuarioId, BigDecimal sistemaId){
+        
+        Session session = HibernateUtil.getSessionFactory().openSession();
+        Transaction tx = null;
+        List <PpArchivosUso> lstArchivos = null;
+        
+        try {
+            tx = session.getTransaction();
+            tx.begin();
+            Query query = session.createQuery("from PpArchivosUso where usuarioId='"+ usuarioId +"' and sistemaId='"+ sistemaId +"'");
+            lstArchivos = query.list();
+            tx.commit();
+        } catch (Exception e) {
+            if(tx != null)
+                tx.rollback();
+            ErroresDao dError = new ErroresDao();
+            PpErrores error = new PpErrores();
+            Date date = new Date();
+            
+            error.setStacktrace(e.toString());
+            error.setFecha(date);
+            dError.insertarError(error);
+        } finally{
+            session.close();
+        }
+        
+        return lstArchivos;
+    }
+    
+    
 }

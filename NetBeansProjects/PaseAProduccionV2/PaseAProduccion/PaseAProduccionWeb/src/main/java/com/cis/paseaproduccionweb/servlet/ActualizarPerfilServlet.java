@@ -1,14 +1,12 @@
 package com.cis.paseaproduccionweb.servlet;
 
+import com.cis.paseaproduccionweb.dao.ErroresDao;
 import com.cis.paseaproduccionweb.dao.UsuariosDao;
+import com.cis.paseaproduccionweb.hibernate.PpErrores;
 import com.cis.paseaproduccionweb.hibernate.PpUsuarios;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.logging.SimpleFormatter;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -44,8 +42,15 @@ public class ActualizarPerfilServlet extends HttpServlet {
             response.sendRedirect("perfil.jsp");
             
         } catch (Exception e) {
-            response.sendRedirect("mensajeError.jsp");
+            ErroresDao dError = new ErroresDao();
+            PpErrores error = new PpErrores();
+            Date date = new Date();
             
+            error.setStacktrace(e.toString());
+            error.setFecha(date);
+            dError.insertarError(error);
+            
+            response.sendRedirect("mensajeError.jsp");
         }
     }
 

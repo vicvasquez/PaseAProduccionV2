@@ -1,8 +1,10 @@
 package com.cis.paseaproduccionweb.servlet;
 
 import com.cis.paseaproduccionweb.dao.ArchivosUsoDao;
+import com.cis.paseaproduccionweb.dao.ErroresDao;
 import com.cis.paseaproduccionweb.dao.FormulariosDao;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosUso;
+import com.cis.paseaproduccionweb.hibernate.PpErrores;
 import com.cis.paseaproduccionweb.hibernate.PpFormularios;
 import com.cis.paseaproduccionweb.hibernate.PpUsuarios;
 import java.io.File;
@@ -12,6 +14,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.math.BigDecimal;
+import java.util.Date;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -49,8 +52,10 @@ public class DownloadFormularioServlet extends HttpServlet {
                 archivoUso.setSistemaId(sistemaId);
                 if(formulario.getFlagTipo().equals("R"))
                     archivoUso.setTipo("REP");
-                else
+                else if(formulario.getFlagTipo().equals("F"))
                     archivoUso.setTipo("FOR");
+                else if(formulario.getFlagTipo().equals("M"))
+                    archivoUso.setTipo("MOD");
                 archivoUso.setFlagNoche("N");
                 archivoUso.setUsuarioId(usuario.getUsuarioId());
 
@@ -61,6 +66,8 @@ public class DownloadFormularioServlet extends HttpServlet {
                 dArchivoUso.insertarArchivoUso(archivoUso);
                                
             }
+            
+            request.setAttribute("sistemaId", sistemaId);
             
             if(formulario.getArchivo() != null){
                 
@@ -107,7 +114,10 @@ public class DownloadFormularioServlet extends HttpServlet {
                    out.write(buffer, 0, length1);
                 }
                 in.close();
+                //response.sendRedirect("/PaseAProduccionWeb/Modulos?sistemaId=" + sisId);
+                //getServletContext().getRequestDispatcher("/mostrarModulos.jsp").forward(request, response);
                 out.flush();
+                
                 
                 
                 /*
@@ -126,15 +136,20 @@ public class DownloadFormularioServlet extends HttpServlet {
                  fos.close();
                  is.close();*/
             }
-            
-            request.setAttribute("tipoPadre", tipoPadre);
-            request.setAttribute("padreId", padreId);
-            request.setAttribute("sistemaId", sistemaId);
-            
-            getServletContext().getRequestDispatcher("/Formularios").forward(request, response);
+            else{
+                getServletContext().getRequestDispatcher("/Modulos").forward(request, response);
+            }
         }
         catch(Exception ex)
         {
+            ErroresDao dError = new ErroresDao();
+            PpErrores error = new PpErrores();
+            Date date = new Date();
+            
+            error.setStacktrace(ex.toString());
+            error.setFecha(date);
+            dError.insertarError(error);
+            
             response.sendRedirect("mensajeError.jsp");
         }
         

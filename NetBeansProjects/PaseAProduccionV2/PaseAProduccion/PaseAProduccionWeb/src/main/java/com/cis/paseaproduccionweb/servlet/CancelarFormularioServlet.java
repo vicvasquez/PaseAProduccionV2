@@ -3,14 +3,17 @@ package com.cis.paseaproduccionweb.servlet;
 import com.cis.paseaproduccionweb.dao.ArchivoAprobDao;
 import com.cis.paseaproduccionweb.dao.ArchivoAprobDaoTDM;
 import com.cis.paseaproduccionweb.dao.ArchivosUsoDao;
+import com.cis.paseaproduccionweb.dao.ErroresDao;
 import com.cis.paseaproduccionweb.dao.FormulariosDao;
 import com.cis.paseaproduccionweb.dao.ModulosDao;
 import com.cis.paseaproduccionweb.dao.SubMenusDao;
 import com.cis.paseaproduccionweb.hibernate.PpArchivosUso;
+import com.cis.paseaproduccionweb.hibernate.PpErrores;
 import com.cis.paseaproduccionweb.hibernate.PpFormularios;
 import com.cis.paseaproduccionweb.hibernate.PpModulos;
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.util.Date;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -92,6 +95,15 @@ public class CancelarFormularioServlet extends HttpServlet {
         response.sendRedirect("index.jsp");
             
         } catch (Exception e) {
+            
+            ErroresDao dError = new ErroresDao();
+            PpErrores error = new PpErrores();
+            Date date = new Date();
+            
+            error.setStacktrace(e.toString());
+            error.setFecha(date);
+            dError.insertarError(error);
+            
             response.sendRedirect("mensajeError.jsp");
         }
         
