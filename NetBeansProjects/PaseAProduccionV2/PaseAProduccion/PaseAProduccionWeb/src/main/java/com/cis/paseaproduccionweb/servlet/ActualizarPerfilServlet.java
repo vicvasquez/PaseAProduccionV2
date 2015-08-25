@@ -20,6 +20,7 @@ public class ActualizarPerfilServlet extends HttpServlet {
             throws ServletException, IOException{
         
         try {
+            request.setCharacterEncoding("UTF-8");
             String nombre = request.getParameter("nombre");
             String email = request.getParameter("email");
             String password = request.getParameter("password1");          

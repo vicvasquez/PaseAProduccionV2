@@ -31,6 +31,7 @@ public class MantenimientoModulosServlet extends HttpServlet {
             throws ServletException, IOException {
         
         try {
+            request.setCharacterEncoding("UTF-8");
             String sisId = request.getParameter("sistemaId");
             String nombre = request.getParameter("nombre");
             String descripcion = request.getParameter("descripcion");

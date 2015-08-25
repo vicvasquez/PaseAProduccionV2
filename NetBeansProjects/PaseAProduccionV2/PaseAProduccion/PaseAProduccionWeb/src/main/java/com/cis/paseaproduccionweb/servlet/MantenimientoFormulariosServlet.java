@@ -36,6 +36,7 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
             throws ServletException, IOException {
         
         try {
+            request.setCharacterEncoding("UTF-8");
             String submId = request.getParameter("submenuId");
             String nombre = request.getParameter("nombre");
             String descripcion = request.getParameter("descripcion");

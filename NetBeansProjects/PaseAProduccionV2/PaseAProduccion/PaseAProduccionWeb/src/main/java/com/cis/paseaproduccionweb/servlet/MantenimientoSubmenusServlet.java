@@ -10,7 +10,6 @@ import com.cis.paseaproduccionweb.dao.SubMenusDao;
 import com.cis.paseaproduccionweb.hibernate.PpErrores;
 import com.cis.paseaproduccionweb.hibernate.PpSubmenus;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.math.BigDecimal;
 import java.util.Date;
 import javax.servlet.RequestDispatcher;
@@ -29,6 +28,7 @@ public class MantenimientoSubmenusServlet extends HttpServlet {
             throws ServletException, IOException {
         
         try {
+            request.setCharacterEncoding("UTF-8");
             String modId = request.getParameter("moduloId");
             String nombre = request.getParameter("nombre");
             String descripcion = request.getParameter("descripcion");

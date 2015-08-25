@@ -472,10 +472,10 @@
             var mensaje = document.getElementById(nombre).querySelectorAll("div");
             if(tipo === "REP"){
                 var extension = archivos[1].value.toString();
-                var nombreArchivoRDF = extension.substr(0, extension.length-4);
+                var nombreArchivoRDF = extension.substr(0, extension.length-4).toUpperCase();
                 nombreArchivoRDF = nombreArchivoRDF.replace(/C:\\fakepath\\/i, '');
                 extension = extension.substr(extension.length-3, extension.length).toUpperCase();
-                if(nombreArchivoRDF === nombre && extension === 'RDF'){
+                if(nombreArchivoRDF === nombre.toString().toUpperCase() && extension === 'RDF'){
                         mensaje[3].setAttribute('hidden', '');
                         mensaje[4].removeAttribute('hidden');
                 }
@@ -487,14 +487,14 @@
             else if (tipo === "FOR"){
                 var extensionFMB = archivos[1].value.toString();
                 var extensionFMX = archivos[2].value.toString();
-                var nombreArchivoFMB = extensionFMB.substr(0, extensionFMB.length-4);
-                var nombreArchivoFMX = extensionFMX.substr(0, extensionFMX.length-4);
+                var nombreArchivoFMB = extensionFMB.substr(0, extensionFMB.length-4).toUpperCase();
+                var nombreArchivoFMX = extensionFMX.substr(0, extensionFMX.length-4).toUpperCase();
                 nombreArchivoFMB = nombreArchivoFMB.replace(/C:\\fakepath\\/i, '');
                 nombreArchivoFMX = nombreArchivoFMX.replace(/C:\\fakepath\\/i, '');
                 extensionFMB = extensionFMB.substr(extensionFMB.length-3, extensionFMB.length).toUpperCase();
                 extensionFMX = extensionFMX.substr(extensionFMX.length-3, extensionFMX.length).toUpperCase();
-                if(nombreArchivoFMB === nombre && extensionFMB === 'FMB' &&
-                        nombreArchivoFMX === nombre && extensionFMX === 'FMX'){
+                if(nombreArchivoFMB === nombre.toString().toUpperCase() && extensionFMB === 'FMB' &&
+                        nombreArchivoFMX === nombre.toString().toUpperCase() && extensionFMX === 'FMX'){
                         mensaje[3].setAttribute('hidden', '');
                         mensaje[4].removeAttribute('hidden');
                 }
@@ -507,15 +507,15 @@
             else if(tipo === "MOD"){
                 var extensionMMB = archivos[1].value.toString();
                 var extensionMMX = archivos[2].value.toString();
-                var nombreArchivoMMB = extensionMMB.substr(0, extensionMMB.length-4);
-                var nombreArchivoMMX = extensionMMX.substr(0, extensionMMX.length-4);
+                var nombreArchivoMMB = extensionMMB.substr(0, extensionMMB.length-4).toUpperCase();
+                var nombreArchivoMMX = extensionMMX.substr(0, extensionMMX.length-4).toUpperCase();
                 nombreArchivoMMB = nombreArchivoMMB.replace(/C:\\fakepath\\/i, '');
                 nombreArchivoMMX = nombreArchivoMMX.replace(/C:\\fakepath\\/i, '');
                 extensionMMB = extensionMMB.substr(extensionMMB.length-3, extensionMMB.length).toUpperCase();
                 extensionMMX = extensionMMX.substr(extensionMMX.length-3, extensionMMX.length).toUpperCase();
                 
-                if(nombreArchivoMMB === nombre && extensionMMB === 'MMB' &&
-                        nombreArchivoMMX === nombre && extensionMMX === 'MMX'){
+                if(nombreArchivoMMB === nombre.toString().toUpperCase() && extensionMMB === 'MMB' &&
+                        nombreArchivoMMX === nombre.toString().toUpperCase() && extensionMMX === 'MMX'){
                     mensaje[3].setAttribute('hidden', '');
                     mensaje[4].removeAttribute('hidden');
                 }
