@@ -226,6 +226,7 @@
                                     <table cellpadding="1" cellspacing="1" class="table table-condensed table-striped">
                                         <thead>
                                             <tr>
+                                                <th></th>
                                                 <th>Sistema</th>
                                                 <th>Formulario</th>
                                                 <th>Usuario</th>
@@ -237,6 +238,9 @@
                                   for(int i=0; i<formsEnUso.size(); i++)
                                   {
                                     out.print("<tr>");
+                                    out.print("<td>");
+                                    out.print(i+1);
+                                    out.print("</td>");
                                     out.print("<td>");
                                     if(formsEnUso.get(i).getSistemaId().toString().equals("1"))
                                         out.print("SAAS");
@@ -260,7 +264,7 @@
                                 </div> 
                             </div>
                             <div class="panel-footer" style="display: block;">
-                                ${cantFormsEnUso}
+                                <% out.print("En estos momentos se encuentran reservados " + formsEnUso.size() + " formularios"); %>
                             </div>
                         </div>
                     </div>

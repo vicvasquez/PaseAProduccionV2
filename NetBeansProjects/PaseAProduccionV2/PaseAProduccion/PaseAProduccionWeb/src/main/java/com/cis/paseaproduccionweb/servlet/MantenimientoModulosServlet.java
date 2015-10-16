@@ -35,6 +35,7 @@ public class MantenimientoModulosServlet extends HttpServlet {
             String sisId = request.getParameter("sistemaId");
             String nombre = request.getParameter("nombre");
             String descripcion = request.getParameter("descripcion");
+            nombre = nombre.trim();
             
             if(nombre == null || nombre.equals("")){
                 request.setAttribute("sistemaId", sisId);

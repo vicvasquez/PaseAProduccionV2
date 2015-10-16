@@ -21,7 +21,7 @@ public class ArchivosUsoDao {
         try {
             tx = session.getTransaction();
             tx.begin();
-            Query query = session.createQuery("from PpArchivosUso");
+            Query query = session.createQuery("from PpArchivosUso order by usuarioId");
             lstArchivos = query.list();
             tx.commit();
         } catch (Exception e) {
@@ -50,7 +50,7 @@ public class ArchivosUsoDao {
         try {
             tx = session.getTransaction();
             tx.begin();
-            Query query = session.createQuery("from PpArchivosUso where usuarioId='"+ usuarioId +"'");
+            Query query = session.createQuery("from PpArchivosUso A where A.usuarioId='"+ usuarioId +"'");
             lstArchivos = query.list();
             tx.commit();
         } catch (Exception e) {

@@ -40,6 +40,7 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
             String submId = request.getParameter("submenuId");
             String nombre = request.getParameter("nombre");
             String descripcion = request.getParameter("descripcion");
+            nombre = nombre.trim();
             
             if(nombre == null || nombre.equals("")){
                 request.setAttribute("submenuId", submId);

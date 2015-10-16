@@ -38,9 +38,7 @@ public class DownloadHistorialServlet extends HttpServlet {
             if(historial != null && historial.getArchivo() != null){
                 
                 String nombre = historial.getNombre();
-                String parte1 = nombre.substring(0, nombre.length()-5);
-                String parte2 = nombre.substring(nombre.length()-4, nombre.length());
-                String fileName = parte1 + "version-" + historial.getNroVersion().toString() + parte2;
+                String fileName = nombre;
                 String fileType = "application/pdf";
                 // Find this file id in database to get file name, and file type
 

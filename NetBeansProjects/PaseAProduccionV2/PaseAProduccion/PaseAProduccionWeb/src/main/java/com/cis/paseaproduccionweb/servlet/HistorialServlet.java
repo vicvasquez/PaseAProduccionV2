@@ -31,10 +31,10 @@ public class HistorialServlet extends HttpServlet {
             String filtroFechaInicio = request.getParameter("filtroFechaInicio");
             String filtroFechaFin = request.getParameter("filtroFechaFin");
             String sistemaId = request.getParameter("sistemaId");
-            request.setAttribute("filtroNombreArchivo", filtroNombreArchivo);
-            request.setAttribute("filtroNombreUsuario", filtroNombreUsuario);
-            request.setAttribute("filtroFechaInicio", filtroFechaInicio);
-            request.setAttribute("filtroFechaFin", filtroFechaFin);
+            request.setAttribute("filtroNombreArchivo", filtroNombreArchivo.trim());
+            request.setAttribute("filtroNombreUsuario", filtroNombreUsuario.trim());
+            request.setAttribute("filtroFechaInicio", filtroFechaInicio.trim());
+            request.setAttribute("filtroFechaFin", filtroFechaFin.trim());
             request.setAttribute("sistemaId", sistemaId);
             
             RequestDispatcher rDispatcher = getServletContext().getRequestDispatcher("/historial.jsp");

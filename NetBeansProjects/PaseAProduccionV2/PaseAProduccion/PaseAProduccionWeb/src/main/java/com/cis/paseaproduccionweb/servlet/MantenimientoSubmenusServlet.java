@@ -32,6 +32,7 @@ public class MantenimientoSubmenusServlet extends HttpServlet {
             String modId = request.getParameter("moduloId");
             String nombre = request.getParameter("nombre");
             String descripcion = request.getParameter("descripcion");
+            nombre = nombre.trim();
             
             if(nombre == null || nombre.equals("")){
                 request.setAttribute("moduloId", modId);
