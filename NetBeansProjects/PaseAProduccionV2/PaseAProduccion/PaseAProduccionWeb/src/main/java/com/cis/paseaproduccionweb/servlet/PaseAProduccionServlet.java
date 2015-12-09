@@ -46,6 +46,7 @@ public class PaseAProduccionServlet extends HttpServlet {
         try{
             
             request.setCharacterEncoding("UTF-8");
+            String nombre = "";
             String archId = request.getParameter("archivoId");
             String archivoTipo = request.getParameter("archivoTipo");
             String comentarioPase = request.getParameter("comentarioPase");
@@ -132,6 +133,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                         case "1":
                             archivoPaseForm.setNombreArchivo(formulario.getNombreFormulario());
                             archivoPaseForm.setArchivo(archivoBlobRDF);
+                            nombre = formulario.getNombreFormulario();
 
                             dArchivoPase.insertarArchivoUso(archivoPaseForm);
                             resultado = dArchivoPase.PasarProduccion();
@@ -141,6 +143,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                         case "2":
                             archivoPaseFormTDM.setNombreArchivo(formulario.getNombreFormulario());
                             archivoPaseFormTDM.setArchivo(archivoBlobRDF);
+                            nombre = formulario.getNombreFormulario();
 
                             dArchivoPaseTDM.insertarArchivoUso(archivoPaseFormTDM);
                             resultado = dArchivoPaseTDM.PasarProduccion();
@@ -148,9 +151,18 @@ public class PaseAProduccionServlet extends HttpServlet {
                             break;
                     }
                     
-                    if(resultado == 0 || resultado == -1){
-                        response.sendRedirect("mensajePaseFalla.jsp");
-                        return;
+                    if(resultado == -1){
+                                //Error al intentar pasar a produccion
+                                request.setAttribute("error", "error");
+                                request.setAttribute("nombre", nombre);
+                                response.sendRedirect("mensajePaseFalla.jsp");
+                                return;
+                            }
+                            else if (resultado == 0 ){
+                                //El formulario se encuentra en uso
+                                request.setAttribute("error", "uso");
+                                response.sendRedirect("mensajePaseFalla.jsp");
+                                return;
                     }
                     
                     formulario.setFlagUso("N");
@@ -181,6 +193,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                                 case "1":
                                     archivoPaseForm.setNombreArchivo(formulario.getNombreFormulario());
                                     archivoPaseForm.setArchivo(archivoBlobFMX);
+                                    nombre = formulario.getNombreFormulario();
 
                                     dArchivoPase.insertarArchivoUso(archivoPaseForm);
                                     resultado = dArchivoPase.PasarProduccion();
@@ -190,6 +203,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                                 case "2":
                                     archivoPaseFormTDM.setNombreArchivo(formulario.getNombreFormulario());
                                     archivoPaseFormTDM.setArchivo(archivoBlobFMX);
+                                    nombre = formulario.getNombreFormulario();
 
                                     dArchivoPaseTDM.insertarArchivoUso(archivoPaseFormTDM);
                                     resultado = dArchivoPaseTDM.PasarProduccion();
@@ -197,10 +211,19 @@ public class PaseAProduccionServlet extends HttpServlet {
                                     break; 
                             }   
                             
-                            if(resultado == 0 || resultado == -1){
+                            if(resultado == -1){
+                                //Error al intentar pasar a produccion
+                                request.setAttribute("error", "error");
+                                request.setAttribute("nombre", nombre);
                                 response.sendRedirect("mensajePaseFalla.jsp");
                                 return;
-                            } 
+                            }
+                            else if (resultado == 0 ){
+                                //El formulario se encuentra en uso
+                                request.setAttribute("error", "uso");
+                                response.sendRedirect("mensajePaseFalla.jsp");
+                                return;
+                            }
 
                             formulario.setFlagUso("N");
                             formulario.setPpusuarioUsuarioId(null);
@@ -230,6 +253,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                                 case "1":
                                     archivoPaseForm.setNombreArchivo(formulario.getNombreFormulario());
                                     archivoPaseForm.setArchivo(archivoBlobFMX);
+                                    nombre = formulario.getNombreFormulario();
 
                                     dArchivoPase.insertarArchivoUso(archivoPaseForm);
                                     dArchivoPase.PasarProduccionServicios();
@@ -239,6 +263,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                                 case "2":
                                     archivoPaseFormTDM.setNombreArchivo(formulario.getNombreFormulario());
                                     archivoPaseFormTDM.setArchivo(archivoBlobFMX);
+                                    nombre = formulario.getNombreFormulario();
 
                                     dArchivoPaseTDM.insertarArchivoUso(archivoPaseFormTDM);
                                     dArchivoPaseTDM.PasarProduccionServicios();
@@ -313,6 +338,7 @@ public class PaseAProduccionServlet extends HttpServlet {
                             case "1":
                                 archivoPaseForm.setNombreArchivo(modulo.getNombreModulo());
                                 archivoPaseForm.setArchivo(archivoBlobFMX);
+                                nombre = modulo.getNombreModulo();
 
                                 dArchivoPase.insertarArchivoUso(archivoPaseForm);
                                 resultado = dArchivoPase.PasarProduccion();
@@ -322,15 +348,25 @@ public class PaseAProduccionServlet extends HttpServlet {
                             case "2":
                                 archivoPaseFormTDM.setNombreArchivo(modulo.getNombreModulo());
                                 archivoPaseFormTDM.setArchivo(archivoBlobFMX);
+                                nombre = modulo.getNombreModulo();
 
                                 dArchivoPaseTDM.insertarArchivoUso(archivoPaseFormTDM);
                                 resultado = dArchivoPaseTDM.PasarProduccion();
                                 dArchivoPaseTDM.TruncarTabla();
                                 break;
                         }
-                        if(resultado == 0 || resultado == -1){
-                            response.sendRedirect("mensajePaseFalla.jsp");
-                            return;
+                        if(resultado == -1){
+                                //Error al intentar pasar a produccion
+                                request.setAttribute("error", "error");
+                                request.setAttribute("nombre", nombre);
+                                response.sendRedirect("mensajePaseFalla.jsp");
+                                return;
+                            }
+                            else if (resultado == 0 ){
+                                //El formulario se encuentra en uso
+                                request.setAttribute("error", "uso");
+                                response.sendRedirect("mensajePaseFalla.jsp");
+                                return;
                         }
                             
                         modulo.setArchivo(archivoBlobFMB);
@@ -441,6 +477,7 @@ public class PaseAProduccionServlet extends HttpServlet {
             error.setStacktrace(ex.toString());
             error.setFecha(date);
             dError.insertarError(error);
+            request.setAttribute("error", "uso");
             response.sendRedirect("mensajePaseFalla.jsp");
         }
         

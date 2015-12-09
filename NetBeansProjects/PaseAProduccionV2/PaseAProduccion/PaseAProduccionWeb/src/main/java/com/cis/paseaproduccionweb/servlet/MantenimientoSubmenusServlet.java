@@ -32,14 +32,14 @@ public class MantenimientoSubmenusServlet extends HttpServlet {
             String modId = request.getParameter("moduloId");
             String nombre = request.getParameter("nombre");
             String descripcion = request.getParameter("descripcion");
-            nombre = nombre.trim();
             
-            if(nombre == null || nombre.equals("")){
+            if(nombre == null || nombre.equals("") || nombre.trim().equals(nombre)){
                 request.setAttribute("moduloId", modId);
                 RequestDispatcher rDispatcher = getServletContext().getRequestDispatcher("/insertarSubmenu.jsp");
                 rDispatcher.forward(request, response);
             }
             else{
+                nombre = nombre.trim();
                 BigDecimal moduloId = new BigDecimal(modId);
                 PpSubmenus submenu = new PpSubmenus();
                 SubMenusDao dSubmenu = new SubMenusDao();

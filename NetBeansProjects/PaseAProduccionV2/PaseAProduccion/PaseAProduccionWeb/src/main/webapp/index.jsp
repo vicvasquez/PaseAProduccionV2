@@ -4,6 +4,7 @@
     Author     : vvasquez
 --%>
 
+<%@page import="sun.security.provider.MD5"%>
 <%@page import="java.util.Random"%>
 <%@page import="com.cis.paseaproduccionweb.dao.UsuariosDao"%>
 <%@page import="com.cis.paseaproduccionweb.hibernate.PpArchivosUso"%>
@@ -27,6 +28,9 @@
 
         List<PpArchivosUso> misFormsEnUso = archvDao.getArchivosUsoPorUsuario(usuario.getUsuarioId());
         List<PpArchivosUso> formsEnUso= archvDao.getArchivosUso();
+                
+        String passAdmin = uDao.getUsuarioByUsername("administrador").getClave();
+        int passAdminHash = passAdmin.hashCode() ;
     
 %>
 <!DOCTYPE html>
@@ -51,6 +55,7 @@
     </head>
     
     <body>
+        <input type="hidden" id="passAdmin" value="<% out.print(passAdminHash); %>">
         <div id="loading" name="loading" style="position: fixed; top: 0; left: 0px; width: 100%; height: 100%; z-index: 10; background-color: rgba(0,0,0,0.5)" hidden="" >
                             <div style="position: fixed; top: 20%; left: 35%">
                                 <h1 style="color: white">CIS - Cloud Information Solution</h1>
@@ -149,13 +154,15 @@
                             <div class="panel-heading">
                                 Mis formularios en uso
                             </div>
-                            <div class="panel-body" style="display: block; padding-bottom: 0px;">
+                            <div class="panel-body" style="display: block;">
                                 <div class="table-responsive">
                                     <table cellpadd  ing="1" cellspacing="1" class="table table-condensed table-striped" style="margin-bottom: 10px;">
                                         <thead>
                                             <tr>
                                                 <th>Sistema</th> 
                                                 <th>Formulario</th>
+                                                <th></th>
+                                                <th></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -196,12 +203,12 @@
                                             }                            
                                             %>
                                         <tr>
+                                            <td></td>
                                             <td style="padding-top: 30px;">
                                                 <button class="btn btn-block btn-primary" type="button" data-toggle="modal" data-target="#modalPasarMultiplesArchivos">
                                                     <i class="fa fa-upload"></i> Pasar a Producción varios archivos
                                                 </button>
                                             </td>
-                                            <td></td>
                                             <td></td>
                                             <td></td>
                                         </tr>
@@ -401,17 +408,17 @@
                         <h4 class="modal-title">Esta a punto de <strong>BAJAR</strong> los servicios</h4>
                     </div>
                     <div class="modal-body">
-                        <p>Para confirmar la bajada de servicios es necesario que confirme el siguiente código</p>
+                        <p>Para confirmar la bajada de servicios es necesario que introduzca la contraseña de administrador</p>
                         <p name="mensajeLogin" id="mensajeLogin" class="font-bold text-danger"></p>
-                        <div class="form-group" >
+                        <!--<div class="form-group" >
                             <input type="text" value="" name="captcha" id="captcha" disabled="" class="col-sm-8" style="padding-top: 6px; padding-bottom: 6px; font-weight: bold;">
                             <button type="button" class="btn btn-outline btn-primary" style="padding-top: 6px; padding-bottom: 6px; padding-left: 15px; padding-right: 15px;" onclick="generarCaptcha();">
                                 <i class="fa fa-refresh"></i>
                             </button>
-                        </div>
+                        </div>-->
                         <div class="form-group">
-                            <label class="control-label">Ingrese el codigo correcto</label>
-                            <input title="Por favor ingrese el codigo" placeholder="Ingrese el codigo" required="" value="" name="valorCaptcha" id="valorCaptcha" class="form-control">
+                            <label class="control-label">Ingrese la contraseña</label>
+                            <input title="Por favor ingrese la contraseña" placeholder="Ingrese la contraseña" required="" value="" name="valorCaptcha" id="valorCaptcha" class="form-control" type="password">
                         </div>
                         <div class="form-group">
                             <label class="control-label">Comentario</label>
@@ -645,7 +652,7 @@
         
         function resetearCampos(){
             
-            generarCaptcha();
+            //generarCaptcha();
             $('#valorCaptcha').val("");
             document.getElementById("comentario").value = "";
             $('#mensaje').remove();
@@ -675,13 +682,19 @@
             }
             else{
                 $('#mensaje').remove();
-                if($('#valorCaptcha').val() === $('#captcha').val())
+                if($('#valorCaptcha').val().hashCode() === $('#passAdmin').val())
                     setPaseTipo(1);
                 else
-                    $('p[name=mensajeLogin]').append("<label name=\"mensaje\" id=\"mensaje\">El codigo insertado es incorrecto</label>");
-                
+                    $('p[name=mensajeLogin]').append("<label name=\"mensaje\" id=\"mensaje\">La contraseña insertada es incorrecta</label>");
             }
         }
+        
+        String.prototype.hashCode = function() {
+        for(var ret = 0, i = 0, len = this.length; i < len; i++) {
+          ret = (31 * ret + this.charCodeAt(i)) << 0;
+        }
+        return ret;
+      };
     </script>
     
 </html>

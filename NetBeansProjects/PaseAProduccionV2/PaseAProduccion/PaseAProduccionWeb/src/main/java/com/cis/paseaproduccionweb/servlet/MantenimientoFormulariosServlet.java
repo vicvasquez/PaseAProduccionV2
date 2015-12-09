@@ -40,15 +40,14 @@ public class MantenimientoFormulariosServlet extends HttpServlet {
             String submId = request.getParameter("submenuId");
             String nombre = request.getParameter("nombre");
             String descripcion = request.getParameter("descripcion");
-            nombre = nombre.trim();
             
-            if(nombre == null || nombre.equals("")){
+            if(nombre == null || nombre.equals("") || nombre.trim().equals("null")){
                 request.setAttribute("submenuId", submId);
                 RequestDispatcher rDispatcher = getServletContext().getRequestDispatcher("/insertarFormulario.jsp");
                 rDispatcher.forward(request, response);
             }
             else{
-                
+                nombre = nombre.trim();
                 String tipo = request.getParameter("tipo");
                 String sistemaId = request.getParameter("sistemaId");
                 

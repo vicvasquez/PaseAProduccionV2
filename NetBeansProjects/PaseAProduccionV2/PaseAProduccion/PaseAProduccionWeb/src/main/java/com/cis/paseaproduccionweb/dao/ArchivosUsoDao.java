@@ -21,7 +21,7 @@ public class ArchivosUsoDao {
         try {
             tx = session.getTransaction();
             tx.begin();
-            Query query = session.createQuery("from PpArchivosUso order by usuarioId");
+            Query query = session.createQuery("from PpArchivosUso order by usuarioId, sistemaId");
             lstArchivos = query.list();
             tx.commit();
         } catch (Exception e) {

@@ -26,8 +26,10 @@ public class FormulariosServlet extends HttpServlet {
             request.setAttribute("padreId", padreId);
             request.setAttribute("tipoPadre", tipoPadre);
             request.setAttribute("sistemaId", sistemaId);
-            request.setAttribute("filtro", filtro.trim());
-            request.setAttribute("filtroEstado", filtroEstado);
+            if(filtro != null)
+                request.setAttribute("filtro", filtro.trim());
+            if(filtroEstado != null)
+                request.setAttribute("filtroEstado", filtroEstado);
             RequestDispatcher rDispatcher = getServletContext().getRequestDispatcher("/mostrarFormularios.jsp");
             rDispatcher.forward(request, response);
         } catch (Exception e) {

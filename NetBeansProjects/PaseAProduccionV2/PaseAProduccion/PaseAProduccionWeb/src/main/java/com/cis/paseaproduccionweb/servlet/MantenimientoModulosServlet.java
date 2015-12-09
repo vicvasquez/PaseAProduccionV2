@@ -35,15 +35,14 @@ public class MantenimientoModulosServlet extends HttpServlet {
             String sisId = request.getParameter("sistemaId");
             String nombre = request.getParameter("nombre");
             String descripcion = request.getParameter("descripcion");
-            nombre = nombre.trim();
             
-            if(nombre == null || nombre.equals("")){
+            if(nombre == null || nombre.equals("") || nombre.trim().equals("null")){
                 request.setAttribute("sistemaId", sisId);
                 RequestDispatcher rDispatcher = getServletContext().getRequestDispatcher("/insertarModulo.jsp");
                 rDispatcher.forward(request, response);
             }
             else{
-                
+                nombre = nombre.trim();
                 Blob archivoBlobFMB = null;
                 Blob archivoBlobFMX = null;
                 HistorialesDao dHistorial = new HistorialesDao();

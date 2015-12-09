@@ -36,7 +36,15 @@
 <div class="error-container" style="text-align: center">
     <i class="fa fa-times-circle text-danger big-icon"></i>
     <h1><strong>ERROR</strong></h1>
+    <%  String error = request.getParameter("error");
+        if(error.equals("error")) {
+            String nombre = request.getParameter("nombre");
+    %>
+        <strong>El formulario <% out.print(nombre); %> se encuentra en uso</strong>
+    <%  }
+        else{%>
     <strong>Se produjo un error y no se pudo pasar el formulario correctamente a producción</strong>
+    <%}%>
     <p>
         
     </p>

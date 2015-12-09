@@ -33,10 +33,10 @@
     String filtroFechaInicio = request.getParameter("filtroFechaInicio");
     String filtroFechaFin = request.getParameter("filtroFechaFin");
     
-    if(filtroFechaInicio == null || filtroFechaInicio.equals(""))
+    if(filtroFechaInicio == null || filtroFechaInicio.equals("") || filtroFechaInicio.trim().equals("null"))
         filtroFechaInicio = null;
     
-    if(filtroFechaFin == null || filtroFechaFin.equals(""))
+    if(filtroFechaFin == null || filtroFechaFin.equals("") || filtroFechaFin.trim().equals("null"))
         filtroFechaFin = null;
     
     if(filtroNombreArchivo != null)
